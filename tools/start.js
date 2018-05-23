@@ -34,7 +34,7 @@ function createCompilationPromise(name, compiler, config) {
     let timeStart = new Date();
     compiler.hooks.compile.tap(name, () => {
       timeStart = new Date();
-      console.info(`[${format(timeStart)}] Compiling '${name}'...`);
+      // console.info(`[${format(timeStart)}] Compiling '${name}'...`);
     });
 
     compiler.hooks.done.tap(name, stats => {
@@ -47,11 +47,11 @@ function createCompilationPromise(name, compiler, config) {
         );
         reject(new Error('Compilation failed!'));
       } else {
-        console.info(
-          `[${format(
-            timeEnd,
-          )}] Finished '${name}' compilation after ${time} ms`,
-        );
+        // console.info(
+        //   `[${format(
+        //     timeEnd,
+        //   )}] Finished '${name}' compilation after ${time} ms`,
+        // );
         resolve(stats);
       }
     });

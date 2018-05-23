@@ -7,6 +7,26 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
+const fs = require('fs');
+const path = require('path');
+
+const pro = 'production';
+const dev = 'development';
+const env = process.env.NODE_ENV || pro;
+
+// 上传文件目录，为 server.js 的所在目录的同级目录 uploads（即根目录下的 uploads）
+const uploadDir = path.resolve(path.dirname(process.argv[1]), '../uploads');
+
+if (!fs.existsSync(uploadDir)) {
+  try {
+    fs.mkdirSync(uploadDir);
+  } catch (e) {
+    throw new Error(
+      `no upload directory ${uploadDir}, make it first before start service`,
+    );
+  }
+}
+
 /* eslint-disable max-len */
 
 if (process.env.BROWSER) {
@@ -15,9 +35,37 @@ if (process.env.BROWSER) {
   );
 }
 
+/**
+ * 参数说明：
+ * nodeHost:
+ *   本服务在公网访问的域(hostname + port)
+ *   如果端口是80，则不写
+ *   如果端口不是80，需要写全
+ *
+ * nodePort:
+ *   node 服务的启动端口
+ *
+ * javaHost:
+ *   java 服务在内网访问的域(hostname + port)
+ *   如果端口是80，则不写
+ *   如果端口不是80，需要写全
+ */
+const environment = {
+  [dev]: {
+    nodeHost: 'zx.youdao.com:3000',
+    nodePort: 5000,
+    javaHost: 'nc110x.corp.youdao.com:10017',
+  },
+  [pro]: {
+    nodeHost: 'xinzhixuan.youdao.com',
+    nodePort: 5000,
+    javaHost: 'noah.youdao.com',
+  },
+}[env];
+
 module.exports = {
   // Node.js app
-  port: process.env.PORT || 3000,
+  port: environment.nodePort,
 
   // https://expressjs.com/en/guide/behind-proxies.html
   trustProxy: process.env.TRUST_PROXY || 'loopback',
@@ -27,9 +75,7 @@ module.exports = {
     // API URL to be used in the client-side code
     clientUrl: process.env.API_CLIENT_URL || '',
     // API URL to be used in the server-side code
-    serverUrl:
-      process.env.API_SERVER_URL ||
-      `http://localhost:${process.env.PORT || 3000}`,
+    serverUrl: process.env.API_SERVER_URL || `http://${environment.javaHost}`,
   },
 
   // Database

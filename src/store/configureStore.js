@@ -12,6 +12,9 @@ export default function configureStore(initialState, helpersConfig) {
 
   let enhancer;
 
+  // 在这里添加各路中间件
+  middleware.push();
+
   if (__DEV__) {
     middleware.push(createLogger());
 

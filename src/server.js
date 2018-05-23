@@ -49,6 +49,13 @@ global.navigator.userAgent = global.navigator.userAgent || 'all';
 
 const app = express();
 
+/**
+ * heart beat api for maintainer to test node alive
+ */
+app.get('/heartBeat', (req, res) => {
+  res.status(200).send('I am fine');
+});
+
 //
 // If you are using proxy from external machine, you can set TRUST_PROXY env
 // Default is to trust proxy headers only from loopback interface.
@@ -240,7 +247,11 @@ const promise = models.sync().catch(err => console.error(err.stack));
 if (!module.hot) {
   promise.then(() => {
     app.listen(config.port, () => {
-      console.info(`The server is running at http://localhost:${config.port}/`);
+      console.info(
+        `The server is running at http://localhost:${
+          config.port
+        }/, now is ${new Date().toLocaleString()}, pid = ${process.pid}`,
+      );
     });
   });
 }

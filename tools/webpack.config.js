@@ -263,6 +263,29 @@ const config = {
     ],
   },
 
+  plugins: [
+    // https://github.com/webpack/docs/wiki/internal-webpack-plugins#progresspluginhandler
+    // https://stackoverflow.com/questions/31052991/webpack-progress-using-node-js-api
+    new webpack.ProgressPlugin(
+      (percentage, msg, current, active, modulepath) => {
+        if (process.stdout.isTTY && percentage < 1) {
+          process.stdout.cursorTo(0);
+          const progress = (percentage * 100).toFixed(0);
+          const shortPath = modulepath
+            ? `...${modulepath.substr(modulepath.length - 30)}`
+            : '';
+          const str = `${progress}% ${msg} ${current || ''} ${active ||
+            ''} ${shortPath}`;
+          process.stdout.write(str);
+          process.stdout.clearLine(1);
+        } else if (percentage === 1) {
+          process.stdout.write('\n');
+          console.info('webpack: done.');
+        }
+      },
+    ),
+  ],
+
   // Don't attempt to continue if there are any errors.
   bail: !isDebug,
 
@@ -299,7 +322,7 @@ const clientConfig = {
   target: 'web',
 
   entry: {
-    client: ['@babel/polyfill', './src/client.js'],
+    client: ['./src/core/polyfill', '@babel/polyfill', './src/client.js'],
   },
 
   plugins: [
@@ -392,7 +415,7 @@ const serverConfig = {
   target: 'node',
 
   entry: {
-    server: ['@babel/polyfill', './src/server.js'],
+    server: ['./src/core/polyfill', '@babel/polyfill', './src/server.js'],
   },
 
   output: {

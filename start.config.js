@@ -25,9 +25,11 @@ module.exports = {
         PORT: 5000,
         NODE_ENV: 'production',
       },
-      log_file: 'combined.outerr.log',
-      out_file: 'out.log',
-      error_file: 'err.log',
+      // log_file: './logs/combined.outerr.log',
+      out_file: './logs/out.log', // 普通日志路径
+      error_file: './logs/err.log', // 错误日志路径
+      merge_logs: true,
+      log_date_format: 'YYYY-MM-DD HH:mm Z',
     },
   ],
 };

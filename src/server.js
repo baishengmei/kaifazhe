@@ -14,6 +14,8 @@ import bodyParser from 'body-parser';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
+import { access, response } from './middlewares/log';
+import accessId from './middlewares/accessId';
 import App from './components/App';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
@@ -48,6 +50,13 @@ const app = express();
 app.get('/heartBeat', (req, res) => {
   res.status(200).send('I am fine');
 });
+
+/**
+ * Register log middleware
+ */
+app.use(accessId);
+app.use(access);
+app.use(response);
 
 //
 // If you are using proxy from external machine, you can set TRUST_PROXY env

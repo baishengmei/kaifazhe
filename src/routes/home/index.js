@@ -12,16 +12,12 @@ import Home from './Home';
 import Layout from '../../components/Layout';
 
 async function action() {
-  const data = {
-    news: [{ title: 'a', link: '1' }, { title: 'b', link: '2' }],
-  };
-  if (!data || !data.news) throw new Error('Failed to load the news feed.');
   return {
     title: 'React Starter Kit',
     chunks: ['home'],
     component: (
       <Layout>
-        <Home news={data.news} />
+        <Home />
       </Layout>
     ),
   };

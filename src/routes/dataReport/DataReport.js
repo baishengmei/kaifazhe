@@ -9,30 +9,19 @@
 
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Feedback.css';
+import s from './DataReport.css';
 
-class Feedback extends React.Component {
+class DataReport extends React.Component {
   render() {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <a
-            className={s.link}
-            href="https://gitter.im/kriasoft/react-starter-kit"
-          >
-            Ask a question
-          </a>
-          <span className={s.spacer}>|</span>
-          <a
-            className={s.link}
-            href="https://github.com/kriasoft/react-starter-kit/issues/new"
-          >
-            Report an issue
-          </a>
+          <h1>Page Not Found</h1>
+          <p>Sorry, the page you were trying to view does not exist.</p>
         </div>
       </div>
     );
   }
 }
 
-export default withStyles(s)(Feedback);
+export default withStyles(s)(DataReport);

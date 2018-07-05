@@ -10,9 +10,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Register.css';
+import s from './AccountManagement.css';
 
-class Register extends React.Component {
+class HelpCenter extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
   };
@@ -29,4 +29,4 @@ class Register extends React.Component {
   }
 }
 
-export default withStyles(s)(Register);
+export default withStyles(s)(HelpCenter);

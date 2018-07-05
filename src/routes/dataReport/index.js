@@ -9,17 +9,17 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
-import Contact from './Contact';
+import DataReport from './DataReport';
 
-const title = 'Contact Us';
+const title = '数据报表';
 
 function action() {
   return {
-    chunks: ['contact'],
+    chunks: ['dataReport'],
     title,
     component: (
       <Layout>
-        <Contact title={title} />
+        <DataReport />
       </Layout>
     ),
   };

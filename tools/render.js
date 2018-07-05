@@ -23,11 +23,10 @@ import runServer from './runServer';
 // ];
 const routes = [
   '/',
-  '/contact',
-  '/login',
-  '/register',
-  '/about',
-  '/privacy',
+  '/appManagement',
+  '/dataReport',
+  '/helpCenter',
+  '/accountManagement',
   '/404', // https://help.github.com/articles/creating-a-custom-404-page-for-your-github-pages-site/
 ];
 

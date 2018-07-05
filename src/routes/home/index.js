@@ -11,9 +11,10 @@ import React from 'react';
 import Home from './Home';
 import Layout from '../../components/Layout';
 
+const title = '首页';
 async function action() {
   return {
-    title: 'React Starter Kit',
+    title,
     chunks: ['home'],
     component: (
       <Layout>

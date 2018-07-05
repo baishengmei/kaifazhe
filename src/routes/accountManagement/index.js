@@ -9,17 +9,17 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
-import Login from './Login';
+import AccountManagement from './AccountManagement';
 
-const title = 'Log In';
+const title = '账户管理';
 
 function action() {
   return {
-    chunks: ['login'],
+    chunks: ['accountManagement'],
     title,
     component: (
       <Layout>
-        <Login title={title} />
+        <AccountManagement title={title} />
       </Layout>
     ),
   };

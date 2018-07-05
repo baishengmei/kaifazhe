@@ -9,30 +9,245 @@
 
 @import '../variables.css';
 
-/*
- * normalize.css is imported in JS file.
- * If you import external CSS file from your internal CSS
- * then it will be inlined and processed with CSS modules.
+/**
+ * 基础样式，默认是 > 1440px 的大屏的样式，各个组件和页面的最外层设置也是
+ */
+body {
+  min-width: 1370px;
+  width: 100%;
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-light);
+  font-size: var(--font-size-base);
+  background-color: var(--color-bg);
+  color: var(--color-light-black);
+  line-height: var(--line-height-chinese);
+}
+
+:global(body .root) {
+  padding-left: var(--padding-lr);
+  padding-right: var(--padding-lr);
+  // margin: 0 auto;
+  width: 100%;
+  min-width: var(--screen-minest-width);
+}
+
+/**
+  * 全局 table header 背景色
+  */
+:global(.ant-table-thead > tr > th) {
+  background-color: var(--color-header-grey) !important;
+  border-color: var(--color-grey);
+}
+
+:global(.ant-table.ant-table-bordered) {
+  border-color: var(--color-table-border) !important;
+
+  & table,
+  & th,
+  & td {
+    border-color: var(--color-table-border) !important;
+  }
+}
+
+/**
+ * 全局 checkbox 禁用的样式
+ */
+:global(.ant-checkbox-disabled),
+input[disabled] {
+  cursor: not-allowed;
+}
+
+/**
+ * 全局 antd 组件圆角设置
+ */
+:global(.ant-select .ant-select-selection),
+:global(.ant-input),
+:global(.ant-btn) {
+  border-radius: var(--border-radius-base);
+}
+
+/**
+ * antd message 全局消息样式
+ */
+:global(.ant-message-notice-content) {
+  padding: 8px 24px;
+  border-radius: var(--border-radius-base);
+}
+
+/**
+ * 全局 popover 样式
+ */
+:global(.ant-popover) {
+  :global(.ant-btn) {
+    font-weight: var(--font-weight-normal);
+  }
+}
+
+/**
+ * 全局 modal 的样式
+ */
+:global(.ant-modal) {
+  :global(.ant-modal-header),
+  :global(.ant-modal-body),
+  :global(.ant-modal-footer) {
+    padding: 24px;
+  }
+
+  :global(.ant-modal-footer .ant-btn) {
+    font-weight: var(--font-weight-normal);
+
+    &:not(:first-child) {
+      margin-left: 16px;
+    }
+  }
+
+  :global(.ant-modal-close) {
+    top: 27px;
+  }
+
+  &:global(.ant-confirm) {
+    :global(.ant-confirm-title) {
+      font-weight: var(--font-weight-bold);
+    }
+    :global(.ant-confirm-content) {
+      color: rgba(0, 0, 0, .65);
+      font-weight: var(--font-weight-normal);
+    }
+    :global(.ant-confirm-btns .ant-btn) {
+      padding: 4px 11px;
+      width: 56px;
+      height: 28px;
+      font-size: var(--font-smallest);
+      font-weight: var(--font-weight-normal);
+
+      &:not(:first-child) {
+        margin-left: 16px;
+      }
+    }
+  }
+}
+
+/**
+ * 全局分页样式
+ */
+:global(.ant-pagination.mini) {
+  position: relative;
+  margin-top: 20px;
+  padding: 4px 0;
+
+  :global(.ant-pagination-options) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin-left: 0;
+
+    &:before {
+      content: '每页显示： ';
+      position: absolute;
+      left: 0;
+      font-size: var(--font-smallest);
+      transform: translate(-100%, 6px);
+      white-space: pre;
+    }
+  }
+
+  :global(.ant-select-selection) {
+    height: 28px;
+
+    :global(.ant-select-selection__rendered) {
+      line-height: 26px;
+    }
+  }
+
+  :global(.ant-pagination-item) {
+    border-radius: var(--border-radius-base);
+    margin-left: 12px;
+  }
+
+  :global(.ant-pagination-item-active) {
+    background-color: rgba(90, 158, 226, .2);
+
+    & > a {
+      color: var(--color-blue);
+    }
+  }
+
+  :global(.ant-pagination-jump-prev),
+  :global(.ant-pagination-jump-next) {
+    margin-left: 12px;
+    margin-right: 0;
+  }
+
+  :global(.ant-pagination-prev) {
+    margin-left: 94px;
+    margin-right: 0;
+
+    :after {
+      font-size: var(--font-size-base);
+    }
+  }
+
+  :global(.ant-pagination-next) {
+    margin-left: 12px;
+
+    :after {
+      font-size: var(--font-size-base);
+    }
+  }
+}
+
+:global(.ant-calendar-date) {
+  :global(.ant-calendar-next-month-btn-day) &,
+  :global(.ant-calendar-last-month-cell) & {
+    color: rgba(0, 0, 0, 0.65);
+  }
+  :global(.ant-calendar-disabled-cell) & {
+    color: #bcbcbc;
+    background-color: transparent;
+  }
+}
+
+/**
+ * 全局滚动条设置
+ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: transparent;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 8px;
+  min-height: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+
+  &:hover,
+  &:active {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+/**
+ * 全局 a 标签样式
  */
 
-/*
- * Base styles
- * ========================================================================== */
-
-html {
-  color: #222;
-  font-weight: 100;
-  font-size: 1em; /* ~16px; */
-  font-family: var(--font-family-base);
-  line-height: 1.375; /* ~22px */
-}
-
-body {
-  margin: 0;
-}
-
 a {
-  color: #0074c2;
+  cursor: pointer;
+  text-decoration: none;
+  // color: var(--color-blue);
+  color: #005ED9;
 }
 
 /*
@@ -108,80 +323,4 @@ textarea {
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
-}
-
-/*
- * Print styles
- * Inlined to avoid the additional HTTP request:
- * http://www.phpied.com/delay-loading-your-print-css/
- * ========================================================================== */
-
-@media print {
-  *,
-  *::before,
-  *::after {
-    background: transparent !important;
-    color: #000 !important; /* Black prints faster: http://www.sanbeiji.com/archives/953 */
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-
-  a,
-  a:visited {
-    text-decoration: underline;
-  }
-
-  a[href]::after {
-    content: ' (' attr(href) ')';
-  }
-
-  abbr[title]::after {
-    content: ' (' attr(title) ')';
-  }
-
-  /*
-   * Don't show links that are fragment identifiers,
-   * or use the `javascript:` pseudo protocol
-   */
-
-  a[href^='#']::after,
-  a[href^='javascript:']::after {
-    content: '';
-  }
-
-  pre,
-  blockquote {
-    border: 1px solid #999;
-    page-break-inside: avoid;
-  }
-
-  /*
-   * Printing Tables:
-   * http://css-discuss.incutio.com/wiki/Printing_Tables
-   */
-
-  thead {
-    display: table-header-group;
-  }
-
-  tr,
-  img {
-    page-break-inside: avoid;
-  }
-
-  img {
-    max-width: 100% !important;
-  }
-
-  p,
-  h2,
-  h3 {
-    orphans: 3;
-    widows: 3;
-  }
-
-  h2,
-  h3 {
-    page-break-after: avoid;
-  }
 }

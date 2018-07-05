@@ -8,35 +8,37 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Link from '../Link';
-import Navigation from '../Navigation';
-import logoUrl from './logo-small.png';
-import logoUrl2x from './logo-small@2x.png';
 
 class Header extends React.Component {
+  static propTypes = {
+    onLogout: PropTypes.func.isRequired,
+  };
+
   render() {
+    const { onLogout } = this.props;
     return (
-      <div className={s.root}>
+      <header className={`${s.root} root`}>
         <div className={s.container}>
-          <Navigation />
           <Link className={s.brand} to="/">
-            <img
-              src={logoUrl}
-              srcSet={`${logoUrl2x} 2x`}
-              width="38"
-              height="38"
-              alt="React"
-            />
-            <span className={s.brandTxt}>白胜美</span>
+            <span className={s.brand__logo} />
+            <span className={s.brand__txt}>有道智选开发者平台</span>
           </Link>
-          <div className={s.banner}>
-            <h1 className={s.bannerTitle}>测试标题</h1>
-            <p className={s.bannerDesc}>好的</p>
-          </div>
+          <section className={s.links}>
+            <span className={`${s.link} ${s.noclick}`}>消息</span>
+            <span className={s.splitter}>|</span>
+            <span className={`${s.link} ${s.noclick}`}>123456@163.com</span>
+            <span className={s.splitter}>|</span>
+            {/* https://github.com/evcohen/eslint-plugin-jsx-a11y/issues/270 */}
+            <span className={s.link} onClick={onLogout} role="presentation">
+              退出
+            </span>
+          </section>
         </div>
-      </div>
+      </header>
     );
   }
 }

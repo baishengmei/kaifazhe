@@ -1,39 +1,57 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import cx from 'classnames';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import Link from '../Link';
 
-class Navigation extends React.Component {
-  render() {
-    return (
-      <div className={s.root} role="navigation">
-        <Link className={s.link} to="/about">
-          About
-        </Link>
-        <Link className={s.link} to="/contact">
-          Contact
-        </Link>
-        <span className={s.spacer}> | </span>
-        <Link className={s.link} to="/login">
-          Log in
-        </Link>
-        <span className={s.spacer}>or</span>
-        <Link className={cx(s.link, s.highlight)} to="/register">
-          Sign up
-        </Link>
+const tabs = [
+  {
+    name: '首页',
+    path: '/home',
+  },
+  {
+    name: '应用管理',
+    path: '/appManagement',
+  },
+  {
+    name: '数据报表',
+    path: '/dataReport',
+  },
+  {
+    name: '帮助中心',
+    path: '/helpCenter',
+  },
+  {
+    name: '账户管理',
+    path: '/accountManagement',
+  },
+];
+
+function Navigation({ path }) {
+  return (
+    <section className={`${s.root} root`} role="navigation">
+      <div className={s.container}>
+        <div className={s.tabs}>
+          {tabs.map(tab => (
+            <Link
+              key={tab.path}
+              className={
+                path.startsWith(tab.path) ? `${s.tab} ${s.active}` : s.tab
+              }
+              to={tab.path}
+            >
+              {tab.name}
+            </Link>
+          ))}
+        </div>
       </div>
-    );
-  }
+    </section>
+  );
 }
+
+Navigation.propTypes = {
+  path: PropTypes.string.isRequired,
+};
 
 export default withStyles(s)(Navigation);

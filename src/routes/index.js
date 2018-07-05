@@ -20,28 +20,26 @@ const routes = {
       load: () => import(/* webpackChunkName: 'home' */ './home'),
     },
     {
-      path: '/contact',
-      load: () => import(/* webpackChunkName: 'contact' */ './contact'),
+      path: '/home',
+      load: () => import(/* webpackChunkName: 'home' */ './home'),
     },
     {
-      path: '/login',
-      load: () => import(/* webpackChunkName: 'login' */ './login'),
+      path: '/appManagement',
+      load: () =>
+        import(/* webpackChunkName: 'appManagement' */ './appManagement'),
     },
     {
-      path: '/register',
-      load: () => import(/* webpackChunkName: 'register' */ './register'),
+      path: '/dataReport',
+      load: () => import(/* webpackChunkName: 'dataReport' */ './dataReport'),
     },
     {
-      path: '/about',
-      load: () => import(/* webpackChunkName: 'about' */ './about'),
+      path: '/helpCenter',
+      load: () => import(/* webpackChunkName: 'helpCenter' */ './helpCenter'),
     },
     {
-      path: '/privacy',
-      load: () => import(/* webpackChunkName: 'privacy' */ './privacy'),
-    },
-    {
-      path: '/admin',
-      load: () => import(/* webpackChunkName: 'admin' */ './admin'),
+      path: '/accountManagement',
+      load: () =>
+        import(/* webpackChunkName: 'accountManagement' */ './accountManagement'),
     },
 
     // Wildcard routes, e.g. { path: '(.*)', ... } (must go last)
@@ -56,7 +54,7 @@ const routes = {
     const route = await next();
 
     // Provide default values for title, description etc.
-    route.title = `${route.title || 'Untitled Page'} - www.reactstarterkit.com`;
+    route.title = `${route.title || '无标题页'} - 有道智选开发者系统`;
     route.description = route.description || '';
 
     return route;

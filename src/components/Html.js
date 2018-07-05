@@ -48,6 +48,10 @@ class Html extends React.Component {
             <link key={script} rel="preload" href={script} as="script" />
           ))}
           <link rel="manifest" href="/site.webmanifest" />
+          <link
+            rel="shortcut icon"
+            href="http://shared.ydstatic.com/dsp_website/src/favicon.ico"
+          />
           <link rel="apple-touch-icon" href="/icon.png" />
           {styles.map(style => (
             <style

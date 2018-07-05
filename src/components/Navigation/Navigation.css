@@ -6,41 +6,58 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
+@import '../variables.css';
 
 .root {
-  float: right;
-  margin: 6px 0 0;
+  height: 64px;
+  background-color: var(--color-white);
 }
 
-.link {
-  display: inline-block;
-  padding: 3px 8px;
-  text-decoration: none;
-  font-size: 1.125em; /* ~18px */
+.container {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
 }
 
-.link,
-.link:active,
-.link:visited {
-  color: rgba(255, 255, 255, 0.6);
-}
+.tabs {
+  flex: 0 0 510px;
+  width: 510px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  font-size: var(--font-big);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-normal);
 
-.link:hover {
-  color: rgba(255, 255, 255, 1);
-}
+  & > .tab {
+    position: relative;
+    flex: none;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-weak-black);
 
-.highlight {
-  margin-right: 8px;
-  margin-left: 8px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.15);
-  color: #fff;
-}
+    &:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 4px;
+      left: 50%;
+      bottom: 0;
+      background-color: var(--color-red);
+      transform: translate(-50%, 0);
+      transition: width 0.2s ease;
+    }
 
-.highlight:hover {
-  background: rgba(0, 0, 0, 0.3);
-}
+    &.active {
+      font-family: var(--font-family-base);
+      color: var(--color-red);
+      font-weight: var(--font-weight-bolder);
 
-.spacer {
-  color: rgba(255, 255, 255, 0.3);
+      &:after {
+        width: 100%;
+      }
+    }
+  }
 }

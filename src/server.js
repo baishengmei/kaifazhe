@@ -124,6 +124,11 @@ app.get('*', async (req, res, next) => {
 
     const route = await router.resolve(context);
 
+    if (context.pathname !== `/${route.chunks[0]}`) {
+      res.redirect(route.status || 302, `/${route.chunks[0]}`);
+      return;
+    }
+
     if (route.redirect) {
       res.redirect(route.status || 302, route.redirect);
       return;

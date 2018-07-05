@@ -15,7 +15,7 @@ module.exports = {
   extends: [
     'airbnb',
     'plugin:flowtype/recommended',
-    'plugin:css-modules/recommended',
+    // 'plugin:css-modules/recommended',
     'prettier',
     'prettier/flowtype',
     'prettier/react',
@@ -73,6 +73,13 @@ module.exports = {
         components: ['Link'],
         specialLink: ['to'],
         aspects: ['noHref', 'invalidHref', 'preferButton'],
+      },
+    ],
+    'jsx-a11y/no-noninteractive-tabindex': [
+      'error',
+      {
+        tags: [],
+        roles: ['tabpanel'],
       },
     ],
 

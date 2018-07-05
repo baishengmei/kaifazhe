@@ -15,8 +15,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import normalizeCss from 'normalize.css';
 import s from './Layout.css';
 import Header from '../../containers/Header';
-import Feedback from '../Feedback';
-import Footer from '../Footer';
+import Navigation from '../Navigation';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -24,15 +23,20 @@ class Layout extends React.Component {
   };
 
   render() {
+    const { pathname } = this.context;
+
     return (
       <div>
         <Header />
+        <Navigation path={pathname} />
         {this.props.children}
-        <Feedback />
-        <Footer />
       </div>
     );
   }
 }
+
+Layout.contextTypes = {
+  pathname: PropTypes.string,
+};
 
 export default withStyles(normalizeCss, s)(Layout);

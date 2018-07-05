@@ -12,20 +12,54 @@
    * Typography
    * ======================================================================== */
 
-  --font-family-base: 'Segoe UI', 'HelveticaNeue-Light', sans-serif;
+  --font-family-base: 'Helvetica Neue', 'Hei', 'Microsoft Yahei', Arial, sans-serif;
+  --font-family-bold: 'Helvetica Neue', 'Hei', 'Microsoft Yahei', Arial, sans-serif;
+  --font-family-trackItem: PingFangSC-Regular;
 
-  /*
+  /**
    * Layout
-   * ======================================================================== */
+   */
 
-  --max-content-width: 1000px;
+  --min-content-width: 1200px;
+  --padding-lr: 48px; /* screen padding left and right */
 
-  /*
-   * Media queries breakpoints
-   * ======================================================================== */
+  /**
+   * media queries breakpoints
+   */
+  --screen-min-width: 1296px; /* screen min width */
+  --screen-minest-width: 1296px; /* screen min width */
 
-  --screen-xs-min: 480px;  /* Extra small screen / phone */
-  --screen-sm-min: 768px;  /* Small screen / tablet */
-  --screen-md-min: 992px;  /* Medium screen / desktop */
-  --screen-lg-min: 1200px; /* Large screen / wide desktop */
+  /**
+   * font size
+   */
+  --font-lg2x: 32px;
+  --font-lg: 24px;
+  --font-big: 16px;
+  --font-size-base: 16px;
+  --font-small: 14px;
+  --font-smallest: 12px;
+  --border-radius-base: 2px;
+  --font-weight-lightest: 100;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-bolder: 600;
+  --font-weight-bold: 700;
+  --line-height-chinese: 1.5;
+  --line-height-english: 1.25;
+
+  /**
+   * various color
+   */
+  --color-black: #333;
+  --color-light-black: #595959;
+  --color-weak-black: #8c8c8c;
+  --color-disabled: #b8b8b8;
+  --color-hint: #999;
+  --color-grey: #e6e6e6;
+  --color-header-grey: #f2f2f2;
+  --color-table-border: #d9d9d9;
+  --color-white: #fff;
+  --color-bg: #ececec;
+  --color-red: #e93d34;
+  --color-blue: #108ee9;
 }

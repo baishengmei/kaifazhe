@@ -9,16 +9,17 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
-import Page from '../../components/Page';
-import about from './about.md';
+import AppManagement from './AppManagement';
+
+const title = '应用管理';
 
 function action() {
   return {
-    chunks: ['about'],
-    title: about.title,
+    chunks: ['appManagement'],
+    title,
     component: (
       <Layout>
-        <Page {...about} />
+        <AppManagement title={title} />
       </Layout>
     ),
   };

@@ -134,6 +134,10 @@ app.get('*', async (req, res, next) => {
       return;
     }
 
+    if (route.beforeEnter) {
+      route.beforeEnter.forEach(fn => fn());
+    }
+
     const data = { ...route };
     data.children = ReactDOM.renderToString(
       <App context={context}>{route.component}</App>,

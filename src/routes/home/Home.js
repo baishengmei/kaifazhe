@@ -14,7 +14,11 @@ import history from '../../history';
 
 class Home extends React.Component {
   onClick = () => {
-    history.push('/dataReport', { a: 1, b: 2 });
+    const pushParams = { a: 1, b: 2 };
+    history.push({
+      pathname: `/dataReport`,
+      pushParams,
+    });
   };
   render() {
     return (

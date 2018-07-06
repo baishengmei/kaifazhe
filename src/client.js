@@ -66,6 +66,8 @@ async function onLocationChange(location, action) {
     context.pathname = location.pathname;
     context.query = queryString.parse(location.search);
 
+    context.pushParams = { ...location.pushParams }; // 可将history.push传参通过此处传到context中
+
     // Traverses the list of routes in the order they are defined until
     // it finds the first route that matches provided URL path string
     // and whose action method returns anything other than `undefined`.
@@ -84,6 +86,10 @@ async function onLocationChange(location, action) {
     if (route.redirect) {
       history.replace(route.redirect);
       return;
+    }
+
+    if (route.beforeEnter) {
+      route.beforeEnter.forEach(fn => fn());
     }
 
     const renderReactApp = isInitialRender ? ReactDOM.hydrate : ReactDOM.render;

@@ -9,7 +9,7 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
-import DataReport from './DataReport';
+import DataReport from '../../pages/dataReport';
 
 const title = '数据报表';
 

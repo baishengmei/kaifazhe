@@ -78,10 +78,10 @@ async function onLocationChange(location, action) {
       return;
     }
 
-    if (context.pathname !== `/${route.chunks[0]}`) {
-      history.replace(`/${route.chunks[0]}`);
-      return;
-    }
+    // if (context.pathname !== `/${route.chunks[0]}`) {
+    //   history.replace(`/${route.chunks[0]}`);
+    //   return;
+    // }
 
     if (route.redirect) {
       history.replace(route.redirect);

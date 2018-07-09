@@ -9,7 +9,7 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
-import AccountManagement from './AccountManagement';
+import AccountManagement from '../../pages/accountManagement';
 
 const title = '账户管理';
 

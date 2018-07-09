@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import Home from './Home';
+import Home from '../../pages/home'; // 这里之后需要改成container路径
 import Layout from '../../components/Layout';
 
 const title = '首页';

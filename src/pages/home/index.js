@@ -9,14 +9,14 @@
 
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Home.css';
+import s from './index.css';
 import history from '../../history';
 
 class Home extends React.Component {
   onClick = () => {
     const pushParams = { a: 1, b: 2 };
     history.push({
-      pathname: `/dataReport`,
+      pathname: `/adGroup`,
       pushParams,
     });
   };
@@ -25,7 +25,7 @@ class Home extends React.Component {
       <div className={s.root}>
         <div className={s.container}>
           <h1 onClick={this.onClick} role="none">
-            Page Not Found
+            首页：Page Not Found
           </h1>
           <p>Sorry, the page you were trying to view does not exist.</p>
         </div>

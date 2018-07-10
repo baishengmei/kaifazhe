@@ -10,7 +10,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './AppManagement.css';
+import s from './index.css';
 
 class AppManagement extends React.Component {
   static propTypes = {
@@ -21,7 +21,7 @@ class AppManagement extends React.Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <h1>Page Not Found</h1>
+          <h1>应用管理：Page Not Found</h1>
           <p>Sorry, the page you were trying to view does not exist.</p>
         </div>
       </div>

@@ -16,6 +16,7 @@ async function action() {
   return {
     title,
     chunks: ['home'],
+    redirect: '/home',
     component: (
       <Layout>
         <Home />

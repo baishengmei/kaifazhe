@@ -10,6 +10,8 @@
 /* eslint-disable global-require */
 
 // The top-level (parent) route
+import appManagement from './appManagement';
+
 const routes = {
   path: '',
 
@@ -23,11 +25,7 @@ const routes = {
       path: '/home',
       load: () => import(/* webpackChunkName: 'home' */ './home'),
     },
-    {
-      path: '/appManagement',
-      load: () =>
-        import(/* webpackChunkName: 'appManagement' */ './appManagement'),
-    },
+    appManagement,
     {
       path: '/dataReport',
       load: () => import(/* webpackChunkName: 'dataReport' */ './dataReport'),

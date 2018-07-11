@@ -26,6 +26,8 @@ import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import config from './config';
 import { getLocalIP } from './core/serverUtils';
+import apiHandler from './api';
+import auth from './middlewares/auth';
 // import specialLogin from './middlewares/specialLogin';
 
 process.on('unhandledRejection', (reason, p) => {
@@ -78,10 +80,15 @@ app.use(bodyParser.json());
 // app.get('/specialLogin', specialLogin); // crm系统登录
 // app.get('/logout', logoutHandler);
 
+/**
+ * Register API middleware
+ */
+app.use('/api', auth.api, apiHandler);
+
 //
 // Register server-side rendering middleware
 // -----------------------------------------------------------------------------
-app.get('*', async (req, res, next) => {
+app.get('*', auth.server, async (req, res, next) => {
   try {
     const css = new Set();
 
@@ -191,7 +198,7 @@ app.use((err, req, res, next) => {
 if (!module.hot) {
   app.listen(config.port, () => {
     const ips = getLocalIP();
-    const ipstr = ips.map(ip => `http://${ip}:${config.nodePort}/`);
+    const ipstr = ips.map(ip => `http://${ip}:${config.port}/`);
     console.info(
       `The server is running at ${ipstr}, now is ${new Date().toLocaleString()}, pid = ${
         process.pid

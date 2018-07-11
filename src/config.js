@@ -54,7 +54,7 @@ const environment = {
   [dev]: {
     nodeHost: 'zx.youdao.com:3000',
     nodePort: 5000,
-    javaHost: 'nc110x.corp.youdao.com:10017',
+    javaHost: 'qt101x.corp.youdao.com:9999',
   },
   [pro]: {
     nodeHost: 'xinzhixuan.youdao.com',
@@ -63,9 +63,30 @@ const environment = {
   },
 }[env];
 
+const testUsers = {
+  kevin: {
+    email: 'yodao_kevin@163.com',
+    token: '',
+    sponsorId: 1,
+    pw: '92a35d8b542d4b11a6430f4db05c7e8d',
+  },
+  s285842: {
+    email: '285842@163.com',
+    token:
+      'eyJhbGciOiJIUzUxMiJ9.eyJjcmVhdGVkIjoxNTE1MDU3NTE2ODI0LCJpZCI6MSwiZXhwIjoxNTE1MDkzNTE2ODI0fQ.U7Abu6RWdW7l4Wf5I_C7SNqpg3_ECZuE_ftAzyglgFICCr025xEgWQZqBAiIPpDzXj3wIOfaYyqikrQT-g0_1g111',
+    sponsorId: 285842,
+    pw: '2503ee74eb4c784335a0bb81e611ef38',
+    note: '首页统计数据账号',
+  },
+};
+
 module.exports = {
   // Node.js app
   port: environment.nodePort,
+  nodeHost: environment.nodeHost,
+  javaHost: environment.javaHost,
+
+  testUser: testUsers.kevin,
 
   // https://expressjs.com/en/guide/behind-proxies.html
   trustProxy: process.env.TRUST_PROXY || 'loopback',

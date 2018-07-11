@@ -36,7 +36,7 @@ export default {
         ),
         beforeEnter: [
           () => {
-            console.info('打开222');
+            console.info('beforeEnter测试');
           },
         ],
       }),

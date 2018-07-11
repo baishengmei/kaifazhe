@@ -5,6 +5,8 @@ import { name, version } from '../../package.json';
 import rootReducer from '../reducers';
 import createHelpers from './createHelpers';
 import createLogger from './logger';
+import api from '../middlewares/api';
+import httpClient from '../core/HttpClient';
 
 export default function configureStore(initialState, helpersConfig) {
   const helpers = createHelpers(helpersConfig);
@@ -13,7 +15,7 @@ export default function configureStore(initialState, helpersConfig) {
   let enhancer;
 
   // 在这里添加各路中间件
-  middleware.push();
+  middleware.push(api(httpClient));
 
   if (__DEV__) {
     middleware.push(createLogger());

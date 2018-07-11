@@ -25,7 +25,7 @@ class Home extends React.Component {
       <div className={s.root}>
         <div className={s.container}>
           <h1 onClick={this.onClick} role="none">
-            首页：Page Not Found
+            首页2：Page Not Found
           </h1>
           <p>Sorry, the page you were trying to view does not exist.</p>
         </div>

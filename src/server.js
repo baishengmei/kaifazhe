@@ -20,13 +20,12 @@ import App from './components/App';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.css';
-import passport from './passport';
 import router from './router';
-import models from './data/models';
 import chunks from './chunk-manifest.json'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import config from './config';
+import { getLocalIP } from './core/serverUtils';
 // import specialLogin from './middlewares/specialLogin';
 
 process.on('unhandledRejection', (reason, p) => {
@@ -71,8 +70,6 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.use(passport.initialize());
 
 /**
  * Register special login and logout
@@ -191,16 +188,15 @@ app.use((err, req, res, next) => {
 //
 // Launch the server
 // -----------------------------------------------------------------------------
-const promise = models.sync().catch(err => console.error(err.stack));
 if (!module.hot) {
-  promise.then(() => {
-    app.listen(config.port, () => {
-      console.info(
-        `The server is running at http://localhost:${
-          config.port
-        }/, now is ${new Date().toLocaleString()}, pid = ${process.pid}`,
-      );
-    });
+  app.listen(config.port, () => {
+    const ips = getLocalIP();
+    const ipstr = ips.map(ip => `http://${ip}:${config.nodePort}/`);
+    console.info(
+      `The server is running at ${ipstr}, now is ${new Date().toLocaleString()}, pid = ${
+        process.pid
+      }`,
+    );
   });
 }
 

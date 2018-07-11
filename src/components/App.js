@@ -16,7 +16,7 @@ const ContextType = {
   // https://github.com/kriasoft/isomorphic-style-loader
   insertCss: PropTypes.func.isRequired,
   // Universal HTTP client
-  fetch: PropTypes.func.isRequired,
+  fetch: PropTypes.func,
   pathname: PropTypes.string.isRequired,
   query: PropTypes.object,
   pushParams: PropTypes.object, // 通过history.push传递的参数，其值为对象

@@ -17,6 +17,7 @@ import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
 import webpackConfig from './webpack.config';
 import run, { format } from './run';
 import clean from './clean';
+import { hotPort } from '../src/config';
 
 const isDebug = !process.argv.includes('--release');
 
@@ -220,7 +221,7 @@ async function start() {
         middleware: [server],
         open: !process.argv.includes('--silent'),
         ...(isDebug ? {} : { notify: false, ui: false }),
-        port: 3003,
+        port: hotPort,
       },
       (error, bs) => (error ? reject(error) : resolve(bs)),
     ),

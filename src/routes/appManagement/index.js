@@ -9,7 +9,7 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
-import AppManagement from '../../pages/appManagement/list';
+import AppManagement from '../../containers/appManagement/AppManagement';
 
 export default {
   path: '/appManagement',

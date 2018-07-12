@@ -53,7 +53,6 @@ if (process.env.BROWSER) {
 const environment = {
   [dev]: {
     nodeHost: 'zx.youdao.com:3000',
-    nodePort: 5000,
     javaHost: 'qt101x.corp.youdao.com:9999',
   },
   [pro]: {
@@ -82,6 +81,7 @@ const testUsers = {
 
 module.exports = {
   // Node.js app
+  hotPort: 3003,
   port: environment.nodePort,
   nodeHost: environment.nodeHost,
   javaHost: environment.javaHost,

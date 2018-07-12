@@ -7,14 +7,24 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
+import lessToJS from 'less-vars-to-js';
 import fs from 'fs';
 import path from 'path';
 import webpack from 'webpack';
 import WebpackAssetsManifest from 'webpack-assets-manifest';
 import nodeExternals from 'webpack-node-externals';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import overrideRules from './lib/overrideRules';
 import pkg from '../package.json';
+
+// Where your theme.less file lives
+const themeVariables = lessToJS(
+  fs.readFileSync(
+    path.resolve(__dirname, '../src/components/antTheme.less'),
+    'utf8',
+  ),
+);
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const resolvePath = (...args) => path.resolve(ROOT_DIR, ...args);
@@ -122,9 +132,52 @@ const config = {
         },
       },
 
+      // Load antd here
+      {
+        test: /\.css$/,
+        include: [/node_modules\/.*antd/],
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              config: {
+                path: './tools/postcss.config.js',
+              },
+            },
+          },
+        ],
+      },
+
+      // load antd here
+      {
+        test: /\.less$/,
+        include: [/node_modules\/.*antd/],
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader', // translates CSS into CommonJS
+            },
+            {
+              loader: 'less-loader', // compiles Less to CSS
+              options: {
+                modifyVars: themeVariables,
+              },
+            },
+          ],
+        }),
+      },
+
       // Rules for Style Sheets
       {
         test: reStyle,
+        exclude: [/node_modules\/.*antd/], // Don't load antd here!
         rules: [
           // Convert CSS into JS module
           {
@@ -173,10 +226,13 @@ const config = {
           // Compile Less to CSS
           // https://github.com/webpack-contrib/less-loader
           // Install dependencies before uncommenting: yarn add --dev less-loader less
-          // {
-          //   test: /\.less$/,
-          //   loader: 'less-loader',
-          // },
+          {
+            test: /\.less$/,
+            loader: 'less-loader',
+            options: {
+              modifyVars: themeVariables,
+            },
+          },
 
           // Compile Sass to CSS
           // https://github.com/webpack-contrib/sass-loader
@@ -263,28 +319,28 @@ const config = {
     ],
   },
 
-  plugins: [
-    // https://github.com/webpack/docs/wiki/internal-webpack-plugins#progresspluginhandler
-    // https://stackoverflow.com/questions/31052991/webpack-progress-using-node-js-api
-    new webpack.ProgressPlugin(
-      (percentage, msg, current, active, modulepath) => {
-        if (process.stdout.isTTY && percentage < 1) {
-          process.stdout.cursorTo(0);
-          const progress = (percentage * 100).toFixed(0);
-          const shortPath = modulepath
-            ? `...${modulepath.substr(modulepath.length - 30)}`
-            : '';
-          const str = `${progress}% ${msg} ${current || ''} ${active ||
-            ''} ${shortPath}`;
-          process.stdout.write(str);
-          process.stdout.clearLine(1);
-        } else if (percentage === 1) {
-          process.stdout.write('\n');
-          console.info('webpack: done.');
-        }
-      },
-    ),
-  ],
+  // plugins: [
+  //   // https://github.com/webpack/docs/wiki/internal-webpack-plugins#progresspluginhandler
+  //   // https://stackoverflow.com/questions/31052991/webpack-progress-using-node-js-api
+  //   new webpack.ProgressPlugin(
+  //     (percentage, msg, current, active, modulepath) => {
+  //       if (process.stdout.isTTY && percentage < 1) {
+  //         process.stdout.cursorTo(0);
+  //         const progress = (percentage * 100).toFixed(0);
+  //         const shortPath = modulepath
+  //           ? `...${modulepath.substr(modulepath.length - 30)}`
+  //           : '';
+  //         const str = `${progress}% ${msg} ${current || ''} ${active ||
+  //           ''} ${shortPath}`;
+  //         process.stdout.write(str);
+  //         process.stdout.clearLine(1);
+  //       } else if (percentage === 1) {
+  //         process.stdout.write('\n');
+  //         console.info('webpack: done.');
+  //       }
+  //     },
+  //   ),
+  // ],
 
   // Don't attempt to continue if there are any errors.
   bail: !isDebug,
@@ -326,6 +382,9 @@ const clientConfig = {
   },
 
   plugins: [
+    // Include ant-design stylesheet
+    new ExtractTextPlugin('antStyles.css'),
+
     // Define free variables
     // https://webpack.js.org/plugins/define-plugin/
     new webpack.DefinePlugin({
@@ -517,5 +576,11 @@ const serverConfig = {
     __dirname: false,
   },
 };
+
+// Only use babel-plugin-import in client side
+clientConfig.module.rules[0].options.plugins = [
+  ...clientConfig.module.rules[0].options.plugins,
+  ['import', { libraryName: 'antd', style: true }],
+];
 
 export default [clientConfig, serverConfig];

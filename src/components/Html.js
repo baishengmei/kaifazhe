@@ -53,6 +53,7 @@ class Html extends React.Component {
             href="http://shared.ydstatic.com/dsp_website/src/favicon.ico"
           />
           <link rel="apple-touch-icon" href="/icon.png" />
+          <link rel="stylesheet" type="text/css" href="/assets/antStyles.css" />
           {styles.map(style => (
             <style
               key={style.id}

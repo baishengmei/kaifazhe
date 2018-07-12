@@ -8,21 +8,77 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.css';
+import AdTabs from './AdTabs';
+import QueryDateRangePicker from './QueryDateRangePicker';
+import { AppTabItems } from '../../../constants/MenuTypes';
 
+const singleQueryConditionShape = PropTypes.shape({
+  dateRange: PropTypes.object.isRequired,
+  keyword: PropTypes.string.isRequired,
+  pageSize: PropTypes.number.isRequired,
+  pageNo: PropTypes.number.isRequired,
+  selectedStatus: PropTypes.object,
+  selectedOsType: PropTypes.object,
+  selectedOperateStatus: PropTypes.object,
+  selectedAuditStatus: PropTypes.object,
+  selectedObject: PropTypes.object,
+});
 class AppManagement extends React.Component {
   static propTypes = {
-    // title: PropTypes.string.isRequired,
+    tabType: PropTypes.string.isRequired,
+    onGoToAppAdposList: PropTypes.func.isRequired,
+    queryCondition: singleQueryConditionShape.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    const { tabType, queryCondition } = props;
+    this.state = { tabItems: AppTabItems[tabType], queryCondition };
+  }
+
+  onTabChange = tabItem => {
+    console.info(tabItem, this.state.tabItems, '点击了导航功能哈');
+    this.props.onGoToAppAdposList(tabItem);
+  };
+
+  onDateRangeChange = ranges => {
+    console.info(ranges, '打印ranges');
+    // this.props.onDateRangeChange(tabType, ranges);
+    // this.onFetchList(tabType);
   };
 
   render() {
+    const { tabType } = this.props;
+    const { tabItems, queryCondition } = this.state;
+    const {
+      dateRange: { startDate, endDate },
+      // keyword,
+      // pageSize,
+      // pageNo,
+      // selectedStatus,
+      // selectedOsType,
+      // selectedOperateStatus,
+      // selectedAuditStatus,
+      // selectedObject,
+    } = queryCondition;
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <h1>应用管理：Page Not Found</h1>
-          <p>Sorry, the page you were trying to view does not exist.</p>
+          <div className={s.subNavBar}>
+            <AdTabs
+              tabItems={tabItems}
+              activeTabKey={tabType}
+              onTabChange={this.onTabChange}
+            />
+            <QueryDateRangePicker
+              startDate={startDate}
+              endDate={endDate}
+              onDateRangeChange={this.onDateRangeChange}
+            />
+          </div>
         </div>
       </div>
     );

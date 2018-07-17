@@ -14,6 +14,7 @@ import s from './index.css';
 import AdTabs from './AdTabs';
 import QueryDateRangePicker from './QueryDateRangePicker';
 import { AppTabItems } from '../../../constants/MenuTypes';
+import QueryConditionBar from './QueryConditionBar';
 
 const singleQueryConditionShape = PropTypes.shape({
   dateRange: PropTypes.object.isRequired,
@@ -55,7 +56,7 @@ class AppManagement extends React.Component {
     const { tabItems, queryCondition } = this.state;
     const {
       dateRange: { startDate, endDate },
-      // keyword,
+      keyword,
       // pageSize,
       // pageNo,
       // selectedStatus,
@@ -79,6 +80,11 @@ class AppManagement extends React.Component {
               onDateRangeChange={this.onDateRangeChange}
             />
           </div>
+          <QueryConditionBar
+            tabType={tabType}
+            keyword={keyword}
+            onSearch={this.onSearch}
+          />
         </div>
       </div>
     );

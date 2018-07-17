@@ -66,3 +66,25 @@
 .active::after {
   width: 100%;
 }
+
+.queryConditionBar {
+  margin-top: 24px;
+  font-size: var(--font-smallest);
+  color: #404040;
+}
+
+.newBtn {
+  margin-right: 8px;
+  padding: 6px 16px;
+  line-height: 14px;
+  background-color: var(--color-red);
+  border-color: var(--color-red);
+  color: var(--color-white);
+  font-weight: var(--font-weight-bolder);
+  border-radius: 2px;
+}
+
+.select {
+  display: inline-block;
+  margin-left: 16px;
+}

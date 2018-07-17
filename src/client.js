@@ -13,12 +13,28 @@ import ReactDOM from 'react-dom';
 import deepForceUpdate from 'react-deep-force-update';
 import queryString from 'query-string';
 import { createPath } from 'history/PathUtils';
+import moment from 'moment';
 import App from './components/App';
 import createFetch from './createFetch';
 import configureStore from './store/configureStore';
 import history from './history';
 import { updateMeta } from './DOMUtils';
 import router from './router';
+
+// parse startDate and endDate string in dateRange to moment instance
+// because moment instance will be converted to string
+// after toString is invoked by JSON.stringify
+// when state is transmitted from server to client
+(state => {
+  const { queryConditions } = state.appManagement.list;
+  const today = moment();
+  Object.keys(queryConditions).forEach(k => {
+    queryConditions[k].dateRange = {
+      startDate: today,
+      endDate: today,
+    };
+  });
+})(window.App.state);
 
 // Global (context) variables that can be easily accessed from any React component
 // https://facebook.github.io/react/docs/context.html
@@ -78,7 +94,11 @@ async function onLocationChange(location, action) {
       return;
     }
 
-    if (route.redirect && context.pathname !== `/${route.chunks[0]}`) {
+    if (
+      route.redirect &&
+      context.pathname !== route.redirect &&
+      route.redirect.indexOf(context.pathname) > -1
+    ) {
       history.replace(route.redirect);
       return;
     }

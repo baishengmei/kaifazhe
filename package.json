@@ -6,6 +6,7 @@
     "youdao",
     "有道",
     "智选",
+    "开发者系统",
     "ssp",
     "ant",
     "design",
@@ -22,7 +23,7 @@
   "browserslist": [">1%", "last 4 versions", "Firefox ESR", "not ie < 9"],
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.42",
-    "antd": "^3.2.1",
+    "antd": "^3.6.6",
     "babel-plugin-import": "^1.8.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",

@@ -10,22 +10,25 @@
 /* eslint-disable global-require */
 
 // The top-level (parent) route
-import appManagement from './appManagement';
-
 const routes = {
   path: '',
 
   // Keep in mind, routes are evaluated in order
   children: [
     {
-      path: '',
+      path: new RegExp(`^/(home)?$`),
       load: () => import(/* webpackChunkName: 'home' */ './home'),
     },
     {
-      path: '/home',
-      load: () => import(/* webpackChunkName: 'home' */ './home'),
+      path: new RegExp(`^/appManagement/?(([0-9]+/)?adSlot|app)?$`),
+      load: () =>
+        import(/* webpackChunkName: 'appManagement' */ './appManagement/list'),
     },
-    appManagement,
+    {
+      path: new RegExp(`^/appManagement/(app|([0-9]+)/adSlot)/new$`),
+      load: () =>
+        import(/* webpackChunkName: 'appManagement' */ './appManagement/edit'),
+    },
     {
       path: '/dataReport',
       load: () => import(/* webpackChunkName: 'dataReport' */ './dataReport'),

@@ -128,7 +128,11 @@ app.get('*', auth.server, async (req, res, next) => {
 
     const route = await router.resolve(context);
 
-    if (route.redirect && context.pathname !== `/${route.chunks[0]}`) {
+    if (
+      route.redirect &&
+      context.pathname !== route.redirect &&
+      route.redirect.indexOf(context.pathname) > -1
+    ) {
       res.redirect(route.status || 302, route.redirect);
       return;
     }

@@ -105,8 +105,6 @@ const Http = Object.create(null);
     /* eslint-disable camelcase, no-param-reassign */
     return fetch(path, opts)
       .then(res => {
-        console.info(path, opts, res.headers, '顺利的结束了几分');
-        console.info(res.headers.get('content-length'), '打印新方法得到的结果');
         const contentLength = res.headers.get('content-length');
         const contentType = res.headers.get('content-type');
         // const expires = res.headers.get('expires');

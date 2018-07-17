@@ -1,0 +1,182 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Table } from 'antd';
+import s from './index.css';
+import {
+  AppTabTypes,
+  PageSizeOptions,
+  OperationStatus,
+  AppAdposListMapForFE as StatusForFE,
+} from '../../../constants/MenuTypes';
+import TableColumns from './TableColumns';
+// import { getAdLevelFromAdTabType } from '../../../core/utils';
+
+const { appTab, adPosTab, appAdPosTab } = AppTabTypes;
+
+const getColumns = (type, onSwitchChange) => {
+  switch (type) {
+    case appTab:
+      return [
+        TableColumns.switchBtn(type, onSwitchChange),
+        TableColumns.appName(type),
+        TableColumns.app.osType(),
+        TableColumns.reqAdNum,
+        TableColumns.resAdNum,
+        TableColumns.fillRate,
+        TableColumns.impressionNum,
+        TableColumns.impressionNum,
+        TableColumns.clickNum,
+        TableColumns.clickRate,
+        TableColumns.eCPC,
+        TableColumns.cpc,
+        TableColumns.estimateProfit,
+      ];
+    case adPosTab:
+    case appAdPosTab:
+      return [
+        TableColumns.switchBtn(type, onSwitchChange),
+        TableColumns.adPosName(type),
+        TableColumns.adPos.onApp(),
+        TableColumns.adPosId(),
+        TableColumns.appName(type),
+        TableColumns.adPos.adPosType(),
+        TableColumns.adPos.auditStatus(),
+        TableColumns.reqAdNum,
+        TableColumns.resAdNum,
+        TableColumns.fillRate,
+        TableColumns.impressionNum,
+        TableColumns.impressionNum,
+        TableColumns.clickNum,
+        TableColumns.clickRate,
+        TableColumns.eCPC,
+        TableColumns.cpc,
+        TableColumns.estimateProfit,
+      ];
+    default:
+      return [];
+  }
+};
+
+const getTableRowClassName = record =>
+  record.status === StatusForFE.暂停 ? s.deleted : '';
+
+const appListShape = PropTypes.shape({
+  status: PropTypes.oneOf(Object.keys(OperationStatus)).isRequired,
+  total: PropTypes.number.isRequired,
+  list: PropTypes.array.isRequired,
+});
+
+const getTableRowCheckboxProps = record => ({
+  disabled: record.status === StatusForFE.暂停,
+});
+
+class AppList extends Component {
+  static propTypes = {
+    tabType: PropTypes.oneOf(Object.keys(AppTabTypes)).isRequired,
+    loading: PropTypes.bool.isRequired,
+    data: appListShape.isRequired,
+    pageSize: PropTypes.number.isRequired,
+    pageNo: PropTypes.number.isRequired,
+    // selectedRowKeys: PropTypes.array.isRequired,
+    onRowSelectionChange: PropTypes.func.isRequired,
+    onPageSizeChange: PropTypes.func.isRequired,
+    onPageNoChange: PropTypes.func.isRequired,
+    onSwitchChange: PropTypes.func.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    const {
+      loading,
+      tabType,
+      data,
+      // selectedRowKeys,
+      pageSize,
+      pageNo,
+      onSwitchChange,
+    } = props;
+    this.state = {
+      loading,
+      // selectedRowKeys,
+      columns: getColumns(tabType, onSwitchChange),
+      xScroll: 1120,
+      // list: getTableData(data.list, tabType),
+      total: data.total,
+      pageSize,
+      pageNo,
+    };
+  }
+
+  // componentWillReceiveProps({
+  //   loading,
+  //   tabType,
+  //   data,
+  //   // selectedRowKeys,
+  //   pageSize,
+  //   pageNo,
+  //   onSwitchChange,
+  // }) {
+  //   const newState = {
+  //     loading,
+  //     // selectedRowKeys,
+  //     total: data.total,
+  //     pageSize,
+  //     pageNo,
+  //   };
+  //   if (tabType !== this.props.tabType) {
+  //     newState.columns = getColumns(tabType, onSwitchChange);
+  //   }
+  //   if (data !== this.props.data) {
+  //     // newState.list = getTableData(data.list, tabType);
+  //   }
+  //   this.setState(newState);
+  // }
+
+  render() {
+    const {
+      onRowSelectionChange,
+      onPageSizeChange,
+      onPageNoChange,
+    } = this.props;
+    const {
+      loading,
+      selectedRowKeys,
+      columns,
+      xScroll,
+      list,
+      total,
+      pageSize,
+      pageNo,
+    } = this.state;
+
+    return (
+      <section className={s.list}>
+        <Table
+          rowSelection={{
+            selectedRowKeys,
+            getCheckboxProps: getTableRowCheckboxProps,
+            onChange: onRowSelectionChange,
+          }}
+          rowClassName={getTableRowClassName}
+          columns={columns}
+          dataSource={list}
+          bordered
+          loading={loading}
+          scroll={{ x: xScroll }}
+          pagination={{
+            size: 'small',
+            current: pageNo,
+            pageSize,
+            showSizeChanger: true,
+            pageSizeOptions: PageSizeOptions,
+            total,
+            onChange: onPageNoChange,
+            onShowSizeChange: onPageSizeChange,
+          }}
+        />
+      </section>
+    );
+  }
+}
+
+export { AppList as default, appListShape };

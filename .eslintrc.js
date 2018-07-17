@@ -19,6 +19,7 @@ module.exports = {
     'prettier',
     'prettier/flowtype',
     'prettier/react',
+    'eslint:recommended',
   ],
 
   plugins: ['flowtype', 'css-modules', 'prettier'],

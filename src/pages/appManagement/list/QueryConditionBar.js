@@ -6,7 +6,14 @@ import {
   AppTabTypes,
   AppOsTypes,
   AppAdposStatus,
+  AdPosAuditStatus,
+  AdPosObject,
 } from '../../../constants/MenuTypes';
+import MultipleOperationMenu from './MultipleOperationMenu';
+import {
+  updateComponentStateByKeys,
+  componentUpdateByState,
+} from '../../../core/utils';
 
 const { Option } = Select;
 // const Option = Select.Option;
@@ -41,11 +48,11 @@ class QueryConditionBar extends Component {
       keyword,
     };
 
-    // this.componentWillReceiveProps = updateComponentStateByKeys([
-    //   'tabType',
-    //   'keyword',
-    // ]);
-    // this.shouldComponentUpdate = componentUpdateByState;
+    this.componentWillReceiveProps = updateComponentStateByKeys([
+      'tabType',
+      'keyword',
+    ]);
+    this.shouldComponentUpdate = componentUpdateByState;
   }
 
   onSearchInputChange = e => {
@@ -58,13 +65,9 @@ class QueryConditionBar extends Component {
     this.props.onSearch(this.state.tabType, value.replace(/^\s+|\s+$/g, ''));
   };
 
-  render() {
-    const { tabType, keyword } = this.state;
-    return (
-      <div className={s.queryConditionBar}>
-        <Button className={s.newBtn} onClick={this.onCreateAdEntity}>
-          {BtnText[tabType]}
-        </Button>
+  queryCondition = tabType =>
+    tabType === AppTabTypes.appTab ? (
+      <div className={s.queryCondition}>
         <div className={s.select}>
           <span className={s.label}>平台：</span>
           <Select
@@ -93,13 +96,71 @@ class QueryConditionBar extends Component {
             ))}
           </Select>
         </div>
-        {/* <MultipleOperationMenu
+      </div>
+    ) : (
+      <div className={s.queryCondition}>
+        <div className={s.select}>
+          <span className={s.label}>操作状态：</span>
+          <Select
+            value="不限"
+            style={selectStyle}
+            onChange={this.onStatusChange}
+          >
+            {AppAdposStatus.map(x => (
+              <Option key={x.value} value={x.value}>
+                {x.name}
+              </Option>
+            ))}
+          </Select>
+        </div>
+        <div className={s.select}>
+          <span className={s.label}>审核状态：</span>
+          <Select
+            value="不限"
+            style={selectStyle}
+            onChange={this.onObjectChange}
+          >
+            {AdPosAuditStatus.map(x => (
+              <Option key={x.value} value={x.value}>
+                {x.name}
+              </Option>
+            ))}
+          </Select>
+        </div>
+        <div className={s.select}>
+          <span className={s.label}>广告位类型：</span>
+          <Select
+            value="不限"
+            style={selectStyle}
+            onChange={this.onObjectChange}
+          >
+            {AdPosObject.map(x => (
+              <Option key={x.value} value={x.value}>
+                {x.name}
+              </Option>
+            ))}
+          </Select>
+        </div>
+      </div>
+    );
+
+  render() {
+    const { tabType, keyword } = this.state;
+    return (
+      <div className={s.queryConditionBar}>
+        {tabType !== AppTabTypes.adPosTab && (
+          <Button className={s.newBtn} onClick={this.onCreateAdEntity}>
+            {BtnText[tabType]}
+          </Button>
+        )}
+        {this.queryCondition(tabType)}
+        <MultipleOperationMenu
           tabType={tabType}
-          dataListStatus={dataListStatus}
-          selectedRowKeys={selectedRowKeys}
-          selectedRows={selectedRows}
-          onMultipleOperation={onMultipleOperation}
-        /> */}
+          // dataListStatus={dataListStatus}
+          // selectedRowKeys={selectedRowKeys}
+          // selectedRows={selectedRows}
+          // onMultipleOperation={onMultipleOperation}
+        />
         <Search
           value={keyword}
           placeholder="请输入查询关键词"

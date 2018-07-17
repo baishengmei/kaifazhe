@@ -81,6 +81,15 @@ const AppAdposListMapForFE = {
 };
 
 /**
+ * 应用管理 状态(or操作状态)的前端对照关系
+ */
+const AppEntitySwitchStatusMapForFE = {
+  已开启: 'on',
+  已暂停: 'off',
+  已禁用: 'disabled',
+};
+
+/**
  * 查询条件应用和广告位列表 状态或操作状态 菜单
  */
 const AppAdposStatus = ['不限', '暂停', '开启'].map(t => ({
@@ -139,6 +148,7 @@ const PageSizeOptions = ['10', '20', '50', '100'];
 // ====================================== 应用管理 --END ==========================================//
 
 export {
+  AppAdposListMapForFE,
   OperationStatus,
   AppTabTypes,
   AppTabItems,
@@ -148,4 +158,5 @@ export {
   AdPosAuditStatus,
   AdPosObject,
   PageSizeOptions,
+  AppEntitySwitchStatusMapForFE,
 };

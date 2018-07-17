@@ -11,10 +11,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.css';
-import AdTabs from './AdTabs';
+import AppTabs from './AppTabs';
 import QueryDateRangePicker from './QueryDateRangePicker';
 import { AppTabItems } from '../../../constants/MenuTypes';
 import QueryConditionBar from './QueryConditionBar';
+import AppList, { appListShape } from './AppList';
 
 const singleQueryConditionShape = PropTypes.shape({
   dateRange: PropTypes.object.isRequired,
@@ -32,12 +33,18 @@ class AppManagement extends React.Component {
     tabType: PropTypes.string.isRequired,
     onGoToAppAdposList: PropTypes.func.isRequired,
     queryCondition: singleQueryConditionShape.isRequired,
+    dataList: appListShape.isRequired,
   };
 
   constructor(props) {
     super(props);
-    const { tabType, queryCondition } = props;
-    this.state = { tabItems: AppTabItems[tabType], queryCondition };
+    const { tabType, queryCondition, dataList } = props;
+    this.state = {
+      tabItems: AppTabItems[tabType],
+      queryCondition,
+      selectedRowKeys: [],
+      dataList,
+    };
   }
 
   onTabChange = tabItem => {
@@ -51,14 +58,16 @@ class AppManagement extends React.Component {
     // this.onFetchList(tabType);
   };
 
+  onRowSelectionChange = () => {};
+
   render() {
     const { tabType } = this.props;
-    const { tabItems, queryCondition } = this.state;
+    const { tabItems, queryCondition, selectedRowKeys, dataList } = this.state;
     const {
       dateRange: { startDate, endDate },
       keyword,
-      // pageSize,
-      // pageNo,
+      pageSize,
+      pageNo,
       // selectedStatus,
       // selectedOsType,
       // selectedOperateStatus,
@@ -69,7 +78,7 @@ class AppManagement extends React.Component {
       <div className={s.root}>
         <div className={s.container}>
           <div className={s.subNavBar}>
-            <AdTabs
+            <AppTabs
               tabItems={tabItems}
               activeTabKey={tabType}
               onTabChange={this.onTabChange}
@@ -84,6 +93,19 @@ class AppManagement extends React.Component {
             tabType={tabType}
             keyword={keyword}
             onSearch={this.onSearch}
+          />
+          <AppList
+            tabType={tabType}
+            data={dataList}
+            selectedRowKeys={selectedRowKeys}
+            onRowSelectionChange={this.onRowSelectionChange}
+            pageSize={pageSize}
+            pageNo={pageNo}
+            onPageSizeChange={this.onPageSizeChange}
+            onPageNoChange={this.onPageNoChange}
+            onSwitchChange={this.onSwitchChange}
+            // onGoToAdList={onGoToAdList}
+            // onGoToEditAdEntity={onGoToEditAdEntity}
           />
         </div>
       </div>

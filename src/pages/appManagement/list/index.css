@@ -84,7 +84,15 @@
   border-radius: 2px;
 }
 
+.queryCondition {
+  display: inline-block;
+}
+
 .select {
   display: inline-block;
   margin-left: 16px;
+}
+
+.list {
+  margin-top: 24px;
 }

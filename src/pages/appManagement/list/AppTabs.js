@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import s from './index.css';
 import Tabs from '../../../components/Tabs';
 
-class AdTabs extends Component {
+class AppTabs extends Component {
   static propTypes = {
     tabItems: PropTypes.arrayOf(
       PropTypes.shape({
@@ -42,4 +42,4 @@ class AdTabs extends Component {
   }
 }
 
-export default AdTabs;
+export default AppTabs;

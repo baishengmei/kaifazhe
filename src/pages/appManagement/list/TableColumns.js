@@ -1,34 +1,34 @@
 /* eslint-disable no-shadow, react/prop-types */
 import React from 'react';
 import { Switch } from 'antd';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.css';
 import Link from '../../../components/Link';
+import { AppEntitySwitchStatusMapForFE } from '../../../constants/MenuTypes';
 import {
-  AppTabTypes,
-  AppEntitySwitchStatusMapForFE,
-} from '../../../constants/MenuTypes';
-import { numberFormat } from '../../../core/utils';
+  numberFormat,
+  getAppLevelFromAppTabType,
+  getAppEntityPath,
+} from '../../../core/utils';
 
 const formatFloat = numberFormat(2);
 const formatInteger = numberFormat(0);
 
 const nonEditableAppEntityNameRender = tabType => record => {
-  const { appId, appName } = record.app;
-  const data = {
-    appId,
-    appName,
-  };
-  const toPath = AppTabTypes[tabType];
-  return <Link to={toPath}>{data.appName}</Link>;
+  const level = getAppLevelFromAppTabType(tabType);
+  const { name, id } = record[level];
+  const toPath = getAppEntityPath(tabType, id); // 需要修改，未处理逻辑
+  return <Link to={toPath}>{name}</Link>;
 };
 
 const TableColumns = {
   switchBtn: (type, onChange) => ({
     title: '开关',
     key: 'switch',
+    fixed: 'left',
     className: s.switchBtn,
     render: record => {
-      const level = AppTabTypes[type];
+      const level = getAppLevelFromAppTabType(type);
       return (
         <Switch
           size="small"
@@ -43,51 +43,57 @@ const TableColumns = {
     title: '应用名称',
     key: 'appName',
     className: s.appName,
+    fixed: 'left',
     render: nonEditableAppEntityNameRender(tabType),
   }),
   app: {
-    osType: () => ({
+    osType: {
       title: '平台',
       key: 'osType',
       className: s.osType,
       render: record => {
         const { osType } = record;
-        return { osType };
+        return <span>{osType}</span>;
       },
-    }),
+    },
   },
   adPosName: tabType => ({
-    title: '广告位',
+    title: '广告位名称',
     key: 'adPosName',
     className: s.adPosName,
+    fixed: 'left',
     render: nonEditableAppEntityNameRender(tabType),
   }),
-  adPosId: () => ({
+  adPosId: tabType => ({
     title: '广告位ID',
     key: 'adPosId',
     className: s.adPosId,
-    render: record => record.adPosId,
+    render: record => {
+      const level = getAppLevelFromAppTabType(tabType);
+      const { id } = record[level];
+      return <span>{id}</span>;
+    },
   }),
   adPos: {
-    onApp: () => ({
+    onApp: {
       title: '所在应用',
       key: 'onApp',
       className: s.onApp,
       render: record => {
-        const { name } = record.onApp;
-        return { name };
+        const { name } = record.app;
+        return <span>{name}</span>;
       },
-    }),
-    adPosType: () => ({
-      title: '广告位形式',
+    },
+    adPosType: {
+      title: '广告位类型',
       key: 'adPosType',
-      render: record => record.adPosType,
-    }),
-    auditStatus: () => ({
+      render: record => <span>{record.adPosType}</span>,
+    },
+    auditStatus: {
       title: '审核状态',
       key: 'auditStatus',
-      render: record => record.auditStatus,
-    }),
+      render: record => <span>{record.auditStatus}</span>,
+    },
   },
   reqAdNum: {
     title: '请求广告数',
@@ -149,7 +155,7 @@ const TableColumns = {
     sorter: (a, b) => a.clickRate - b.clickRate,
   },
   eCPC: {
-    title: '预估千次点击收益',
+    title: '估算千次展示收入',
     dataIndex: 'eCPC',
     key: 'eCPC',
     className: s.eCPC,
@@ -157,7 +163,7 @@ const TableColumns = {
     sorter: (a, b) => a.eCPC - b.eCPC,
   },
   cpc: {
-    title: '预估单次点击收益',
+    title: '估算单点击收入',
     dataIndex: 'cpc',
     key: 'cpc',
     className: s.cpc,
@@ -165,7 +171,7 @@ const TableColumns = {
     sorter: (a, b) => a.cpc - b.cpc,
   },
   estimateProfit: {
-    title: '预估收益',
+    title: '估算收入',
     dataIndex: 'estimateProfit',
     key: 'estimateProfit',
     className: s.estimateProfit,
@@ -174,4 +180,4 @@ const TableColumns = {
   },
 };
 
-export default TableColumns;
+export default withStyles(s)(TableColumns);

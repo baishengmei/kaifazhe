@@ -20,17 +20,25 @@ const routes = {
       load: () => import(/* webpackChunkName: 'home' */ './home'),
     },
     {
+      // 比如/app、/2323/adSlot、/adSlot
       path: new RegExp(`^/appManagement/?(([0-9]+/)?adSlot|app)?$`),
       load: () =>
         import(/* webpackChunkName: 'appManagement' */ './appManagement/list'),
     },
     {
+      // 比如：/appManagement/app/new、/appManagement/232323/adSlot/new
       path: new RegExp(`^/appManagement/(app|([0-9]+)/adSlot)/new$`),
+      load: () =>
+        import(/* webpackChunkName: 'appManagement' */ './appManagement/new'),
+    },
+    {
+      // 比如：/appManagement/232323/adSlot/edit
+      path: new RegExp(`^/appManagement/([0-9]+)/adSlot/edit$`),
       load: () =>
         import(/* webpackChunkName: 'appManagement' */ './appManagement/edit'),
     },
     {
-      path: '/dataReport',
+      path: new RegExp(`^/dataReport(/app)?`),
       load: () => import(/* webpackChunkName: 'dataReport' */ './dataReport'),
     },
     {
@@ -64,6 +72,7 @@ const routes = {
 
 // The error page is available by permanent url for development mode
 if (__DEV__) {
+  console.info(__DEV__, routes, '水里水里来');
   routes.children.unshift({
     path: '/error',
     action: require('./error').default,

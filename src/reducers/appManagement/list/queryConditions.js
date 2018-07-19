@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'moment/locale/zh-cn';
 import {
   AppTabTypes,
   AppAdposStatus,
@@ -13,6 +14,8 @@ import {
   RESET_APP,
   RESET_ADPOS,
 } from '../../../constants';
+
+moment.locale('zh-cn');
 
 const getSingleInitialState = type => {
   const today = moment();
@@ -52,22 +55,22 @@ const getInitialState = () => {
 
 const queryCondition = (
   state = getInitialState(),
-  { type, tabType, payload },
+  { type, subType, payload },
 ) => {
   if (type === QUERY_CONDITION_CHANGE) {
     switch (payload.type) {
       case 'dateRange':
       case 'keyword':
-      case 'selectedStatus':
       case 'selectedOsType':
-      case 'selectedOperateStatus':
+      case 'selectedStatus':
+      case 'pageSize':
       case 'selectedAuditStatus':
       case 'selectedObject':
-      case 'pageSize':
+      case 'selectedOperateStatus':
         return {
           ...state,
-          [tabType]: {
-            ...state[tabType],
+          [subType]: {
+            ...state[subType],
             [payload.type]: payload[payload.type],
             pageNo: 1,
           },
@@ -75,8 +78,8 @@ const queryCondition = (
       case 'pageNo':
         return {
           ...state,
-          [tabType]: {
-            ...state[tabType],
+          [subType]: {
+            ...state[subType],
             pageNo: payload.pageNo,
           },
         };

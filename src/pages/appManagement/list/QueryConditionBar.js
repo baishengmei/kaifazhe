@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Select, Input } from 'antd';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.css';
 import {
   AppTabTypes,
@@ -9,14 +10,13 @@ import {
   AdPosAuditStatus,
   AdPosObject,
 } from '../../../constants/MenuTypes';
-import MultipleOperationMenu from './MultipleOperationMenu';
+// import MultipleOperationMenu from './MultipleOperationMenu';
 import {
   updateComponentStateByKeys,
   componentUpdateByState,
 } from '../../../core/utils';
 
 const { Option } = Select;
-// const Option = Select.Option;
 const { Search } = Input;
 
 const { appTab, appAdPosTab } = AppTabTypes;
@@ -33,24 +33,64 @@ const searchInputStyle = {
   float: 'right',
 };
 
+const queryConditionParams = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+});
+
 class QueryConditionBar extends Component {
   static propTypes = {
     tabType: PropTypes.oneOf(Object.keys(AppTabTypes)).isRequired,
     keyword: PropTypes.string.isRequired,
+    selectedOsType: queryConditionParams,
+    selectedStatus: queryConditionParams,
+    selectedOperateStatus: queryConditionParams,
+    selectedAuditStatus: queryConditionParams,
+    selectedObject: queryConditionParams,
     onSearch: PropTypes.func.isRequired,
+    onOsTypeChange: PropTypes.func.isRequired,
+    onStatusChange: PropTypes.func.isRequired,
+    onAuditStatusChange: PropTypes.func.isRequired,
+    onObjectChange: PropTypes.func.isRequired,
+    onOperateStatusChange: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    selectedOsType: null,
+    selectedStatus: null,
+    selectedAuditStatus: null,
+    selectedObject: null,
+    selectedOperateStatus: null,
   };
 
   constructor(props) {
     super(props);
-    const { tabType, keyword } = props;
+    const {
+      tabType,
+      keyword,
+      selectedOsType,
+      selectedStatus,
+      selectedOperateStatus,
+      selectedAuditStatus,
+      selectedObject,
+    } = props;
     this.state = {
       tabType,
       keyword,
+      selectedOsType,
+      selectedStatus,
+      selectedOperateStatus,
+      selectedAuditStatus,
+      selectedObject,
     };
 
     this.componentWillReceiveProps = updateComponentStateByKeys([
       'tabType',
       'keyword',
+      'selectedOsType',
+      'selectedStatus',
+      'selectedOperateStatus',
+      'selectedAuditStatus',
+      'selectedObject',
     ]);
     this.shouldComponentUpdate = componentUpdateByState;
   }
@@ -62,18 +102,50 @@ class QueryConditionBar extends Component {
   };
 
   onSearch = value => {
-    this.props.onSearch(this.state.tabType, value.replace(/^\s+|\s+$/g, ''));
+    this.props.onSearch(value.replace(/^\s+|\s+$/g, ''));
   };
 
-  queryCondition = tabType =>
+  onOsTypeChange = value => {
+    const osType = AppOsTypes.find(it => it.value === value);
+    this.props.onOsTypeChange(osType);
+  };
+
+  onStatusChange = value => {
+    const status = AppAdposStatus.find(it => it.value === value);
+    this.props.onStatusChange(status);
+  };
+
+  onOperateStatusChange = value => {
+    const operateStatus = AppAdposStatus.find(it => it.value === value);
+    this.props.onOperateStatusChange(operateStatus);
+  };
+
+  onAuditStatusChange = value => {
+    const auditStatus = AdPosAuditStatus.find(it => it.value === value);
+    this.props.onAuditStatusChange(auditStatus);
+  };
+
+  onObjectChange = value => {
+    const object = AdPosObject.find(it => it.value === value);
+    this.props.onObjectChange(object);
+  };
+
+  queryCondition = (
+    tabType,
+    selectedOsType,
+    selectedStatus,
+    selectedOperateStatus,
+    selectedAuditStatus,
+    selectedObject,
+  ) =>
     tabType === AppTabTypes.appTab ? (
       <div className={s.queryCondition}>
         <div className={s.select}>
           <span className={s.label}>平台：</span>
           <Select
-            value="不限"
+            value={selectedOsType.name}
             style={selectStyle}
-            onChange={this.onStatusChange}
+            onChange={this.onOsTypeChange}
           >
             {AppOsTypes.map(x => (
               <Option key={x.value} value={x.value}>
@@ -85,9 +157,9 @@ class QueryConditionBar extends Component {
         <div className={s.select}>
           <span className={s.label}>状态：</span>
           <Select
-            value="不限"
+            value={selectedStatus.name}
             style={selectStyle}
-            onChange={this.onObjectChange}
+            onChange={this.onStatusChange}
           >
             {AppAdposStatus.map(x => (
               <Option key={x.value} value={x.value}>
@@ -102,9 +174,9 @@ class QueryConditionBar extends Component {
         <div className={s.select}>
           <span className={s.label}>操作状态：</span>
           <Select
-            value="不限"
+            value={selectedOperateStatus.name}
             style={selectStyle}
-            onChange={this.onStatusChange}
+            onChange={this.onOperateStatusChange}
           >
             {AppAdposStatus.map(x => (
               <Option key={x.value} value={x.value}>
@@ -116,9 +188,9 @@ class QueryConditionBar extends Component {
         <div className={s.select}>
           <span className={s.label}>审核状态：</span>
           <Select
-            value="不限"
+            value={selectedAuditStatus.name}
             style={selectStyle}
-            onChange={this.onObjectChange}
+            onChange={this.onAuditStatusChange}
           >
             {AdPosAuditStatus.map(x => (
               <Option key={x.value} value={x.value}>
@@ -130,7 +202,7 @@ class QueryConditionBar extends Component {
         <div className={s.select}>
           <span className={s.label}>广告位类型：</span>
           <Select
-            value="不限"
+            value={selectedObject.name}
             style={selectStyle}
             onChange={this.onObjectChange}
           >
@@ -145,7 +217,15 @@ class QueryConditionBar extends Component {
     );
 
   render() {
-    const { tabType, keyword } = this.state;
+    const {
+      tabType,
+      keyword,
+      selectedOsType,
+      selectedStatus,
+      selectedOperateStatus,
+      selectedAuditStatus,
+      selectedObject,
+    } = this.state;
     return (
       <div className={s.queryConditionBar}>
         {tabType !== AppTabTypes.adPosTab && (
@@ -153,14 +233,21 @@ class QueryConditionBar extends Component {
             {BtnText[tabType]}
           </Button>
         )}
-        {this.queryCondition(tabType)}
-        <MultipleOperationMenu
-          tabType={tabType}
-          // dataListStatus={dataListStatus}
-          // selectedRowKeys={selectedRowKeys}
-          // selectedRows={selectedRows}
-          // onMultipleOperation={onMultipleOperation}
-        />
+        {this.queryCondition(
+          tabType,
+          selectedOsType,
+          selectedStatus,
+          selectedOperateStatus,
+          selectedAuditStatus,
+          selectedObject,
+        )}
+        {/* <MultipleOperationMenu
+        // tabType={tabType}
+        // dataListStatus={dataListStatus}
+        // selectedRowKeys={selectedRowKeys}
+        // selectedRows={selectedRows}
+        // onMultipleOperation={onMultipleOperation}
+        /> */}
         <Search
           value={keyword}
           placeholder="请输入查询关键词"
@@ -173,4 +260,4 @@ class QueryConditionBar extends Component {
   }
 }
 
-export default QueryConditionBar;
+export default withStyles(s)(QueryConditionBar);

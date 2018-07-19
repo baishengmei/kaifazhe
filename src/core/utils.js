@@ -87,3 +87,49 @@ export function numberFormat(fractionDigits) {
         return numberArr.join('');
       };
 }
+
+/**
+ * app hierarchy ( app level ) 与  app tabtype 的转化
+ */
+export const getAppLevelFromAppTabType = type => {
+  switch (type) {
+    case 'appTab':
+      return 'app';
+    case 'adPosTab':
+    case 'appAdPosTab':
+      return 'adPos';
+    default:
+      throw new Error(`无效的 AdTabTypes:${type}`);
+  }
+};
+
+/**
+ * 应用管理列表页 导航路由
+ */
+export const getAppAdPosPath = tabType => {
+  switch (tabType.key) {
+    case 'appTab':
+      return '/appManagement/app';
+    case 'adPosTab':
+      return '/appManagement/adSlot';
+    default:
+      return;
+  }
+};
+
+/**
+ * 应用管理列表页 表格项点击路由跳转
+ * tabType: 被点击项所在导航tab；
+ * id：被点击项的id
+ */
+export const getAppEntityPath = (tabType, id) => {
+  switch (tabType) {
+    case 'appTab':
+      return `/appManagement/${id}/adSlot`;
+    case 'adPosTab':
+    case 'appAdPosTab':
+      return `/appManagement/${id}/adSlot/edit`;
+    default:
+      return;
+  }
+};

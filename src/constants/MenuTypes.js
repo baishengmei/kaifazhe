@@ -51,7 +51,7 @@ const AppTabItems = {
   ],
   [AppTabTypes.appAdPosTab]: [
     {
-      key: AppTabTypes.adPosTab,
+      key: AppTabTypes.appAdPosTab,
       name: '广告位',
     },
   ],

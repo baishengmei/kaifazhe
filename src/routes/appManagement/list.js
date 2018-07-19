@@ -10,21 +10,43 @@
 import React from 'react';
 import Layout from '../../components/Layout';
 import AppManagement from '../../containers/appManagement/AppManagement';
+import {
+  onTabChange,
+  getAppAndAdposList,
+} from '../../actions/AppManagement/list';
 
 const title = '应用管理';
 
-function action({ params }) {
+function action(context) {
+  const { store, params } = context;
+
   const subTitle = params['0'] === 'app' ? '应用' : '广告位';
   const appId = params['1'] && params['1'].replace(/(\/)$/, '');
+  const subNav =
+    params['0'] === 'app' ? 'appTab' : appId ? 'appAdPosTab' : 'adPosTab';
+
+  const component = appId ? (
+    <Layout>
+      <AppManagement appId={appId} subNav={subNav} />
+    </Layout>
+  ) : (
+    <Layout>
+      <AppManagement subNav={subNav} />
+    </Layout>
+  );
+
   return {
     chunks: ['appManagement'],
     redirect: '/appManagement/app',
     title: `${subTitle} - ${title}`,
-    component: (
-      <Layout>
-        <AppManagement appId={appId} />
-      </Layout>
-    ),
+    component,
+    beforeEnter: [
+      () => {
+        // 当切换应用管理页子导航、点击列表中应用项，子导航切换，路由变化
+        store.dispatch(onTabChange(subNav));
+        store.dispatch(getAppAndAdposList(subNav, appId));
+      },
+    ],
   };
 }
 

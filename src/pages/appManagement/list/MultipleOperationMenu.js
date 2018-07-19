@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { Dropdown, Menu, Button, Icon } from 'antd';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.css';
 import { AppAdposStatus } from '../../../constants/MenuTypes';
 
@@ -8,16 +9,16 @@ const { Item: MenuItem } = Menu;
 class MultipleOperationMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // tabType,
-      // showMultipleBid: false,
-      // ocpcPhase: '0',
-      // showMultipleBudget: false,
-      // showMultipleLink: false,
-      // dataListStatus,
-      // showBudgetError: false,
-      // showLinkError: false,
-    };
+    // this.state = {
+    // tabType,
+    // showMultipleBid: false,
+    // ocpcPhase: '0',
+    // showMultipleBudget: false,
+    // showMultipleLink: false,
+    // dataListStatus,
+    // showBudgetError: false,
+    // showLinkError: false,
+    // };
     this.multipleOperationMenu = this.getMultipleOperationMenu();
     this.baseBid = '';
     // this.shouldComponentUpdate = componentUpdateByState;
@@ -54,4 +55,4 @@ class MultipleOperationMenu extends Component {
   }
 }
 
-export default MultipleOperationMenu;
+export default withStyles(s)(MultipleOperationMenu);

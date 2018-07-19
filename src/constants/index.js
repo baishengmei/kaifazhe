@@ -14,14 +14,21 @@ export const LOGOUT_FAIL = 'LOGOUT_FAIL';
  */
 export const GO_TO_LOGIN_PAGE = 'GO_TO_LOGIN_PAGE';
 
-// ===========================================应用管理页=================================//
+// ===================================================应用管理页==================================================//
 /**
- * 应用管理 导航 切换
+ * 应用管理 获取应用或广告位列表页表格数据
  */
-export const GO_TO_APP_ADPOS_LIST = 'GO_TO_APP_ADPOS_LIST';
+export const GET_APP_AND_ADPOS_LIST = 'GET_APP_AND_ADPOS_LIST';
+export const GET_APP_AND_ADPOS_LIST_SUCCESS = 'GET_APP_AND_ADPOS_LIST_SUCCESS';
+export const GET_APP_AND_ADPOS_LIST_FAIL = 'GET_APP_AND_ADPOS_LIST_FAIL';
 
 /**
- * 列表页条件改变时, 目前还未用到
+ * 列表页导航切换，或者点击列表中应用
+ */
+export const ON_TAB_CHANGE = 'ON_TAB_CHANGE';
+
+/**
+ * 列表页条件改变时
  */
 export const QUERY_CONDITION_CHANGE = 'QUERY_CONDITION_CHANGE';
 

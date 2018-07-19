@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.css';
 import Tabs from '../../../components/Tabs';
 
@@ -42,4 +43,4 @@ class AppTabs extends Component {
   }
 }
 
-export default AppTabs;
+export default withStyles(s)(AppTabs);

@@ -10,71 +10,36 @@
 import React from 'react';
 import Layout from '../../components/Layout';
 import AppManagement from '../../containers/appManagement/AppManagement';
+import {
+  onTabChange,
+  getAppAndAdposList,
+} from '../../actions/AppManagement/list';
 
-export default {
-  path: '/appManagement',
-  children: [
-    /**
-     * 应用管理列表页
-     */
-    {
-      path: '',
-      action: () => ({
-        chunks: ['appManagement_list'],
-        redirect: '/appManagement/app',
-      }),
-    },
-    {
-      path: '/app',
-      title: '应用',
-      action: () => ({
-        title: '应用 - 应用管理',
-        component: (
-          <Layout>
-            <AppManagement title="应用管理" />
-          </Layout>
-        ),
-        beforeEnter: [
-          () => {
-            console.info('beforeEnter测试');
-          },
-        ],
-      }),
-    },
-    {
-      path: '/adSlot',
-      chunks: ['appManagement'],
-      title: '广告位',
-      action: () => ({
-        title: '广告位',
-        component: (
-          <Layout>
-            <AppManagement title="应用管理" />
-          </Layout>
-        ),
-      }),
-    },
-    /**
-     * 应用管理新建页面
-     */
-    {
-      path: '/new',
-      chunks: ['appManagement_new'],
-      action: () => ({
-        title: '新建',
-        component: (
-          <Layout>
-            <div>新建页面</div>,
-          </Layout>
-        ),
-      }),
-    },
-    {
-      path: '/id',
-      action: () => ({
-        title: '测试用',
-        component: <div>Post</div>,
-      }),
-    },
-  ],
-};
+const title = '应用管理';
+
+function action(context) {
+  const { store, params } = context;
+  const subTitle = params['0'] === 'app' ? '应用' : '广告位';
+  const appId = params['1'] && params['1'].replace(/(\/)$/, '');
+  const subNav =
+    params['0'] === 'app' ? 'appTab' : appId ? 'appAdPosTab' : 'adPosTab';
+  return {
+    chunks: ['appManagement'],
+    redirect: '/appManagement/app',
+    title: `${subTitle} - ${title}`,
+    component: (
+      <Layout>
+        <AppManagement appId={appId} subNav={subNav} />
+      </Layout>
+    ),
+    beforeEnter: [
+      () => {
+        // 当切换应用管理页子导航、点击列表中应用项，子导航切换，路由变化
+        store.dispatch(onTabChange(subNav));
+        store.dispatch(getAppAndAdposList(subNav, appId));
+      },
+    ],
+  };
+}
+
+export default action;

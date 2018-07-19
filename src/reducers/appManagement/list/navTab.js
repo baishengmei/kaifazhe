@@ -1,15 +1,16 @@
 import { AppTabTypes } from '../../../constants/MenuTypes';
-import { GO_TO_APP_ADPOS_LIST } from '../../../constants';
+import { ON_TAB_CHANGE } from '../../../constants';
 
 const initialState = {
   tabType: AppTabTypes.appTab,
 };
 
-const navTab = (state = initialState, { type, tabItem }) => {
+const navTab = (state = initialState, { type, subType }) => {
   switch (type) {
-    case GO_TO_APP_ADPOS_LIST:
+    case ON_TAB_CHANGE:
       return {
-        tabType: tabItem.key,
+        ...state,
+        tabType: subType,
       };
     default:
       return state;

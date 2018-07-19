@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'antd';
+import { Table, LocaleProvider } from 'antd';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
 import s from './index.css';
 import {
   AppTabTypes,
@@ -9,7 +10,7 @@ import {
   AppAdposListMapForFE as StatusForFE,
 } from '../../../constants/MenuTypes';
 import TableColumns from './TableColumns';
-// import { getAdLevelFromAdTabType } from '../../../core/utils';
+import { getAppLevelFromAppTabType } from '../../../core/utils';
 
 const { appTab, adPosTab, appAdPosTab } = AppTabTypes;
 
@@ -19,12 +20,12 @@ const getColumns = (type, onSwitchChange) => {
       return [
         TableColumns.switchBtn(type, onSwitchChange),
         TableColumns.appName(type),
-        TableColumns.app.osType(),
+        TableColumns.app.osType,
         TableColumns.reqAdNum,
         TableColumns.resAdNum,
         TableColumns.fillRate,
         TableColumns.impressionNum,
-        TableColumns.impressionNum,
+        TableColumns.impressionRate,
         TableColumns.clickNum,
         TableColumns.clickRate,
         TableColumns.eCPC,
@@ -36,16 +37,15 @@ const getColumns = (type, onSwitchChange) => {
       return [
         TableColumns.switchBtn(type, onSwitchChange),
         TableColumns.adPosName(type),
-        TableColumns.adPos.onApp(),
-        TableColumns.adPosId(),
-        TableColumns.appName(type),
-        TableColumns.adPos.adPosType(),
-        TableColumns.adPos.auditStatus(),
+        TableColumns.adPos.onApp,
+        TableColumns.adPosId(type),
+        TableColumns.adPos.adPosType,
+        TableColumns.adPos.auditStatus,
         TableColumns.reqAdNum,
         TableColumns.resAdNum,
         TableColumns.fillRate,
         TableColumns.impressionNum,
-        TableColumns.impressionNum,
+        TableColumns.impressionRate,
         TableColumns.clickNum,
         TableColumns.clickRate,
         TableColumns.eCPC,
@@ -70,10 +70,19 @@ const getTableRowCheckboxProps = record => ({
   disabled: record.status === StatusForFE.暂停,
 });
 
+const getTableData = (data, tabType) =>
+  data.map(d => {
+    const level = getAppLevelFromAppTabType(tabType);
+    return {
+      ...d,
+      key: d[level].id,
+    };
+  });
+
 class AppList extends Component {
   static propTypes = {
     tabType: PropTypes.oneOf(Object.keys(AppTabTypes)).isRequired,
-    loading: PropTypes.bool.isRequired,
+    // loading: PropTypes.bool.isRequired,
     data: appListShape.isRequired,
     pageSize: PropTypes.number.isRequired,
     pageNo: PropTypes.number.isRequired,
@@ -81,13 +90,16 @@ class AppList extends Component {
     onRowSelectionChange: PropTypes.func.isRequired,
     onPageSizeChange: PropTypes.func.isRequired,
     onPageNoChange: PropTypes.func.isRequired,
-    onSwitchChange: PropTypes.func.isRequired,
+    onSwitchChange: PropTypes.func,
+  };
+  static defaultProps = {
+    onSwitchChange: null,
   };
 
   constructor(props) {
     super(props);
     const {
-      loading,
+      // loading,
       tabType,
       data,
       // selectedRowKeys,
@@ -96,41 +108,40 @@ class AppList extends Component {
       onSwitchChange,
     } = props;
     this.state = {
-      loading,
+      // loading,
       // selectedRowKeys,
       columns: getColumns(tabType, onSwitchChange),
       xScroll: 1120,
-      // list: getTableData(data.list, tabType),
+      list: data.list.length === 0 ? [] : getTableData(data.list, tabType),
       total: data.total,
       pageSize,
       pageNo,
     };
   }
 
-  // componentWillReceiveProps({
-  //   loading,
-  //   tabType,
-  //   data,
-  //   // selectedRowKeys,
-  //   pageSize,
-  //   pageNo,
-  //   onSwitchChange,
-  // }) {
-  //   const newState = {
-  //     loading,
-  //     // selectedRowKeys,
-  //     total: data.total,
-  //     pageSize,
-  //     pageNo,
-  //   };
-  //   if (tabType !== this.props.tabType) {
-  //     newState.columns = getColumns(tabType, onSwitchChange);
-  //   }
-  //   if (data !== this.props.data) {
-  //     // newState.list = getTableData(data.list, tabType);
-  //   }
-  //   this.setState(newState);
-  // }
+  componentWillReceiveProps({
+    // loading,
+    tabType,
+    data,
+    pageSize,
+    pageNo,
+    onSwitchChange,
+  }) {
+    const newState = {
+      // loading,
+      total: data.total,
+      pageSize,
+      pageNo,
+    };
+    if (tabType !== this.props.tabType) {
+      newState.columns = getColumns(tabType, onSwitchChange);
+    }
+    if (data !== this.props.data) {
+      newState.list =
+        data.list.length === 0 ? [] : getTableData(data.list, tabType);
+    }
+    this.setState(newState);
+  }
 
   render() {
     const {
@@ -151,29 +162,31 @@ class AppList extends Component {
 
     return (
       <section className={s.list}>
-        <Table
-          rowSelection={{
-            selectedRowKeys,
-            getCheckboxProps: getTableRowCheckboxProps,
-            onChange: onRowSelectionChange,
-          }}
-          rowClassName={getTableRowClassName}
-          columns={columns}
-          dataSource={list}
-          bordered
-          loading={loading}
-          scroll={{ x: xScroll }}
-          pagination={{
-            size: 'small',
-            current: pageNo,
-            pageSize,
-            showSizeChanger: true,
-            pageSizeOptions: PageSizeOptions,
-            total,
-            onChange: onPageNoChange,
-            onShowSizeChange: onPageSizeChange,
-          }}
-        />
+        <LocaleProvider locale={zhCN}>
+          <Table
+            rowSelection={{
+              selectedRowKeys,
+              getCheckboxProps: getTableRowCheckboxProps,
+              onChange: onRowSelectionChange,
+            }}
+            rowClassName={getTableRowClassName}
+            columns={columns}
+            dataSource={list}
+            bordered
+            loading={loading}
+            scroll={{ x: xScroll }}
+            pagination={{
+              size: 'small',
+              current: pageNo,
+              pageSize,
+              showSizeChanger: true,
+              pageSizeOptions: PageSizeOptions,
+              total,
+              onChange: onPageNoChange,
+              onShowSizeChange: onPageSizeChange,
+            }}
+          />
+        </LocaleProvider>,
       </section>
     );
   }

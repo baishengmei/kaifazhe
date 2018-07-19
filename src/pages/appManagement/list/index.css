@@ -96,3 +96,38 @@
 .list {
   margin-top: 24px;
 }
+
+.switchBtn {
+  width: 44px;
+}
+
+:global(.ant-switch.ant-switch-small) {
+  min-width: 32px;
+  height: 16px;
+  line-height: 14px;
+  background-color: #999;
+  border-color: #999;
+}
+
+:global(.ant-switch.ant-switch-small):after {
+  width: 14px;
+  height: 14px;
+}
+
+:global(.ant-switch-checked) {
+  background-color: #108ee9;
+  border-color: #108ee9;
+}
+
+:global(.ant-switch-checked):after {
+  margin-left: -14.5px;
+}
+
+:global(.ant-switch-disabled) {
+  background-color: var(--color-grey);
+  border-color: var(--color-grey);
+}
+
+:global(.ant-switch-disabled):after {
+  background-color: #d4d4d4;
+}

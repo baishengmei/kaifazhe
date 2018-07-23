@@ -98,7 +98,7 @@
 }
 
 .switchBtn {
-  width: 44px;
+  width: 65px;
 }
 
 :global(.ant-switch.ant-switch-small) {
@@ -131,3 +131,68 @@
 :global(.ant-switch-disabled):after {
   background-color: #d4d4d4;
 }
+
+.appName {
+  width: 90px;
+}
+
+.adPosName {
+  width: 94px;
+}
+
+.osType {
+  width: 78px;
+}
+
+.adPosId {
+  width: 86px;
+}
+
+.onApp {
+  width: 84px;
+}
+
+.adPosType {
+  width: 80px;
+}
+
+.auditStatus {
+  width: 90px;
+}
+
+.reqAdNum {
+  width: 116px;
+}
+
+.resAdNum {
+  width: 116px;
+}
+
+.fillRate {
+  width: 84px;
+}
+
+.impressionNum {
+  width: 96px;
+}
+
+.impressionRate {
+  width: 96px;
+}
+
+.clickNum {
+  width: 96px;
+}
+
+.clickRate {
+  width: 96px;
+}
+
+.eCPC {
+  width: 152px;
+}
+
+.cpc {
+  width: 140px;
+}
+

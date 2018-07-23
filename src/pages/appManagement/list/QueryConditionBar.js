@@ -54,7 +54,7 @@ class QueryConditionBar extends Component {
     onObjectChange: PropTypes.func.isRequired,
     onOperateStatusChange: PropTypes.func.isRequired,
     selectedRowKeys: PropTypes.arrayOf(PropTypes.number).isRequired,
-    selectedRows: PropTypes.arrayOf(PropTypes.number).isRequired,
+    selectedRows: PropTypes.arrayOf(PropTypes.object).isRequired,
     onMultipleOperation: PropTypes.func.isRequired,
   };
   static defaultProps = {

@@ -15,7 +15,7 @@ class MultipleOperationMenu extends Component {
     tabType: PropTypes.oneOf(Object.keys(AppTabTypes)).isRequired,
     // dataListStatus: PropTypes.string.isRequired,
     selectedRowKeys: PropTypes.arrayOf(PropTypes.number).isRequired,
-    // selectedRows: PropTypes.arrayOf(PropTypes.number).isRequired,
+    // selectedRows: PropTypes.arrayOf(PropTypes.object).isRequired,
     onMultipleOperation: PropTypes.func.isRequired,
   };
   constructor(props) {

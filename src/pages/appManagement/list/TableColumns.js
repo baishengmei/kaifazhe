@@ -42,19 +42,17 @@ const TableColumns = {
   appName: tabType => ({
     title: '应用名称',
     key: 'appName',
-    className: s.appName,
     fixed: 'left',
+    className: s.appName,
     render: nonEditableAppEntityNameRender(tabType),
   }),
-  app: {
-    osType: {
-      title: '平台',
-      key: 'osType',
-      className: s.osType,
-      render: record => {
-        const { osType } = record;
-        return <span>{osType}</span>;
-      },
+  osType: {
+    title: '平台',
+    key: 'osType',
+    className: s.osType,
+    render: record => {
+      const { osType } = record;
+      return <span>{osType}</span>;
     },
   },
   adPosName: tabType => ({
@@ -74,26 +72,26 @@ const TableColumns = {
       return <span>{id}</span>;
     },
   }),
-  adPos: {
-    onApp: {
-      title: '所在应用',
-      key: 'onApp',
-      className: s.onApp,
-      render: record => {
-        const { name } = record.app;
-        return <span>{name}</span>;
-      },
+  onApp: {
+    title: '所在应用',
+    key: 'onApp',
+    className: s.onApp,
+    render: record => {
+      const { name } = record.app;
+      return <span>{name}</span>;
     },
-    adPosType: {
-      title: '广告位类型',
-      key: 'adPosType',
-      render: record => <span>{record.adPosType}</span>,
-    },
-    auditStatus: {
-      title: '审核状态',
-      key: 'auditStatus',
-      render: record => <span>{record.auditStatus}</span>,
-    },
+  },
+  adPosType: {
+    title: '广告位类型',
+    key: 'adPosType',
+    className: s.adPosType,
+    render: record => <span>{record.adPosType}</span>,
+  },
+  auditStatus: {
+    title: '审核状态',
+    key: 'auditStatus',
+    className: s.auditStatus,
+    render: record => <span>{record.auditStatus}</span>,
   },
   reqAdNum: {
     title: '请求广告数',

@@ -17,7 +17,7 @@ import {
 
 const title = '应用管理';
 
-function action(context) {
+async function action(context) {
   const { store, params } = context;
 
   const subTitle = params['0'] === 'app' ? '应用' : '广告位';
@@ -44,7 +44,9 @@ function action(context) {
       () => {
         // 当切换应用管理页子导航、点击列表中应用项，子导航切换，路由变化
         store.dispatch(onTabChange(subNav));
-        store.dispatch(getAppAndAdposList(subNav, appId));
+        appId
+          ? store.dispatch(getAppAndAdposList(subNav, appId))
+          : store.dispatch(getAppAndAdposList(subNav));
       },
     ],
   };

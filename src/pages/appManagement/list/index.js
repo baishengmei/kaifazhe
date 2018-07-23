@@ -13,7 +13,10 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.css';
 import AppTabs from './AppTabs';
 import QueryDateRangePicker from './QueryDateRangePicker';
-import { AppTabItems } from '../../../constants/MenuTypes';
+import {
+  AppTabItems,
+  TrackMultipleOperationItems,
+} from '../../../constants/MenuTypes';
 import QueryConditionBar from './QueryConditionBar';
 import AppList, { appListShape } from './AppList';
 import history from '../../../history';
@@ -47,6 +50,7 @@ class AppManagement extends React.Component {
     onPageSizeChange: PropTypes.func.isRequired,
     onPageNoChange: PropTypes.func.isRequired,
     onOperateStatusChange: PropTypes.func.isRequired,
+    onSwitchChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -164,7 +168,15 @@ class AppManagement extends React.Component {
   onRowSelectionChange = (selectedRowKeys, selectedRows) => {
     console.info(selectedRowKeys, selectedRows, '打印选择列表项是啥子');
   };
-  onSwitchChange = () => {};
+  onSwitchChange = (type, id, checked) => {
+    this.props.onSwitchChange(
+      type,
+      [id],
+      checked
+        ? TrackMultipleOperationItems[0].value
+        : TrackMultipleOperationItems[1].value,
+    );
+  };
 
   render() {
     const {

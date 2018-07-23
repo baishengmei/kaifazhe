@@ -130,6 +130,6 @@ export const getAppEntityPath = (tabType, id) => {
     case 'appAdPosTab':
       return `/appManagement/${id}/adSlot/edit`;
     default:
-      return;
+      return '';
   }
 };

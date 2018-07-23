@@ -3,7 +3,10 @@ import appManagement from '../../pages/appManagement/list';
 import {
   getAppAndAdposList,
   appAndAdposListQueryConditionChange,
+  updateAppStatus,
+  updateAdPosStatus,
 } from '../../actions/AppManagement/list';
+import { AppTabTypes } from '../../constants/MenuTypes';
 
 const mapStateToProps = state => {
   const {
@@ -94,6 +97,17 @@ const mapDispatchToProps = dispatch => ({
         pageNo,
       }),
     );
+  },
+  onSwitchChange(type, entityIdList, status) {
+    let action;
+    switch (type) {
+      case AppTabTypes.appTab:
+        action = updateAppStatus;
+        break;
+      default:
+        action = updateAdPosStatus;
+    }
+    dispatch(action(type, entityIdList, status));
   },
 });
 

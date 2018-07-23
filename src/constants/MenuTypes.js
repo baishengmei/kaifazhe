@@ -84,9 +84,9 @@ const AppAdposListMapForFE = {
  * 应用管理 状态(or操作状态)的前端对照关系
  */
 const AppEntitySwitchStatusMapForFE = {
-  已开启: 'on',
-  已暂停: 'off',
-  已禁用: 'disabled',
+  已开启: 'open',
+  已暂停: 'pause',
+  已禁用: 'delete',
 };
 
 /**
@@ -98,17 +98,17 @@ const AppAdposStatus = ['不限', '暂停', '开启'].map(t => ({
 }));
 
 /**
- * 查询条件中应用列表页 平台 菜单
+ * 查询条件应用和广告位列表页 批量操作 菜单
  */
-const AppOsTypes = ['不限', 'iOS', 'Android'].map(t => ({
+const TrackMultipleOperationItems = ['开启', '暂停', '删除'].map(t => ({
   name: t,
   value: AppAdposListMapForFE[t],
 }));
 
 /**
- * 查询条件应用和广告位列表页 批量操作 菜单
+ * 查询条件中应用列表页 平台 菜单
  */
-const TrackMultipleOperationItems = ['开启', '暂停', '删除'].map(t => ({
+const AppOsTypes = ['不限', 'iOS', 'Android'].map(t => ({
   name: t,
   value: AppAdposListMapForFE[t],
 }));

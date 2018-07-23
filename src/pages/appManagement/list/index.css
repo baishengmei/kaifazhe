@@ -115,8 +115,8 @@
 }
 
 :global(.ant-switch-checked) {
-  background-color: #108ee9;
-  border-color: #108ee9;
+  background-color: #108ee9 !important;
+  border-color: #108ee9 !important;
 }
 
 :global(.ant-switch-checked):after {

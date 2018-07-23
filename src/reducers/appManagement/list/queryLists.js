@@ -124,6 +124,7 @@ const queryLists = (
     }
     case UPDATE_APP_STATUS_SUCCESS:
     case UPDATE_ADPOS_STATUS_SUCCESS: {
+      //这里调试时，按照FAIL里面修改一下，改成一样的
       const { tabType: tableType } = params;
       const { list: recordList } = state[tableType];
       const entityKey =
@@ -162,6 +163,7 @@ const queryLists = (
         [tableType]: {
           ...state[tableType],
           list: tableList,
+          status: OperationStatus.save_success, // 这里最后调试时要修改为false
         },
       };
     }

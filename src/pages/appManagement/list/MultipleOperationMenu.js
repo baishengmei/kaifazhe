@@ -1,33 +1,62 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-import { Dropdown, Menu, Button, Icon } from 'antd';
+import PropTypes from 'prop-types';
+import { Dropdown, Menu, Button, Icon, message, Modal } from 'antd';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.css';
-import { AppAdposStatus } from '../../../constants/MenuTypes';
+import {
+  TrackMultipleOperationItems,
+  AppTabTypes,
+} from '../../../constants/MenuTypes';
+// import { componentUpdateByState } from '../../../core/utils';
 
 const { Item: MenuItem } = Menu;
 class MultipleOperationMenu extends Component {
+  static propTypes = {
+    tabType: PropTypes.oneOf(Object.keys(AppTabTypes)).isRequired,
+    // dataListStatus: PropTypes.string.isRequired,
+    selectedRowKeys: PropTypes.arrayOf(PropTypes.number).isRequired,
+    // selectedRows: PropTypes.arrayOf(PropTypes.number).isRequired,
+    onMultipleOperation: PropTypes.func.isRequired,
+  };
   constructor(props) {
     super(props);
+    const { tabType } = this.props;
     // this.state = {
-    // tabType,
-    // showMultipleBid: false,
-    // ocpcPhase: '0',
-    // showMultipleBudget: false,
-    // showMultipleLink: false,
+    //   tabType,
     // dataListStatus,
-    // showBudgetError: false,
-    // showLinkError: false,
     // };
-    this.multipleOperationMenu = this.getMultipleOperationMenu();
-    this.baseBid = '';
+    this.multipleOperationMenu = this.getMultipleOperationMenu(tabType);
     // this.shouldComponentUpdate = componentUpdateByState;
-    this.budget = '';
-    this.link = '';
   }
 
+  onClickMultipleOperationMenu = ({ key: value }) => {
+    const operation = TrackMultipleOperationItems.find(
+      it => it.value === value,
+    );
+    const { tabType, selectedRowKeys, onMultipleOperation } = this.props;
+    if (selectedRowKeys.length > 0) {
+      if (operation === TrackMultipleOperationItems[2]) {
+        // 批量删除
+        Modal.confirm({
+          iconType: 'exclamation-circle',
+          title: '提示',
+          content: `当前已选中 ${selectedRowKeys.length} 条数据，确定删除吗？`,
+          okText: '确定',
+          cancelText: '取消',
+          onOk: () => {
+            onMultipleOperation(tabType, selectedRowKeys, operation);
+          },
+        });
+      } else {
+        onMultipleOperation(tabType, selectedRowKeys, operation);
+      }
+    } else {
+      message.warning('请先勾选下表中的数据');
+    }
+  };
+
   getMultipleOperationMenu = () => {
-    const items = AppAdposStatus;
+    const items = TrackMultipleOperationItems;
     return (
       <Menu selectedKeys={[]} onClick={this.onClickMultipleOperationMenu}>
         {items.map(item => <MenuItem key={item.value}>{item.name}</MenuItem>)}

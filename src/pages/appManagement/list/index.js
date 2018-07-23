@@ -16,6 +16,7 @@ import QueryDateRangePicker from './QueryDateRangePicker';
 import {
   AppTabItems,
   TrackMultipleOperationItems,
+  OperationStatus,
 } from '../../../constants/MenuTypes';
 import QueryConditionBar from './QueryConditionBar';
 import AppList, { appListShape } from './AppList';
@@ -64,6 +65,7 @@ class AppManagement extends React.Component {
       tabItems: AppTabItems[tabType],
       queryCondition,
       selectedRowKeys: [],
+      selectedRows: [],
       dataList,
       tabType,
     };
@@ -75,12 +77,29 @@ class AppManagement extends React.Component {
   }
 
   componentWillReceiveProps({ tabType, dataList, queryCondition }) {
-    this.setState({
+    const newState = {
       tabType,
       dataList,
       tabItems: AppTabItems[tabType],
       queryCondition,
-    });
+    };
+    const p = this.props;
+
+    // 条件改变或者批量操作成功后，重置选中行
+    if (
+      queryCondition !== p.queryCondition ||
+      (this.state.dataList.status === OperationStatus.saving &&
+        dataList.status === OperationStatus.save_success)
+    ) {
+      newState.selectedRowKeys = [];
+      newState.selectedRows = [];
+    }
+
+    if (tabType !== p.tabType) {
+      newState.tabItems = AppTabItems[tabType];
+    }
+
+    this.setState(newState);
   }
 
   // shouldComponentUpdate(nextProps) {
@@ -166,6 +185,10 @@ class AppManagement extends React.Component {
   };
 
   onRowSelectionChange = (selectedRowKeys, selectedRows) => {
+    this.setState({
+      selectedRowKeys,
+      selectedRows,
+    });
     console.info(selectedRowKeys, selectedRows, '打印选择列表项是啥子');
   };
   onSwitchChange = (type, id, checked) => {
@@ -178,11 +201,17 @@ class AppManagement extends React.Component {
     );
   };
 
+  // 批量操作
+  onMultipleOperation = (type, selectedRowKeys, operation) => {
+    this.props.onSwitchChange(type, selectedRowKeys, operation.value);
+  };
+
   render() {
     const {
       tabItems,
       queryCondition,
       selectedRowKeys,
+      selectedRows,
       dataList,
       tabType,
     } = this.state;
@@ -227,6 +256,9 @@ class AppManagement extends React.Component {
             onOperateStatusChange={this.onOperateStatusChange}
             onAuditStatusChange={this.onAuditStatusChange}
             onObjectChange={this.onObjectChange}
+            selectedRowKeys={selectedRowKeys}
+            selectedRows={selectedRows}
+            onMultipleOperation={this.onMultipleOperation}
           />
           <AppList
             tabType={tabType}

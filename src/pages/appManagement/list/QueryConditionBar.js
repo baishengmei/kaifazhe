@@ -10,7 +10,7 @@ import {
   AdPosAuditStatus,
   AdPosObject,
 } from '../../../constants/MenuTypes';
-// import MultipleOperationMenu from './MultipleOperationMenu';
+import MultipleOperationMenu from './MultipleOperationMenu';
 import {
   updateComponentStateByKeys,
   componentUpdateByState,
@@ -53,6 +53,9 @@ class QueryConditionBar extends Component {
     onAuditStatusChange: PropTypes.func.isRequired,
     onObjectChange: PropTypes.func.isRequired,
     onOperateStatusChange: PropTypes.func.isRequired,
+    selectedRowKeys: PropTypes.arrayOf(PropTypes.number).isRequired,
+    selectedRows: PropTypes.arrayOf(PropTypes.number).isRequired,
+    onMultipleOperation: PropTypes.func.isRequired,
   };
   static defaultProps = {
     selectedOsType: null,
@@ -72,6 +75,8 @@ class QueryConditionBar extends Component {
       selectedOperateStatus,
       selectedAuditStatus,
       selectedObject,
+      selectedRowKeys,
+      selectedRows,
     } = props;
     this.state = {
       tabType,
@@ -81,6 +86,8 @@ class QueryConditionBar extends Component {
       selectedOperateStatus,
       selectedAuditStatus,
       selectedObject,
+      selectedRowKeys,
+      selectedRows,
     };
 
     this.componentWillReceiveProps = updateComponentStateByKeys([
@@ -91,6 +98,8 @@ class QueryConditionBar extends Component {
       'selectedOperateStatus',
       'selectedAuditStatus',
       'selectedObject',
+      'selectedRowKeys',
+      'selectedRows',
     ]);
     this.shouldComponentUpdate = componentUpdateByState;
   }
@@ -217,6 +226,7 @@ class QueryConditionBar extends Component {
     );
 
   render() {
+    const { onMultipleOperation } = this.props;
     const {
       tabType,
       keyword,
@@ -225,6 +235,8 @@ class QueryConditionBar extends Component {
       selectedOperateStatus,
       selectedAuditStatus,
       selectedObject,
+      selectedRowKeys,
+      selectedRows,
     } = this.state;
     return (
       <div className={s.queryConditionBar}>
@@ -241,13 +253,13 @@ class QueryConditionBar extends Component {
           selectedAuditStatus,
           selectedObject,
         )}
-        {/* <MultipleOperationMenu
-        // tabType={tabType}
-        // dataListStatus={dataListStatus}
-        // selectedRowKeys={selectedRowKeys}
-        // selectedRows={selectedRows}
-        // onMultipleOperation={onMultipleOperation}
-        /> */}
+        <MultipleOperationMenu
+          tabType={tabType}
+          // dataListStatus={dataListStatus}
+          selectedRowKeys={selectedRowKeys}
+          selectedRows={selectedRows}
+          onMultipleOperation={onMultipleOperation}
+        />
         <Search
           value={keyword}
           placeholder="请输入查询关键词"

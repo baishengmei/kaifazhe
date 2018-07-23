@@ -8,6 +8,7 @@ import {
   PageSizeOptions,
   OperationStatus,
   AppAdposListMapForFE as StatusForFE,
+  AppEntitySwitchStatusMapForFE,
 } from '../../../constants/MenuTypes';
 import TableColumns from './TableColumns';
 import { getAppLevelFromAppTabType } from '../../../core/utils';
@@ -67,7 +68,7 @@ const appListShape = PropTypes.shape({
 });
 
 const getTableRowCheckboxProps = record => ({
-  disabled: record.status === StatusForFE.暂停,
+  disabled: record.switch === AppEntitySwitchStatusMapForFE.已禁用,
 });
 
 const getTableData = (data, tabType) =>
@@ -86,7 +87,7 @@ class AppList extends Component {
     data: appListShape.isRequired,
     pageSize: PropTypes.number.isRequired,
     pageNo: PropTypes.number.isRequired,
-    // selectedRowKeys: PropTypes.array.isRequired,
+    selectedRowKeys: PropTypes.arrayOf(PropTypes.number).isRequired,
     onRowSelectionChange: PropTypes.func.isRequired,
     onPageSizeChange: PropTypes.func.isRequired,
     onPageNoChange: PropTypes.func.isRequired,
@@ -106,6 +107,7 @@ class AppList extends Component {
       pageSize,
       pageNo,
       onSwitchChange,
+      selectedRowKeys,
     } = props;
     this.state = {
       // loading,
@@ -116,6 +118,7 @@ class AppList extends Component {
       total: data.total,
       pageSize,
       pageNo,
+      selectedRowKeys,
     };
   }
 
@@ -126,12 +129,14 @@ class AppList extends Component {
     pageSize,
     pageNo,
     onSwitchChange,
+    selectedRowKeys,
   }) {
     const newState = {
       // loading,
       total: data.total,
       pageSize,
       pageNo,
+      selectedRowKeys,
     };
     if (tabType !== this.props.tabType) {
       newState.columns = getColumns(tabType, onSwitchChange);

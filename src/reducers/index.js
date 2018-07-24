@@ -4,7 +4,7 @@ import runtime from './runtime';
 import appManagement from './appManagement';
 
 export default combineReducers({
-  auth,
-  appManagement,
-  runtime,
+  auth: auth,
+  appManagement: appManagement,
+  runtime: runtime,
 });

@@ -189,7 +189,6 @@ class AppManagement extends React.Component {
       selectedRowKeys,
       selectedRows,
     });
-    console.info(selectedRowKeys, selectedRows, '打印选择列表项是啥子');
   };
   onSwitchChange = (type, id, checked) => {
     this.props.onSwitchChange(

@@ -2,9 +2,9 @@ import { combineReducers } from 'redux';
 import list from './list';
 import entity from './entity';
 
-const appManagement = combineReducers({
+export default combineReducers({
   list,
   entity,
 });
 
-export default appManagement;
+// export default appManagement;

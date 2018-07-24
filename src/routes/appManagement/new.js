@@ -9,7 +9,7 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
-import AppManagement from '../../containers/appManagement/AppManagement';
+// import AppManagement from '../../containers/appManagement/AppManagement';
 
 const title = '新建应用管理';
 
@@ -20,7 +20,7 @@ function action({ params }) {
     title,
     component: (
       <Layout>
-        <AppManagement dataForComponent={params} />
+        <div>新建页面</div>
       </Layout>
     ),
   };

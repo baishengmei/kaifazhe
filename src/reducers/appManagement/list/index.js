@@ -3,10 +3,10 @@ import navTab from './navTab';
 import queryConditions from './queryConditions';
 import queryLists from './queryLists';
 
-const list = combineReducers({
+export default combineReducers({
   navTab,
   queryConditions,
   queryLists,
 });
 
-export default list;
+// export default list;

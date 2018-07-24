@@ -2,7 +2,9 @@ import { message } from 'antd';
 import { goToLogin } from '../actions/Auth';
 
 const isBrowser =
-  typeof window === 'object' && typeof window.document === 'object';
+  typeof window === 'object' &&
+  window.document &&
+  typeof window.document === 'object';
 const getUrlPath = () => (isBrowser ? window.location.pathname : 'isServer');
 
 export default function api(client) {

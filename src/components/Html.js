@@ -47,13 +47,13 @@ class Html extends React.Component {
           {scripts.map(script => (
             <link key={script} rel="preload" href={script} as="script" />
           ))}
+          <link rel="stylesheet" type="text/css" href="/assets/antStyles.css" />
           <link rel="manifest" href="/site.webmanifest" />
           <link
             rel="shortcut icon"
             href="http://shared.ydstatic.com/dsp_website/src/favicon.ico"
           />
           <link rel="apple-touch-icon" href="/icon.png" />
-          <link rel="stylesheet" type="text/css" href="/assets/antStyles.css" />
           {styles.map(style => (
             <style
               key={style.id}

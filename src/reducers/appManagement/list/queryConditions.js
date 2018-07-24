@@ -53,10 +53,10 @@ const getInitialState = () => {
   return initialState;
 };
 
-const queryCondition = (
+export default function queryCondition(
   state = getInitialState(),
   { type, subType, payload },
-) => {
+) {
   if (type === QUERY_CONDITION_CHANGE) {
     switch (payload.type) {
       case 'dateRange':
@@ -128,6 +128,6 @@ const queryCondition = (
     };
   }
   return state;
-};
+}
 
-export default queryCondition;
+// export default queryCondition;

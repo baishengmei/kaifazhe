@@ -77,10 +77,10 @@ Object.keys(AppTabTypes).forEach(k => {
   initialState[k] = getSingleInitialState();
 });
 
-const queryLists = (
+export default function queryLists(
   state = initialState,
   { type, subType, payload, params },
-) => {
+) {
   switch (type) {
     case GET_APP_AND_ADPOS_LIST:
       // return {
@@ -170,6 +170,6 @@ const queryLists = (
     default:
       return state;
   }
-};
+}
 
-export default queryLists;
+// export default queryLists;

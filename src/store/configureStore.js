@@ -3,14 +3,15 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { name, version } from '../../package.json';
 import rootReducer from '../reducers';
-import createHelpers from './createHelpers';
+// import createHelpers from './createHelpers';
 import createLogger from './logger';
 import api from '../middlewares/api';
 import httpClient from '../core/HttpClient';
 
-export default function configureStore(initialState, helpersConfig) {
-  const helpers = createHelpers(helpersConfig);
-  const middleware = [thunk.withExtraArgument(helpers)];
+export default function configureStore(initialState) {
+  // const helpers = createHelpers(helpersConfig);
+  // const middleware = [thunk.withExtraArgument(helpers)];
+  const middleware = [thunk];
 
   let enhancer;
 

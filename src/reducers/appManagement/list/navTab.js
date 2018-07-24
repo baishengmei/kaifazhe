@@ -5,7 +5,7 @@ const initialState = {
   tabType: AppTabTypes.appTab,
 };
 
-const navTab = (state = initialState, { type, subType }) => {
+export default function navTab(state = initialState, { type, subType }) {
   switch (type) {
     case ON_TAB_CHANGE:
       return {
@@ -15,6 +15,6 @@ const navTab = (state = initialState, { type, subType }) => {
     default:
       return state;
   }
-};
+}
 
-export default navTab;
+// export default navTab;

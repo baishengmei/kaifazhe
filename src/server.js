@@ -99,13 +99,7 @@ app.get('*', auth.server, async (req, res, next) => {
       styles.forEach(style => css.add(style._getCss()));
     };
 
-    const initialState = {
-      user: req.user || null,
-    };
-
-    const store = configureStore(initialState, {
-      // I should not use `history` on server.. but how I do redirection? follow universal-router
-    });
+    const store = configureStore();
 
     store.dispatch(
       setRuntimeVariable({
@@ -137,7 +131,7 @@ app.get('*', auth.server, async (req, res, next) => {
       return;
     }
 
-    if (route.beforeEnter) {
+    if (route.beforeEnter && route.beforeEnter[0].length) {
       route.beforeEnter.forEach(fn => fn());
     }
 

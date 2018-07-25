@@ -21,7 +21,7 @@ import {
 import QueryConditionBar from './QueryConditionBar';
 import AppList, { appListShape } from './AppList';
 import history from '../../../history';
-import { getAppAdPosPath } from '../../../core/utils';
+import { getAppAdPosPath, createNewEntityPath } from '../../../core/utils';
 
 const singleQueryConditionShape = PropTypes.shape({
   dateRange: PropTypes.object.isRequired,
@@ -39,7 +39,7 @@ class AppManagement extends React.Component {
     tabType: PropTypes.string.isRequired,
     queryCondition: singleQueryConditionShape.isRequired,
     dataList: appListShape.isRequired,
-    appId: PropTypes.number,
+    appId: PropTypes.string,
     subNav: PropTypes.string.isRequired,
     getAppAndAdposList: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
@@ -219,6 +219,13 @@ class AppManagement extends React.Component {
     this.props.onSwitchChange(type, selectedRowKeys, operation.value);
   };
 
+  // 跳转新建应用 / 新建广告位
+  onCreateEntity = () => {
+    const { tabType } = this.state;
+    const { appId } = this.props;
+    history.push(createNewEntityPath(tabType, appId));
+  };
+
   render() {
     const {
       tabItems,
@@ -272,6 +279,7 @@ class AppManagement extends React.Component {
             selectedRowKeys={selectedRowKeys}
             selectedRows={selectedRows}
             onMultipleOperation={this.onMultipleOperation}
+            onCreateEntity={this.onCreateEntity}
           />
           <AppList
             tabType={tabType}

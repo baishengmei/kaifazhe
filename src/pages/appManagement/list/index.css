@@ -45,7 +45,7 @@
   color: #404040;
 }
 
-.tab:after {
+.tab::after {
   content: '';
   position: absolute;
   width: 0;
@@ -73,7 +73,7 @@
   color: #404040;
 }
 
-.newBtn {
+.newBtn:link, .newBtn:visited, .newBtn:hover, .newBtn:active, .newBtn, .newBtn::after {
   margin-right: 8px;
   padding: 6px 16px;
   line-height: 14px;

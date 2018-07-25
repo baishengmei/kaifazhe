@@ -56,6 +56,7 @@ class QueryConditionBar extends Component {
     selectedRowKeys: PropTypes.arrayOf(PropTypes.number).isRequired,
     selectedRows: PropTypes.arrayOf(PropTypes.object).isRequired,
     onMultipleOperation: PropTypes.func.isRequired,
+    onCreateEntity: PropTypes.func.isRequired,
   };
   static defaultProps = {
     selectedOsType: null,
@@ -226,7 +227,7 @@ class QueryConditionBar extends Component {
     );
 
   render() {
-    const { onMultipleOperation } = this.props;
+    const { onMultipleOperation, onCreateEntity } = this.props;
     const {
       tabType,
       keyword,
@@ -241,7 +242,7 @@ class QueryConditionBar extends Component {
     return (
       <div className={s.queryConditionBar}>
         {tabType !== AppTabTypes.adPosTab && (
-          <Button className={s.newBtn} onClick={this.onCreateAdEntity}>
+          <Button className={s.newBtn} onClick={onCreateEntity}>
             {BtnText[tabType]}
           </Button>
         )}

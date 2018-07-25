@@ -130,6 +130,18 @@ export const getAppEntityPath = (tabType, id) => {
     case 'appAdPosTab':
       return `/appManagement/${id}/adSlot/edit`;
     default:
-      return '';
+      return;
+  }
+};
+
+/**
+ * 应用管理列表页 新建应用/新建广告位
+ */
+export const createNewEntityPath = (tabType, id) => {
+  switch (tabType) {
+    case 'appTab':
+      return '/appManagement/app/new';
+    default:
+      return `/appManagement/${id}/adSlot/new`;
   }
 };

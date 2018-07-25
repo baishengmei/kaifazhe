@@ -132,12 +132,16 @@
   background-color: #d4d4d4;
 }
 
+:global(.ant-btn) {
+  height: 28px;
+}
+
 .appName {
   width: 90px;
 }
 
 .adPosName {
-  width: 94px;
+  width: 134px;
 }
 
 .osType {
@@ -149,7 +153,7 @@
 }
 
 .onApp {
-  width: 84px;
+  width: 134px;
 }
 
 .adPosType {
@@ -196,3 +200,83 @@
   width: 140px;
 }
 
+.estimateProfit {
+  width: 106px;
+}
+
+.styleContent {
+  margin-bottom: -16px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.styleRow {
+  height: 24px;
+  line-height: 9px;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.styles {
+  margin-top: 12px;
+}
+
+.styleBlock {
+  display: inline-block;
+  width: 62px;
+}
+
+.styleSwitch {
+  display: inline-block;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.styleName {
+  display: inline-block;
+  font-size: 12px;
+  width: 94px;
+  vertical-align: middle;
+  padding-left: 6px;
+  padding-right: 26px;
+  word-wrap: break-word;
+}
+
+.styleId {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bolder;
+  width: 84px;
+  vertical-align: middle;
+  padding-left: 6px;
+  padding-right: 26px;
+  word-wrap: break-word;
+}
+
+.styleAuditStatus {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bolder;
+  width: 54px;
+  vertical-align: middle;
+  padding-left: 6px;
+  word-wrap: break-word;
+}
+
+.styleH {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  padding-right: 26px;
+}
+
+.styleNameH {
+  width: 94px;
+}
+
+.styleIdH {
+  width: 84px;
+}
+
+.styleAuditStatusH {
+  padding-right: 0; 
+}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table, LocaleProvider } from 'antd';
+import { Table, LocaleProvider, Switch } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
+import cx from 'classnames';
 import s from './index.css';
 import {
   AppTabTypes,
@@ -92,6 +93,7 @@ class AppList extends Component {
     onPageSizeChange: PropTypes.func.isRequired,
     onPageNoChange: PropTypes.func.isRequired,
     onSwitchChange: PropTypes.func,
+    onStyleSwitchChange: PropTypes.func.isRequired,
   };
   static defaultProps = {
     onSwitchChange: null,
@@ -113,7 +115,6 @@ class AppList extends Component {
       // loading,
       // selectedRowKeys,
       columns: getColumns(tabType, onSwitchChange),
-      xScroll: 1646,
       list: data.list.length === 0 ? [] : getTableData(data.list, tabType),
       total: data.total,
       pageSize,
@@ -148,49 +149,119 @@ class AppList extends Component {
     this.setState(newState);
   }
 
+  expandedRowRender = record => {
+    return (
+      <div className={s.styleContent}>
+        <div className={s.styleRow}>
+          <div style={{ display: 'inline-block', width: '126px' }} />
+          <div className={cx(s.styleH, s.styleNameH)}>样式名称</div>
+          <div className={cx(s.styleH, s.styleIdH)}>样式ID</div>
+          <div className={cx(s.styleH, s.styleAuditStatusH)}>审核状态</div>
+        </div>
+        {record.style.map(st => {
+          return (
+            <div key={st.id} className={s.styleRow}>
+              <div className={s.styles}>
+                <div className={s.styleBlock} />
+                <div className={s.styleSwitch}>
+                  <Switch
+                    size="small"
+                    disabled={
+                      st.switch === AppEntitySwitchStatusMapForFE.已禁用
+                    }
+                    checked={st.switch === AppEntitySwitchStatusMapForFE.已开启}
+                    onChange={checked => {
+                      this.props.onStyleSwitchChange(
+                        record.adPos.udid,
+                        st.id,
+                        checked,
+                      );
+                    }}
+                    key={st.id}
+                  />
+                </div>
+                <div className={s.styleName}>{st.name}</div>
+                <div className={s.styleId}>{st.id}</div>
+                <div className={s.styleAuditStatus}>{st.auditStatus}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   render() {
     const {
       onRowSelectionChange,
       onPageSizeChange,
       onPageNoChange,
+      tabType,
     } = this.props;
     const {
       loading,
       selectedRowKeys,
       columns,
-      xScroll,
       list,
       total,
       pageSize,
       pageNo,
     } = this.state;
+    const xScroll = tabType === 'appTab' ? 1400 : 1810;
 
     return (
       <section className={s.list}>
         <LocaleProvider locale={zhCN}>
-          <Table
-            rowSelection={{
-              selectedRowKeys,
-              getCheckboxProps: getTableRowCheckboxProps,
-              onChange: onRowSelectionChange,
-            }}
-            rowClassName={getTableRowClassName}
-            columns={columns}
-            dataSource={list}
-            bordered
-            loading={loading}
-            scroll={{ x: xScroll }}
-            pagination={{
-              size: 'small',
-              current: pageNo,
-              pageSize,
-              showSizeChanger: true,
-              pageSizeOptions: PageSizeOptions,
-              total,
-              onChange: onPageNoChange,
-              onShowSizeChange: onPageSizeChange,
-            }}
-          />
+          {tabType === AppTabTypes.appTab ? (
+            <Table
+              rowSelection={{
+                selectedRowKeys,
+                getCheckboxProps: getTableRowCheckboxProps,
+                onChange: onRowSelectionChange,
+              }}
+              rowClassName={getTableRowClassName}
+              columns={columns}
+              dataSource={list}
+              bordered
+              loading={loading}
+              scroll={{ x: xScroll }}
+              pagination={{
+                size: 'small',
+                current: pageNo,
+                pageSize,
+                showSizeChanger: true,
+                pageSizeOptions: PageSizeOptions,
+                total,
+                onChange: onPageNoChange,
+                onShowSizeChange: onPageSizeChange,
+              }}
+            />
+          ) : (
+            <Table
+              rowSelection={{
+                selectedRowKeys,
+                getCheckboxProps: getTableRowCheckboxProps,
+                onChange: onRowSelectionChange,
+              }}
+              rowClassName={getTableRowClassName}
+              columns={columns}
+              dataSource={list}
+              bordered
+              loading={loading}
+              scroll={{ x: xScroll }}
+              pagination={{
+                size: 'small',
+                current: pageNo,
+                pageSize,
+                showSizeChanger: true,
+                pageSizeOptions: PageSizeOptions,
+                total,
+                onChange: onPageNoChange,
+                onShowSizeChange: onPageSizeChange,
+              }}
+              expandedRowRender={this.expandedRowRender}
+            />
+          )}
         </LocaleProvider>,
       </section>
     );

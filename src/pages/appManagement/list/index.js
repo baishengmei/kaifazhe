@@ -52,6 +52,7 @@ class AppManagement extends React.Component {
     onPageNoChange: PropTypes.func.isRequired,
     onOperateStatusChange: PropTypes.func.isRequired,
     onSwitchChange: PropTypes.func.isRequired,
+    onStyleSwitchChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -190,10 +191,23 @@ class AppManagement extends React.Component {
       selectedRows,
     });
   };
+
   onSwitchChange = (type, id, checked) => {
     this.props.onSwitchChange(
       type,
       [id],
+      checked
+        ? TrackMultipleOperationItems[0].value
+        : TrackMultipleOperationItems[1].value,
+    );
+  };
+
+  onStyleSwitchChange = (adPosUdid, styleId, checked) => {
+    const { tabType } = this.state;
+    this.props.onStyleSwitchChange(
+      tabType,
+      adPosUdid,
+      styleId,
       checked
         ? TrackMultipleOperationItems[0].value
         : TrackMultipleOperationItems[1].value,
@@ -269,6 +283,7 @@ class AppManagement extends React.Component {
             onPageSizeChange={this.onPageSizeChange}
             onPageNoChange={this.onPageNoChange}
             onSwitchChange={this.onSwitchChange}
+            onStyleSwitchChange={this.onStyleSwitchChange}
             // onGoToAdList={onGoToAdList}
             // onGoToEditAdEntity={onGoToEditAdEntity}
           />

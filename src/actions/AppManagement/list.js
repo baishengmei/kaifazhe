@@ -10,6 +10,9 @@ import {
   UPDATE_ADPOS_STATUS,
   UPDATE_ADPOS_STATUS_SUCCESS,
   UPDATE_ADPOS_STATUS_FAIL,
+  UPDATE_ADPOS_STYLE_STATUS,
+  UPDATE_ADPOS_STYLE_STATUS_SUCCESS,
+  UPDATE_ADPOS_STYLE_STATUS_FAIL,
 } from '../../constants';
 import { AppTabTypes } from '../../constants/MenuTypes';
 
@@ -110,6 +113,34 @@ export const updateAdPosStatus = (tabType, adPosList, status) => ({
     http.put('/api/adManagement/adGroups/status', {
       data: {
         adPosIds: adPosList.join(','),
+        status,
+      },
+    }),
+});
+
+// 设置样式状态(开关)
+export const updateAdPosStyleStatus = (
+  tabType,
+  adPosUdid,
+  styleId,
+  status,
+) => ({
+  types: [
+    UPDATE_ADPOS_STYLE_STATUS,
+    UPDATE_ADPOS_STYLE_STATUS_SUCCESS,
+    UPDATE_ADPOS_STYLE_STATUS_FAIL,
+  ],
+  params: {
+    tabType,
+    adPosUdid,
+    styleId,
+    status,
+  },
+  promise: http =>
+    http.put('/api/adManagement/adGroups/status', {
+      data: {
+        adPosUdid,
+        styleId,
         status,
       },
     }),

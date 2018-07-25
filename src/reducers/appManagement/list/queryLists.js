@@ -9,6 +9,9 @@ import {
   UPDATE_ADPOS_STATUS,
   UPDATE_ADPOS_STATUS_SUCCESS,
   UPDATE_ADPOS_STATUS_FAIL,
+  UPDATE_ADPOS_STYLE_STATUS,
+  UPDATE_ADPOS_STYLE_STATUS_SUCCESS,
+  UPDATE_ADPOS_STYLE_STATUS_FAIL,
 } from '../../../constants';
 
 const getSingleInitialState = () => ({
@@ -30,6 +33,7 @@ const demoData = {
       adPos: {
         name: '广告位1',
         id: 101,
+        udid: '101',
       },
       adPosType: '开屏',
       auditStatus: '待审核',
@@ -44,6 +48,26 @@ const demoData = {
       eCPC: '0.7',
       cpc: '0.72',
       estimateProfit: '0.9',
+      style: [
+        {
+          id: '001',
+          name: '小图',
+          auditStatus: '草稿',
+          switch: 'open',
+        },
+        {
+          id: '002',
+          name: '大图',
+          auditStatus: '待审核',
+          switch: 'open',
+        },
+        {
+          id: '003',
+          name: '视频',
+          auditStatus: '待审核',
+          switch: 'pause',
+        },
+      ],
     },
     {
       switch: 'open',
@@ -54,6 +78,7 @@ const demoData = {
       adPos: {
         name: '广告位2',
         id: 102,
+        udid: '102',
       },
       adPosType: '开屏',
       auditStatus: '待审核',
@@ -68,6 +93,26 @@ const demoData = {
       eCPC: '0.7',
       cpc: '0.72',
       estimateProfit: '0.9',
+      style: [
+        {
+          id: '101',
+          name: '小图',
+          auditStatus: '草稿',
+          switch: 'open',
+        },
+        {
+          id: '102',
+          name: '大图',
+          auditStatus: '待审核',
+          switch: 'open',
+        },
+        {
+          id: '103',
+          name: '视频',
+          auditStatus: '待审核',
+          switch: 'pause',
+        },
+      ],
     },
   ],
 };
@@ -112,7 +157,8 @@ export default function queryLists(
         },
       };
     case UPDATE_APP_STATUS:
-    case UPDATE_ADPOS_STATUS: {
+    case UPDATE_ADPOS_STATUS:
+    case UPDATE_ADPOS_STYLE_STATUS: {
       const { tabType: tableType } = params;
       return {
         ...state,
@@ -125,26 +171,21 @@ export default function queryLists(
     case UPDATE_APP_STATUS_SUCCESS:
     case UPDATE_ADPOS_STATUS_SUCCESS: {
       //这里调试时，按照FAIL里面修改一下，改成一样的
-      const { tabType: tableType } = params;
-      const { list: recordList } = state[tableType];
-      const entityKey =
-        tableType === AppTabTypes.appTab
-          ? AppTabTypes.appTab
-          : AppTabTypes.adPosTab;
-      payload.forEach(({ appId, adPosId, switch: switchStatus, status }) => {
-        const record = recordList.find(
-          it => it[entityKey].id === (appId || adPosId),
-        );
-        if (record) {
-          record.switch = switchStatus;
-          record.status = status;
+      const { tabType: tableType, idList, status } = params;
+      const { list: tableList } = state[tableType];
+      const entityKey = tableType === AppTabTypes.appTab ? 'app' : 'adPos';
+      tableList.forEach(t => {
+        if (idList.indexOf(t[entityKey].id) > -1) {
+          t.switch = status;
+          t.style && t.style.forEach(st => (st.switch = status));
         }
       });
       return {
         ...state,
         [tableType]: {
           ...state[tableType],
-          status: OperationStatus.save_success,
+          list: tableList,
+          status: OperationStatus.save_success, // 这里最后调试时要修改为false
         },
       };
     }
@@ -156,6 +197,7 @@ export default function queryLists(
       tableList.forEach(t => {
         if (idList.indexOf(t[entityKey].id) > -1) {
           t.switch = status;
+          t.style && t.style.forEach(st => (st.switch = status));
         }
       });
       return {
@@ -164,6 +206,49 @@ export default function queryLists(
           ...state[tableType],
           list: tableList,
           status: OperationStatus.save_success, // 这里最后调试时要修改为false
+        },
+      };
+    }
+    case UPDATE_ADPOS_STYLE_STATUS_SUCCESS: {
+      const { tabType: tableType, adPosUdid, styleId, status } = params;
+      const { list: tableList } = state[tableType];
+      tableList.forEach(ad => {
+        if (ad.adPos.udid == adPosUdid) {
+          ad.style.forEach(s => {
+            if (s.id === styleId) {
+              s.switch = status;
+            }
+          });
+        }
+      });
+      return {
+        ...state,
+        [tableType]: {
+          ...state[tableType],
+          list: tableList,
+          status: OperationStatus.save_success,
+        },
+      };
+    }
+    case UPDATE_ADPOS_STYLE_STATUS_FAIL: {
+      //这里需要修改，
+      const { tabType: tableType, adPosUdid, styleId, status } = params;
+      const { list: tableList } = state[tableType];
+      tableList.forEach(ad => {
+        if (ad.adPos.udid == adPosUdid) {
+          ad.style.forEach(s => {
+            if (s.id === styleId) {
+              s.switch = status;
+            }
+          });
+        }
+      });
+      return {
+        ...state,
+        [tableType]: {
+          ...state[tableType],
+          list: tableList,
+          status: OperationStatus.save_success,
         },
       };
     }

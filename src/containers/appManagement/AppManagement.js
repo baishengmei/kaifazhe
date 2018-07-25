@@ -5,6 +5,7 @@ import {
   appAndAdposListQueryConditionChange,
   updateAppStatus,
   updateAdPosStatus,
+  updateAdPosStyleStatus,
 } from '../../actions/AppManagement/list';
 import { AppTabTypes } from '../../constants/MenuTypes';
 
@@ -108,6 +109,9 @@ const mapDispatchToProps = dispatch => ({
         action = updateAdPosStatus;
     }
     dispatch(action(type, entityIdList, status));
+  },
+  onStyleSwitchChange(subType, adPosUdid, styleId, status) {
+    dispatch(updateAdPosStyleStatus(subType, adPosUdid, styleId, status));
   },
 });
 

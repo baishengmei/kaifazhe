@@ -50,6 +50,7 @@ const TableColumns = {
     title: '平台',
     key: 'osType',
     className: s.osType,
+    fixed: 'left',
     render: record => {
       const { osType } = record;
       return <span>{osType}</span>;
@@ -65,7 +66,7 @@ const TableColumns = {
   adPosId: tabType => ({
     title: '广告位ID',
     key: 'adPosId',
-    className: s.adPosId,
+    // className: s.adPosId,
     render: record => {
       const level = getAppLevelFromAppTabType(tabType);
       const { id } = record[level];
@@ -76,6 +77,7 @@ const TableColumns = {
     title: '所在应用',
     key: 'onApp',
     className: s.onApp,
+    fixed: 'left',
     render: record => {
       const { name } = record.app;
       return <span>{name}</span>;

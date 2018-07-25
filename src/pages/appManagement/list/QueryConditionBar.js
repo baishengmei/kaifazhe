@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Select, Input, Icon } from 'antd';
+import { Button, Select, Input } from 'antd';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.css';
 import {
@@ -88,12 +88,6 @@ class QueryConditionBar extends Component {
       selectedObject,
       selectedRowKeys,
       selectedRows,
-      stylesStyle: {
-        fontSize: 28,
-        color: '#919191',
-        verticalAlign: 'middle',
-        cursor: 'pointer',
-      },
     };
 
     this.componentWillReceiveProps = updateComponentStateByKeys([
@@ -143,28 +137,6 @@ class QueryConditionBar extends Component {
   onObjectChange = value => {
     const object = AdPosObject.find(it => it.value === value);
     this.props.onObjectChange(object);
-  };
-
-  onIconMouseUp = () => {
-    this.setState({
-      stylesStyle: {
-        fontSize: 28,
-        color: '#919191',
-        verticalAlign: 'middle',
-        cursor: 'pointer',
-      },
-    });
-  };
-
-  onIconMouseDown = () => {
-    this.setState({
-      stylesStyle: {
-        fontSize: 28,
-        color: '#BDBDBD',
-        verticalAlign: 'middle',
-        cursor: 'pointer',
-      },
-    });
   };
 
   queryCondition = (
@@ -265,7 +237,6 @@ class QueryConditionBar extends Component {
       selectedObject,
       selectedRowKeys,
       selectedRows,
-      stylesStyle,
     } = this.state;
     return (
       <div className={s.queryConditionBar}>
@@ -289,16 +260,6 @@ class QueryConditionBar extends Component {
           selectedRows={selectedRows}
           onMultipleOperation={onMultipleOperation}
         />
-        {tabType !== AppTabTypes.appTab && (
-          <div className={s.select}>
-            <Icon
-              type="profile"
-              style={stylesStyle}
-              onMouseDown={this.onIconMouseDown}
-              onMouseUp={this.onIconMouseUp}
-            />
-          </div>
-        )}
         <Search
           value={keyword}
           placeholder="请输入查询关键词"

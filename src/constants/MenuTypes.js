@@ -67,6 +67,7 @@ const AppAdposListMapForFE = {
   删除: 'delete',
   iOS: 'ios',
   Android: 'android',
+  安卓: 'android',
   有效: 'effect',
   审核中: 'onaudit',
   审核不通过: 'unpass',
@@ -145,6 +146,63 @@ const AdPosObject = [
  */
 const PageSizeOptions = ['10', '20', '50', '100'];
 
+/**
+ * 应用管理新建页面中子设置项
+ */
+const NewAppSettingItems = [
+  {
+    name: '新建应用',
+    value: 'newApp',
+  },
+];
+const NewAdPosSettingItems = [
+  {
+    name: '广告位信息',
+    value: 'adPosSetting',
+  },
+  {
+    name: '样式信息',
+    value: 'styleSetting',
+  },
+];
+const NewSelfTestSettingItems = [
+  {
+    name: '集成',
+    value: 'integration',
+  },
+  {
+    name: '确认自测设备',
+    value: 'selfTestDevice',
+  },
+  {
+    name: '获取自测物料',
+    value: 'selfTestMaterial',
+  },
+];
+const NewToAuditSettingItems = [
+  {
+    name: '上传截图',
+    value: 'uploadScreenShot',
+  },
+  {
+    name: '上传安装包',
+    value: 'uploadInstallPackage',
+  },
+];
+
+/**
+ * 新建应用 平台
+ */
+const AppOsTypeZH = ['安卓', 'iOS'].map(t => ({
+  name: t,
+  value: AppAdposListMapForFE[t],
+}));
+
+/**
+ * 新建页面 保存与保存并继续按钮
+ */
+const saveButtonText = ['保存', '保存并继续'];
+
 // ====================================== 应用管理 --END ==========================================//
 
 export {
@@ -159,4 +217,10 @@ export {
   AdPosObject,
   PageSizeOptions,
   AppEntitySwitchStatusMapForFE,
+  NewAppSettingItems,
+  NewAdPosSettingItems,
+  NewSelfTestSettingItems,
+  NewToAuditSettingItems,
+  AppOsTypeZH,
+  saveButtonText,
 };

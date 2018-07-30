@@ -60,3 +60,28 @@ export const UPDATE_ADPOS_STYLE_STATUS = 'UPDATE_ADPOS_STYLE_STATUS';
 export const UPDATE_ADPOS_STYLE_STATUS_SUCCESS =
   'UPDATE_ADPOS_STYLE_STATUS_SUCCESS';
 export const UPDATE_ADPOS_STYLE_STATUS_FAIL = 'UPDATE_ADPOS_STYLE_STATUS_FAIL';
+
+/**
+ * 正在编辑应用、广告位、自测设备、审核页面
+ */
+export const EDITING_APP = 'EDITING_APP';
+export const EDITING_ADPOS = 'EDITING_ADPOS';
+export const EDITING_SELF_TEST = 'EDITING_SELF_TEST';
+export const EDITING_TO_AUDIT = 'EDITING_TO_AUDIT';
+
+/**
+ * 新建应用页面，表单数据改变
+ */
+export const APP_ITEM_CHANGE = 'APP_ITEM_CHANGE';
+
+/**
+ * 重置新建应用页
+ */
+export const RESET_APP_ITEM = 'RESET_APP_ITEM';
+
+/**
+ * 保存新建应用
+ */
+export const CREATE_APP = 'CREATE_APP';
+export const CREATE_APP_SUCCESS = 'CREATE_APP_SUCCESS';
+export const CREATE_APP_FAIL = 'CREATE_APP_FAIL';

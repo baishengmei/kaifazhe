@@ -1,0 +1,13 @@
+@import '../../../../components/variables.css';
+.checked-object {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  background-color: var(--color-white);
+
+  :global(.ant-radio-button-wrapper-checked) & {
+    display: block;
+  }
+}

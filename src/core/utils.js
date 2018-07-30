@@ -145,3 +145,52 @@ export const createNewEntityPath = (tabType, id) => {
       return `/appManagement/${id}/adSlot/new`;
   }
 };
+
+/**
+ * 传入多class
+ * @param {传入的class} args
+ */
+export function classnames(...args) {
+  const ret = [];
+  args.forEach(item => {
+    switch (typeof item) {
+      case 'string':
+        ret.push(item);
+        break;
+      case 'object': {
+        Object.keys(item).forEach(key => {
+          if (item[key]) {
+            ret.push(key);
+          }
+        });
+        break;
+      }
+      default:
+        if (item) {
+          ret.push(String(item));
+        }
+    }
+  });
+  return ret.join(' ');
+}
+
+export function checkTextLength(str, minLength, maxLength) {
+  return (
+    typeof str === 'string' &&
+    str.length >= minLength &&
+    str.length <= maxLength
+  );
+}
+
+/**
+ * 应用、广告位名称长度范围
+ */
+export const appAdPosEntityNameLengthRange = [1, 15];
+
+export function isValidAppAdPosEntityName(name) {
+  return checkTextLength(
+    name.trim(),
+    appAdPosEntityNameLengthRange[0],
+    appAdPosEntityNameLengthRange[1],
+  );
+}

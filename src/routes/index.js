@@ -27,7 +27,9 @@ const routes = {
     },
     {
       // 比如：/appManagement/app/new、/appManagement/232323/adSlot/new
-      path: new RegExp(`^/appManagement/(app|([0-9]+)/adSlot)/new$`),
+      path: new RegExp(
+        `^/appManagement/(app|([0-9]+)/adSlot|selfTest|toAudit)/new$`,
+      ),
       load: () =>
         import(/* webpackChunkName: 'appManagement' */ './appManagement/new'),
     },

@@ -9,7 +9,7 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
-import AppManagement from '../../containers/appManagement/AppManagement';
+import List from '../../containers/appManagement/List';
 import {
   onTabChange,
   getAppAndAdposList,
@@ -27,11 +27,11 @@ async function action(context) {
 
   const component = appId ? (
     <Layout>
-      <AppManagement appId={appId} subNav={subNav} />
+      <List appId={appId} subNav={subNav} />
     </Layout>
   ) : (
     <Layout>
-      <AppManagement subNav={subNav} />
+      <List subNav={subNav} />
     </Layout>
   );
 

@@ -34,7 +34,7 @@ const singleQueryConditionShape = PropTypes.shape({
   selectedAuditStatus: PropTypes.object,
   selectedObject: PropTypes.object,
 });
-class AppManagement extends React.Component {
+class List extends React.Component {
   static propTypes = {
     tabType: PropTypes.string.isRequired,
     queryCondition: singleQueryConditionShape.isRequired,
@@ -301,4 +301,4 @@ class AppManagement extends React.Component {
   }
 }
 
-export default withStyles(s)(AppManagement);
+export default withStyles(s)(List);

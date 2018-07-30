@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import appManagement from '../../pages/appManagement/list';
+import List from '../../pages/appManagement/list';
 import {
   getAppAndAdposList,
   appAndAdposListQueryConditionChange,
@@ -115,4 +115,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(appManagement);
+export default connect(mapStateToProps, mapDispatchToProps)(List);

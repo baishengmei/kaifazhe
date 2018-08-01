@@ -33,9 +33,9 @@
 
   /* 新建流程可后退编辑的效果 */
   .step--editable {
-    :global(.ant-steps-head-inner) {
+    :global(.ant-steps-item-icon) {
       background-color: var(--color-white) !important;
-      border-width: 2px;
+      border-width: 2px !important;
 
       &:before {
         color: var(--color-red);
@@ -44,16 +44,16 @@
         line-height: 1;
       }
     }
-    &.step-1 :global(.ant-steps-head-inner):before {
+    &.step-1 :global(.ant-steps-item-icon):before {
       content: '1';
     }
-    &.step-2 :global(.ant-steps-head-inner):before {
+    &.step-2 :global(.ant-steps-item-icon):before {
       content: '2';
     }
-    &.step-3 :global(.ant-steps-head-inner):before {
+    &.step-3 :global(.ant-steps-item-icon):before {
       content: '3';
     }
-    &.step-4 :global(.ant-steps-head-inner):before {
+    &.step-4 :global(.ant-steps-item-icon):before {
       content: '4';
     }
 

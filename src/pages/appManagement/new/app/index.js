@@ -70,6 +70,7 @@ class App extends Component {
   };
 
   onCancel = () => {
+    // 点击取消后，点击确定按钮，跳转到对应的页面
     // this.props.onGoToAdList(AppTabTypes.sponsorAdCampaign);
   };
 

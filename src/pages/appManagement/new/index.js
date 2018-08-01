@@ -238,7 +238,7 @@ class New extends Component {
         return 2;
       }
       case AppTabTypes.appAdPosTab: {
-        if (adPosData.adPosTag === -1) {
+        if (!adPosData.adPosTag) {
           return 0;
         }
         return 1;

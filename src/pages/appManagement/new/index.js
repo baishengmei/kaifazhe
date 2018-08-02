@@ -6,6 +6,7 @@ import NewAdSteps from './Steps';
 import { AppTabTypes, OperationStatus } from '../../../constants/MenuTypes';
 // import { componentUpdateByState } from '../../../core/utils';
 import App from './app';
+import AdSlot from './adSlot';
 
 // 获取新建页面，左侧导航包含的级数，通过editing、initial判断，以及数组的length
 const getStepInfo = (
@@ -177,7 +178,14 @@ class New extends Component {
   getAdPosComponent = () => {
     const { appData, adPosData } = this.state;
     console.info(appData, adPosData, '打印新建广告位页面获取到的直');
-    return <div>新建广告位页面</div>;
+    return (
+      <AdSlot
+        {...adPosData}
+        // onDataChange={this.onAppDataChange}
+        // onSaveData={this.onSaveAppData}
+        // onGoToAdList={this.onGoToAdList}
+      />
+    );
   };
 
   getSelfTestComponent = () => {

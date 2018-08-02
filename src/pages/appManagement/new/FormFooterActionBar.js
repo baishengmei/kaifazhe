@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Modal } from 'antd';
 import s from './index.css';
-import { OperationStatus, saveButtonText } from '../../../constants/MenuTypes';
+import { OperationStatus } from '../../../constants/MenuTypes';
 
 class FormFooterActionBar extends React.Component {
   static propTypes = {
@@ -11,6 +11,7 @@ class FormFooterActionBar extends React.Component {
     saveButtonValid: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSave: PropTypes.func.isRequired,
+    saveButtonText: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   };
 
   static defaultProps = {
@@ -78,7 +79,12 @@ class FormFooterActionBar extends React.Component {
   };
 
   render() {
-    const { status, cancelHintText, saveButtonValid } = this.props;
+    const {
+      status,
+      cancelHintText,
+      saveButtonValid,
+      saveButtonText,
+    } = this.props;
 
     return (
       <div className={s.actionBar}>

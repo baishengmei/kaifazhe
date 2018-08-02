@@ -222,6 +222,10 @@
   margin-top: 24px;
   overflow: hidden;
 
+  &.setting-item__osType {
+    margin-top: 18px;
+  }
+
   & > .setting-item__name {
     float: left;
     display: block;
@@ -259,15 +263,28 @@
       &:first-child {
         margin-left: 0;
       }
+
+      :global(.anticon).checked-object {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(50%, -50%);
+        background-color: var(--color-white);
+      }
     }
 
     :global(.ant-radio-button-wrapper-checked) {
       color: var(--color-blue);
       border-color: currentColor;
+
+      .checked-object {
+        display: inline-block !important;
+      }
     }
 
     .radio {
-      width: 122px;
+      width: 100px;
       font-size: var(--font-small);
     }
 
@@ -294,6 +311,28 @@
       border-color: var(--color-red);
       box-shadow: none;
     }
+
+    :global(.ant-radio-inner) {
+      position: relative;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 14px;
+      height: 14px;
+      border-width: 1px;
+      border-style: solid;
+      border-radius: 14px;
+      border-color: #d9d9d9;
+      background-color: #fff;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+    }
+  }
+
+  .appAdPosName {
+    margin-top: 4px;
+    font-size: 14px;
+    color: #595959;
   }
 }
 

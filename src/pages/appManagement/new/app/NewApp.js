@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Radio, Icon, Input, Select } from 'antd';
 import s from '../index.css';
-import s2 from './index.css';
 import Icons from '../../../../components/Icons';
 import { AppOsTypeZH } from '../../../../constants/MenuTypes';
 import {
@@ -17,7 +16,7 @@ const { Option } = Select;
 
 const osTypeItems = AppOsTypeZH.map(t => (
   <RadioButton value={t.value} key={t.value}>
-    <Icon className={s2['checked-object']} type="check-circle" />
+    <Icon className={s['checked-object']} type="check-circle" />
     {Icons[t.value]} &nbsp;{t.name}
   </RadioButton>
 ));
@@ -174,7 +173,7 @@ class NewApp extends Component {
                   [s['adentity-name-input']]: true,
                   [s.error]: nameConflict || showAppNameError,
                 })}
-                defaultValue={appName}
+                value={appName}
                 onChange={this.onAppNameChange}
                 onFocus={this.onAppNameFocus}
               />
@@ -188,7 +187,13 @@ class NewApp extends Component {
               </div>
             </div>
           </div>
-          <div className={s['setting-item']}>
+          <div
+            className={classnames({
+              [s['setting-item']]: true,
+              [s['setting-item__osType']]: true,
+            })}
+            style={{ paddingTop: 6 }}
+          >
             <div className={s['setting-item__name']}>平台</div>
             <div className={s['setting-item__value']}>
               <RadioGroup

@@ -8,7 +8,7 @@ const initialState = {
   appName: '', // 应用名称
   osType: AppOsTypeZH[0].value, // 平台
   nameConflict: false,
-  appType: '二级分类', // 应用类型
+  appType: ['一级分类', '二级分类'], // 应用类型
   // 一、二级分类
   categories: [
     {

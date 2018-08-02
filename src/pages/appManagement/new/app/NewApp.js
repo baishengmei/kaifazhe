@@ -24,14 +24,17 @@ const osTypeItems = AppOsTypeZH.map(t => (
 const checkAppNameValidity = value => isValidAppAdPosEntityName(value);
 
 const checkAppTypeValidity = value =>
-  typeof value === 'string' && value.trim() !== '二级分类';
+  Object.prototype.toString.call(value) === '[object Array]' &&
+  value.length === 2 &&
+  value[0] !== '一级分类' &&
+  value[1] !== '二级分类';
 
 /* eslint-disable react/no-unused-prop-types */
 class NewApp extends Component {
   static propTypes = {
     appName: PropTypes.string.isRequired,
     osType: PropTypes.string.isRequired,
-    appType: PropTypes.string.isRequired,
+    appType: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     nameConflict: PropTypes.bool.isRequired,
     appNameValid: PropTypes.bool.isRequired,
     appTypeValid: PropTypes.bool.isRequired,
@@ -108,7 +111,7 @@ class NewApp extends Component {
       appTypeValid: false,
     });
     this.hasFocusAppType = true;
-    this.props.onCategoryChange('二级分类');
+    this.props.onCategoryChange([value, '二级分类']);
   };
 
   onSecCategoryChange = value => {
@@ -117,7 +120,7 @@ class NewApp extends Component {
         appTypeValid: true,
       },
       () => {
-        this.props.onCategoryChange(value);
+        this.props.onCategoryChange([this.state.appType[0], value]);
       },
     );
   };
@@ -154,7 +157,7 @@ class NewApp extends Component {
     } = this.state;
     const showAppNameError = !appNameValid && this.hasFocusAppName;
     const showTopCategoryError =
-      topCategory.name === '一级分类' && this.hasFocusAppType;
+      appType[0] === '一级分类' && this.hasFocusAppType;
     const showSecCategoryError =
       (showTopCategoryError || !appTypeValid) && this.hasFocusAppType;
     return (
@@ -214,7 +217,7 @@ class NewApp extends Component {
                   className={classnames({
                     [s['error']]: showTopCategoryError,
                   })}
-                  value={topCategory.name}
+                  value={appType[0]}
                   onChange={this.onTopCategoryChange}
                 >
                   {this.CategorieItems()}
@@ -225,7 +228,7 @@ class NewApp extends Component {
                 className={classnames({
                   [s.error]: showSecCategoryError,
                 })}
-                value={appType}
+                value={appType[1]}
                 onChange={this.onSecCategoryChange}
                 disabled={topCategory.name === '一级分类'}
               >

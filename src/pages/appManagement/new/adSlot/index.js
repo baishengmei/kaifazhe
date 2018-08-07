@@ -23,6 +23,11 @@ class AdSlot extends Component {
     // onDataChange: PropTypes.func.isRequired,
     // onSaveData: PropTypes.func.isRequired,
     // onGoToAdList: PropTypes.func.isRequired,
+    onAdPosAddElem: PropTypes.func,
+  };
+
+  static defaultProps = {
+    onAdPosAddElem: null,
   };
 
   constructor(props) {
@@ -69,6 +74,7 @@ class AdSlot extends Component {
 
   render() {
     const { status, adPosInfo, styleInfo } = this.state;
+    const { onAdPosAddElem } = this.props;
     const cancelHintText = `您当前正在新建应用，确定要取消新建吗？`;
 
     return (
@@ -82,7 +88,11 @@ class AdSlot extends Component {
           // onCategoryChange={this.onCategoryChange}
           // onAndroidPackageChange={this.onAndroidPackageChange}
         />
-        <StyleInfo styleInfo={styleInfo} {...adPosInfo} />
+        <StyleInfo
+          styleInfo={styleInfo}
+          {...adPosInfo}
+          onAddElem={onAdPosAddElem}
+        />
         <FormFooterActionBar
           status={status}
           cancelHintText={cancelHintText}

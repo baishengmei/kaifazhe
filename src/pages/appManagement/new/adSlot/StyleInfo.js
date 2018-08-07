@@ -5,7 +5,11 @@ import { Icon, Radio } from 'antd';
 import s from '../index.css';
 import s2 from './index.css';
 import { AdPosObject, flowStyleItems } from '../../../../constants/MenuTypes';
-import { classnames } from '../../../../core/utils';
+import {
+  classnames,
+  updateComponentStateByKeys,
+  componentUpdateByState,
+} from '../../../../core/utils';
 import AdPosStyle from './AdPosStyle';
 
 const { Group: RadioGroup } = Radio;
@@ -21,6 +25,11 @@ class StyleInfo extends Component {
   static propTypes = {
     styleInfo: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     adPosType: PropTypes.string.isRequired,
+    onAddElem: PropTypes.func,
+  };
+
+  static defaultProps = {
+    onAddElem: null,
   };
   constructor(props) {
     super(props);
@@ -29,7 +38,16 @@ class StyleInfo extends Component {
       styleInfo,
       adPosType,
     };
+    this.componentWillReceiveProps = updateComponentStateByKeys([
+      'styleInfo',
+      'adPosType',
+    ]);
+    this.shouldComponentUpdate = componentUpdateByState;
   }
+
+  onAddElem = (elemType, elemValue, index) => {
+    this.props.onAddElem(elemType, elemValue, index);
+  };
 
   flowInfoStyleType = () => (
     <div className={s['setting-item']}>
@@ -60,11 +78,11 @@ class StyleInfo extends Component {
 
   render() {
     const { adPosType, styleInfo } = this.state;
+    const { onAddElem } = this.props;
     return (
       <div className={s.setting}>
         <div className={s.setting__title}>样式信息</div>
         {styleInfo.map((sty, index) => {
-          console.info(sty, '打印样式信息');
           return (
             <div key={index.toString()}>
               <div className={s2.setting__body}>
@@ -79,6 +97,7 @@ class StyleInfo extends Component {
                       ? sty.flowInfoStyleType
                       : adPosType
                   }
+                  adPosType={adPosType}
                   auditStatus={sty.auditStatus}
                   styleName={sty.styleName}
                   objectType={sty.objectType}
@@ -87,10 +106,12 @@ class StyleInfo extends Component {
                   pictureElems={sty.pictureElems}
                   texts={sty.texts}
                   textElems={sty.textElems}
-                  video={sty.videos}
+                  videos={sty.videos}
                   videoElems={sty.videoElems}
+                  onAddElem={(elemType, elemValue) => {
+                    this.onAddElem(elemType, elemValue, index);
+                  }}
                 />
-                {/* <div className={s2.setting__body_common}>李老师啦啦啦啦</div> */}
               </div>
               <div className={s2.setting__body_image}>
                 <img src="../../../../../public/icon.png" alt="测试图片" />

@@ -8,6 +8,7 @@ import {
   CREATE_APP,
   CREATE_APP_SUCCESS,
   CREATE_APP_FAIL,
+  ADPOS_ADD_ELEM,
 } from '../../constants';
 import { isValidAppAdPosEntityName } from '../../core/utils';
 import { OperationStatus } from '../../constants/MenuTypes';
@@ -60,3 +61,13 @@ export const saveAppData = saveType => (dispatch, getState) => {
     promise: http => http.post('/api/adManagement/adCampaign', { data }),
   });
 };
+
+// 新增加一个元素，如图片元素、文字元素、视频元素
+export const adPosAddElem = (elemType, elemValue, index) => ({
+  type: ADPOS_ADD_ELEM,
+  payload: {
+    elemType,
+    elemValue,
+    index,
+  },
+});

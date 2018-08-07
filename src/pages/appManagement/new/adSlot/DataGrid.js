@@ -12,7 +12,12 @@ import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { Table, Dropdown, Menu, Icon } from 'antd';
 import s from './index.css';
-import { styleElemName } from '../../../../constants/MenuTypes';
+import {
+  styleElemName,
+  pictureElemsMapKey,
+  textElemsMapKey,
+  videoElemsMapKey,
+} from '../../../../constants/MenuTypes';
 import Columns from './Columns';
 
 const getElemItemsMenu = (elemItems, onChooseElemItems) => (
@@ -30,11 +35,10 @@ const getElemItemsMenu = (elemItems, onChooseElemItems) => (
 );
 
 const getColumns = (
-  elemType,
-  isAbleAdd,
-  isAbleDel,
+  elemType, // 图片元素、文字元素、视频元素之一
+  isAbleAddAndDel,
   isAbleEdit,
-  elemItems, // 添加元素的类型
+  elemItems, // 添加元素的类型，包括自定义
   elemsMapKey, // 元素与key组合
   elemsMapRatio, // 元素与比例组合
   elemsMapSize, // 元素与尺寸组合
@@ -46,14 +50,15 @@ const getColumns = (
   onWordNumChange, // 字数改变时
   onAddElem, // 添加元素时
   onDelElem, // 删除元素时
+  adPosType, // 广告位类型
 ) => {
   switch (elemType) {
     case styleElemName[0]:
       return [
-        Columns.elemName(isAbleAdd, elemType, onNameChange),
-        Columns.elemKey(isAbleAdd, elemType, onKeyChange),
-        Columns.ratio(isAbleAdd, onRatioChange),
-        Columns.size(isAbleAdd, onSizeChange),
+        Columns.elemName(isAbleAddAndDel, elemType, onNameChange),
+        Columns.elemKey(isAbleAddAndDel, elemType, onKeyChange),
+        Columns.ratio(isAbleAddAndDel, onRatioChange),
+        Columns.size(isAbleAddAndDel, onSizeChange),
         Columns.operate(onDelElem),
       ];
     case styleElemName[1]:
@@ -70,9 +75,8 @@ const getColumns = (
 
 class DataGrid extends React.Component {
   static propTypes = {
-    isAbleAdd: PropTypes.bool.isRequired,
+    isAbleAddAndDel: PropTypes.bool.isRequired,
     isAbleEdit: PropTypes.bool.isRequired,
-    isAbleDel: PropTypes.bool.isRequired,
     elemType: PropTypes.string.isRequired,
     elemItems: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     elemsMapKey: PropTypes.shape({}).isRequired,
@@ -84,17 +88,21 @@ class DataGrid extends React.Component {
     onRatioChange: PropTypes.func.isRequired,
     onSizeChange: PropTypes.func.isRequired,
     onWordNumChange: PropTypes.func.isRequired,
-    onAddElem: PropTypes.func.isRequired,
+    onAddElem: PropTypes.func,
     onDelElem: PropTypes.func.isRequired,
     elems: PropTypes.arrayOf(PropTypes.object).isRequired,
+    adPosType: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    onAddElem: null,
   };
 
   constructor(props) {
     super(props);
     const {
-      isAbleAdd,
+      isAbleAddAndDel,
       isAbleEdit,
-      isAbleDel,
       elemType,
       elemItems,
       elemsMapKey,
@@ -109,6 +117,7 @@ class DataGrid extends React.Component {
       onAddElem,
       onDelElem,
       elems,
+      adPosType,
     } = this.props;
     this.state = {
       elems,
@@ -116,8 +125,7 @@ class DataGrid extends React.Component {
       elemItems,
       columns: getColumns(
         elemType,
-        isAbleAdd,
-        isAbleDel,
+        isAbleAddAndDel,
         isAbleEdit,
         elemItems,
         elemsMapKey,
@@ -131,12 +139,55 @@ class DataGrid extends React.Component {
         onWordNumChange,
         onAddElem,
         onDelElem,
+        adPosType,
       ),
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      elems: nextProps.elems,
+    });
+  }
+
   onChooseElemItems = e => {
-    console.info(e.target.innerText, '打印添加图片元素的值');
+    const { elemType } = this.state;
+    const newItemName = e.target.innerText;
+    const elemsMapKeys = [
+      pictureElemsMapKey,
+      textElemsMapKey,
+      videoElemsMapKey,
+    ];
+    // 图片元素、文字元素、视频元素的索引分别独赢0，1，2
+    const styleElemIndex = styleElemName.findIndex(t => t === elemType);
+    const elemsMapKey = elemsMapKeys[styleElemIndex];
+
+    const newItemIndex = Object.keys(elemsMapKey).findIndex(
+      t => t === newItemName,
+    );
+    let newItem = {};
+    newItem = {
+      elemName: newItemIndex > -1 ? newItemName : '',
+      elemKey: newItemIndex > -1 ? elemsMapKey[newItemName] : '',
+    };
+    if (styleElemIndex === 0) {
+      newItem = {
+        ...newItem,
+        ratio: '',
+        attr: {
+          width: 0,
+          height: 0,
+        },
+      };
+    } else {
+      newItem = {
+        attr: styleElemIndex === 1 ? 0 : 1000,
+      };
+    }
+    // this.setState({
+    //   elems: this.state.elems.concat(newItem),
+    // });
+    this.props.onAddElem(elemType, this.state.elems.concat(newItem));
   };
 
   render() {

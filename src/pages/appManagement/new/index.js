@@ -44,6 +44,11 @@ class New extends Component {
     onEditToAudit: PropTypes.func.isRequired,
     onAppDataChange: PropTypes.func.isRequired,
     onSaveAppData: PropTypes.func.isRequired,
+    onAdPosAddElem: PropTypes.func,
+  };
+
+  static defaultProps = {
+    onAdPosAddElem: null,
   };
 
   constructor(props) {
@@ -164,7 +169,7 @@ class New extends Component {
   getAppComponent = () => {
     const { appData } = this.state;
     const { onAppDataChange, onSaveAppData } = this.props;
-    console.info(appData, '打印appData');
+    // console.info(appData, '打印appData');
     return (
       <App
         {...appData}
@@ -177,10 +182,11 @@ class New extends Component {
 
   getAdPosComponent = () => {
     const { appData, adPosData } = this.state;
-    console.info(appData, adPosData, '打印新建广告位页面获取到的直');
+    const { onAdPosAddElem } = this.props;
     return (
       <AdSlot
         {...adPosData}
+        onAdPosAddElem={onAdPosAddElem}
         // onDataChange={this.onAppDataChange}
         // onSaveData={this.onSaveAppData}
         // onGoToAdList={this.onGoToAdList}

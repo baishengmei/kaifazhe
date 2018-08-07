@@ -14,6 +14,7 @@ export default ({ getState, dispatch }) => next => action => {
       break;
     }
     case CREATE_APP_FAIL: {
+      console.info('你能否路过中间价');
       const { error } = action;
       if (error.code === 409) {
         message.error('应用名称重复');

@@ -5,7 +5,9 @@ import {
   pictureElemsMapKey,
   textElemsMapKey,
   videoElemsMapKey,
+  styleElemName,
 } from '../../../../constants/MenuTypes';
+import { CREATE_APP, ADPOS_ADD_ELEM } from '../../../../constants';
 // import { ADPOS_ITEM_CHANGE, RESET_ADPOS_ITEM } from '../../../../constants';
 
 const initialState = [
@@ -55,13 +57,14 @@ const initialState = [
     pictureElems: Object.keys(pictureElemsMapKey).concat('自定义'), // 默认添加元素图片菜单
     pictures: [
       {
-        elemName: '', // 元素名
+        elemName: '主图片', // 元素名
         elemKey: '', // 元素key
         ratio: '', // 比例
         attr: {
           width: 0, // 尺寸的宽
           height: 0, // 尺寸的高
         },
+        isStandard: true, // 标准元素 true；非标准元素 false
       },
     ],
     textElems: Object.keys(textElemsMapKey).concat('自定义'),
@@ -70,6 +73,7 @@ const initialState = [
         elemName: '',
         elemKey: '',
         attr: 0, // 字数
+        isStandard: true, // 标准元素 true；非标准元素 false
       },
     ],
     videoElems: Object.keys(videoElemsMapKey),
@@ -84,6 +88,24 @@ const initialState = [
 ];
 
 const styleInfo = (state = initialState, { type, payload, error }) => {
+  if (type === ADPOS_ADD_ELEM) {
+    const { elemType, elemValue, index } = payload;
+    const elemTypeIndex = styleElemName.findIndex(t => t === elemType);
+    const elemTypeInState =
+      elemTypeIndex === 0
+        ? 'pictures'
+        : elemTypeIndex === 1 ? 'texts' : 'videos';
+    const newState = state.map((t, i) => {
+      if (i === index) {
+        return {
+          ...t,
+          [elemTypeInState]: [...elemValue],
+        };
+      }
+      return t;
+    });
+    return newState;
+  }
   // console.info(error, '这里之后会用到的，error');
   // if (type === CREATE_APP_FAIL) {
   //   if (error instanceof Error && 'code' in error && error.code === 409) {

@@ -13,8 +13,8 @@ import {
 } from '../../../../constants/MenuTypes';
 import {
   classnames,
-  // updateComponentStateByKeys,
-  // componentUpdateByState,
+  updateComponentStateByKeys,
+  componentUpdateByState,
 } from '../../../../core/utils';
 import DataGrid from './DataGrid';
 
@@ -46,7 +46,14 @@ class AdPosStyle extends Component {
     texts: PropTypes.arrayOf(PropTypes.object).isRequired,
     videoElems: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     videos: PropTypes.arrayOf(PropTypes.object).isRequired,
+    adPosType: PropTypes.string.isRequired,
+    onAddElem: PropTypes.func,
   };
+
+  static defaultProps = {
+    onAddElem: null,
+  };
+
   constructor(props) {
     super(props);
     const {
@@ -61,6 +68,7 @@ class AdPosStyle extends Component {
       texts,
       videoElems,
       videos,
+      adPosType,
     } = this.props;
     this.state = {
       styleTitle,
@@ -74,7 +82,23 @@ class AdPosStyle extends Component {
       texts,
       videoElems,
       videos,
+      adPosType,
     };
+    this.componentWillReceiveProps = updateComponentStateByKeys([
+      'styleTitle',
+      'styleName',
+      'auditStatus',
+      'objectType',
+      'appVersion',
+      'pictureElems',
+      'pictures',
+      'textElems',
+      'texts',
+      'videoElems',
+      'videos',
+      'adPosType',
+    ]);
+    this.shouldComponentUpdate = componentUpdateByState;
   }
 
   onNameChange = () => {};
@@ -82,7 +106,6 @@ class AdPosStyle extends Component {
   onRatioChange = () => {};
   onSizeChange = () => {};
   onWordNumChange = () => {};
-  onAddElem = () => {};
   onDelElem = () => {};
 
   render() {
@@ -98,7 +121,9 @@ class AdPosStyle extends Component {
       texts,
       videoElems,
       videos,
+      adPosType,
     } = this.state;
+    const { onAddElem } = this.props;
     return (
       <div className={s2.setting__body_common}>
         <div className={s2.setting__body_header}>
@@ -106,14 +131,11 @@ class AdPosStyle extends Component {
             <span>{styleTitle}样式</span>
             <span>审核状态： {auditStatus}</span>
           </div>
-          {
-            (auditStatus === AdPosAuditStatus,
-            [1].name && (
-              <div className={s2.setting__body_header_right}>
-                <Icon type="close" />
-              </div>
-            ))
-          }
+          {auditStatus === AdPosAuditStatus[1].name && (
+            <div className={s2.setting__body_header_right}>
+              <Icon type="close" />
+            </div>
+          )}
         </div>
         <div className={s2.setting__body_content}>
           <div className={s2['setting__body_item']}>
@@ -173,7 +195,7 @@ class AdPosStyle extends Component {
                   [s2['appVersion-name-input']]: true,
                   // [s.error]: nameConflict || showAppNameError,
                 })}
-                value={styleName}
+                value={appVersion}
                 onChange={this.onAppNameChange}
                 onFocus={this.onAppNameFocus}
               />
@@ -189,11 +211,9 @@ class AdPosStyle extends Component {
           </div>
           <div className={s2.setting__body_elems}>
             <DataGrid
-              isAbleAdd // 是否可添加元素
-              isAbleEdit // 是否可编辑
-              isAbleDel // 是否可以删除
+              isAbleAddAndDel // 是否可添加元素和删除：草稿 && 不是视频视频 = true
+              isAbleEdit // 是否可编辑：草稿 = ture
               elemType="图片元素"
-              // appVersion={appVersion}
               elemItems={pictureElems}
               // elemsMapKey={}
               elems={pictures}
@@ -206,8 +226,9 @@ class AdPosStyle extends Component {
               onRatioChange={this.onRatioChange}
               onSizeChange={this.onSizeChange}
               onWordNumChange={this.onWordNumChange}
-              onAddElem={this.onAddElem}
+              onAddElem={onAddElem}
               onDelElem={this.onDelElem}
+              adPosType={adPosType}
             />
           </div>
           {/* <div className={s2.setting__body_elems}>

@@ -6,6 +6,8 @@ import {
   textElemsMapKey,
   videoElemsMapKey,
   pictureElemRatio,
+  styleElemName,
+  AdPosObject,
 } from '../../../../constants/MenuTypes';
 
 const { Option } = Select;
@@ -17,15 +19,21 @@ const ratioItems = Object.keys(pictureElemRatio).map(t => (
 ));
 
 const Columns = {
-  elemName: (type, onChange) => ({
+  elemName: (isAbleAddAndDel, elemType, onNameChange) => ({
     title: '元素名',
     key: 'elemName',
     className: s.elemName,
     render: record => {
-      if (record.type !== '自定义') {
-        return <span>{record.elemName}</span>;
+      if (elemType === styleElemName[2]) {
+        return <span>{Object.keys(videoElemsMapKey)[0]}</span>;
       }
-      return <Input value={record.elemName} onChange={onChange} />;
+      // if (adPosType === AdPosObject[7]) {
+      //   return <Input value={record.elemName} onChange={onNameChange} />;
+      // }
+      if (record.isStandard) {
+        return <span>{Object.keys(videoElemsMapKey)[0]}</span>;
+      }
+      return <Input value={record.elemName} onChange={onNameChange} />;
     },
   }),
   elemKey: (type, onChange) => ({
@@ -86,7 +94,7 @@ const Columns = {
       }
     },
   }),
-  wordNum: (type, onChange) => ({
+  wordNum: () => ({
     title: '字数',
     key: 'wordNum',
     className: s.wordNum,
@@ -97,7 +105,7 @@ const Columns = {
       return <Select>{ratioItems}</Select>;
     },
   }),
-  operate: type => ({
+  operate: () => ({
     title: '删除',
     key: 'operate',
     className: s.operate,

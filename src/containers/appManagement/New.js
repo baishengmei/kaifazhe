@@ -7,6 +7,7 @@ import {
   editToAudit,
   appDataChange,
   saveAppData,
+  adPosAddElem,
 } from '../../actions/AppManagement/new';
 
 const mapStateToProps = state => {
@@ -39,6 +40,9 @@ const mapDispatchToProps = dispatch => ({
   },
   onSaveAppData(saveType) {
     dispatch(saveAppData(saveType));
+  },
+  onAdPosAddElem(elemType, elemValue, index) {
+    dispatch(adPosAddElem(elemType, elemValue, index));
   },
 });
 

@@ -85,3 +85,8 @@ export const RESET_APP_ITEM = 'RESET_APP_ITEM';
 export const CREATE_APP = 'CREATE_APP';
 export const CREATE_APP_SUCCESS = 'CREATE_APP_SUCCESS';
 export const CREATE_APP_FAIL = 'CREATE_APP_FAIL';
+
+/**
+ * 新建广告位页，添加样式元素
+ */
+export const ADPOS_ADD_ELEM = 'ADPOS_ADD_ELEM';

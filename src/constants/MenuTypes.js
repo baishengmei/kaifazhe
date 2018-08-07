@@ -117,7 +117,7 @@ const AppOsTypes = ['不限', 'iOS', 'Android'].map(t => ({
 /**
  * 查询条件广告位列表页 审核状态 菜单
  */
-const AdPosAuditStatus = ['不限', '有效', '审核中', '审核不通过', '草稿'].map(
+const AdPosAuditStatus = ['不限', '草稿', '审核中', '有效', '审核不通过'].map(
   t => ({
     name: t,
     value: AppAdposListMapForFE[t],
@@ -203,6 +203,80 @@ const AppOsTypeZH = ['安卓', 'iOS'].map(t => ({
  */
 const saveButtonText = ['保存', '保存并继续'];
 
+/**
+ * 新建页面，各项与前端对应关系
+ */
+const AppAdposNewMapForFE = {
+  不限: 'all',
+  大图: 'bigImage',
+  小图: 'smallImage',
+  组图: 'exImage',
+  视频: 'video',
+  落地页型: 'landingPage',
+  应用下载型: 'appDownload',
+};
+
+/**
+ * 信息流样式
+ */
+const flowStyleItems = ['小图', '大图', '组图', '视频'].map(t => ({
+  name: t,
+  value: AppAdposNewMapForFE[t],
+}));
+
+/**
+ * 新建样式推广标的类型
+ */
+const objectTypeItems = ['不限', '落地页型', '应用下载型'].map(t => ({
+  name: t,
+  value: AppAdposNewMapForFE[t],
+}));
+
+/**
+ * 样式信息：文字、图片、视频样式
+ */
+const pictureElemsMapKey = {
+  主图片: 'mainimage',
+  主图片1: 'mainimage1',
+  主图片2: 'mainimage2',
+  主图片3: 'mainimage3',
+  主图片4: 'mainimage4',
+  图标: 'iconimage',
+  封面配图: 'coverimage',
+};
+const textElemsMapKey = {
+  标题: 'title',
+  描述: 'text',
+  '行动号召文案（如：立即下载、免费体验等）': 'ctatext',
+  '企业/品牌/应用名（如网易有道、有道词典等）': 'appName',
+};
+const videoElemsMapKey = {
+  视频链接: 'videourl',
+};
+
+/**
+ * 样式信息表格元素类型
+ */
+const styleElemName = ['图片元素', '文字元素', '视频元素'];
+
+/**
+ * 图片元素比例对应尺寸，除iconimage外
+ */
+const pictureElemRatio = {
+  '1:2': '480*960',
+  '9:16': '720*1280',
+  '2:3': '640*960',
+  '1:1': '640*640',
+  '4:3': '640*480',
+  '3:2': '720*480',
+  '5:3': '800*480',
+  '16:9': '1280*720',
+  '2:1': '960*480',
+  '11:4': '1320*480',
+  '3:1': '1440*480',
+  '32:5': '640*100',
+};
+
 // ====================================== 应用管理 --END ==========================================//
 
 export {
@@ -223,4 +297,11 @@ export {
   NewToAuditSettingItems,
   AppOsTypeZH,
   saveButtonText,
+  flowStyleItems,
+  objectTypeItems,
+  pictureElemsMapKey,
+  textElemsMapKey,
+  videoElemsMapKey,
+  styleElemName,
+  pictureElemRatio,
 };

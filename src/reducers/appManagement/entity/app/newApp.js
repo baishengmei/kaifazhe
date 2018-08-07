@@ -52,7 +52,7 @@ const initialState = {
 };
 
 const newApp = (state = initialState, { type, payload, error }) => {
-  console.info(error, '这里之后会用到的，error');
+  // console.info(error, '这里之后会用到的，error');
   if (type === APP_ITEM_CHANGE) {
     const { type: sectionType, itemType } = payload;
     if (sectionType === NewAppSettingItems[0].value) {

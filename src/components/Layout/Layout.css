@@ -43,6 +43,10 @@ body {
   border-color: var(--color-grey);
 }
 
+:global(.ant-table-title) {
+  background-color: var(--color-header-grey);
+}
+
 :global(.ant-table.ant-table-bordered) {
   border-color: var(--color-table-border) !important;
 

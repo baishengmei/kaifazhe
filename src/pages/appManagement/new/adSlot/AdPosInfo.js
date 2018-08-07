@@ -12,7 +12,7 @@ import { AdPosObject } from '../../../../constants/MenuTypes';
 
 const { Group: RadioGroup } = Radio;
 
-const adPosTypeItems = AdPosObject.splice(1).map(t => (
+const adPosTypeItems = AdPosObject.slice(1).map(t => (
   <Radio className={s.radio} key={t.value} value={t.value}>
     {t.name}
   </Radio>

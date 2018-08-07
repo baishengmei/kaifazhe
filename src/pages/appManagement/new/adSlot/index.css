@@ -1,13 +1,213 @@
 @import '../../../../components/variables.css';
-.checked-object {
-  display: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(50%, -50%);
-  background-color: var(--color-white);
 
-  :global(.ant-radio-button-wrapper-checked) & {
+.splitter {
+  width: 680px;
+  height: 1px;
+  background-color: #E6E6E6;
+  margin-bottom: 38px;
+  clear: both;
+}
+
+.setting__body {
+  font-size: 14px;
+  width: 680px;
+  margin-bottom: 38px;
+  float: left;
+
+  .setting-item__value {
+    float: left;
     display: block;
+    width: 500px !important;
+  }
+
+  .setting__body_common {
+    width: 100%;
+    min-height: 200px;
+    background-color: #FAFAFA;
+    border-radius: 2px;
+    margin-top: 24px;
+
+    .setting__body_header {
+      height: 52px;
+      padding: 16px 24px;
+      background-color: #F2F2F2;
+      width: 100%;
+
+      :first-child {
+        float: left;
+
+        :first-child {
+          display: inline-block;
+          font-family: PingFangSC-Medium;
+          font-size: 14px;
+          color: #595959;
+          height: 20px;
+          line-height: 20px;
+          margin-right: 18px;
+        }
+
+        :not(:first-child) {
+          font-family: PingFangSC-Regular;
+          font-size: 12px;
+          color: #8C8C8C;
+          line-height: 16px;
+          height: 20px;
+          line-height: 20px;
+        }
+      }
+
+      :not(:first-child) {
+        float: right;
+        height: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+    }
+
+    .setting__body_content {
+      padding: 16px 24px;
+      width: 100%;
+
+      .setting__body_item {
+        margin-top: 24px;
+        overflow: hidden;
+
+        & > .setting__body_item__name {
+          float: left;
+          display: block;
+          width: 164px;
+          min-height: 32px;
+          line-height: 32px;
+          font-size: var(--font-small);
+        }
+
+        & > .setting__body_item__value {
+          float: left;
+          display: block;
+          width: 373px;
+          /* remove space and height which blank characters occupy */
+          font-size: 0;
+
+          .adentity-name-input {
+            width: 373px;
+          }
+
+          .appVersion-name-input {
+            width: 206px;
+          }
+
+          :global(.ant-radio-button-wrapper) {
+            margin-left: 24px;
+            border-radius: 2px;
+            border: 1px solid var(--color-grey);
+            box-shadow: none;
+            width: 92px;
+            font-size: 12px;
+            text-align: center;
+            height: 32px;
+            line-height: 32px;
+
+            &:first-child {
+              margin-left: 0;
+            }
+
+            :global(.anticon).checked-object {
+              display: none;
+              position: absolute;
+              top: 0;
+              right: 0;
+              transform: translate(50%, -50%);
+              background-color: var(--color-white);
+            }
+          }
+
+          :global(.ant-radio-button-wrapper-checked) {
+            color: var(--color-blue);
+            border-color: currentColor;
+
+            .checked-object {
+              display: inline-block !important;
+            }
+          }
+        }
+      }
+
+      .setting__body_elems {
+        margin-top: 33px;
+      }
+    }
+  }
+}
+
+.setting__body_image {
+  float: left;
+  width: 300px;
+  margin: 78px;
+}
+
+.setting__footer {
+  color: var(--color-blue);
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #108EE9;
+  line-height: 16px;
+  clear: both;
+
+  :global(.anticon) {
+    margin-right: 8px;
+  }
+}
+
+/* 新建广告位 样式表格 */
+.elemName {
+  width: 113px;
+  font-family: PingFangSC-Regular;
+
+}
+
+.elemKey {
+  width: 115px;
+  font-family: PingFangSC-Regular;
+}
+
+.ratio {
+  width: 131px;
+  font-family: PingFangSC-Regular;
+}
+
+.size {
+  width: 214px;
+  font-family: PingFangSC-Regular;
+}
+
+.operate {
+  width: 58px;
+  color: var(--color-blue);
+  font-family: PingFangSC-Regular;
+}
+
+i {
+  display: inline-block;
+  font-style: normal;
+  vertical-align: baseline;
+  text-align: center;
+  text-transform: none;
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  color: var(--color-blue);
+  margin-right: 7px;
+  cursor: pointer;
+
+  &::before {
+    content: "\E626";
+    display: block;
+    font-family: "anticon" !important;
+  }
+
+  & + span {
+    color: var(--color-blue);
+    font-family: PingFangSC-Regular;
+    cursor: pointer;
   }
 }

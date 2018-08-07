@@ -19,7 +19,7 @@ class AdSlot extends Component {
     appTag: PropTypes.bool.isRequired,
     adPosTag: PropTypes.bool.isRequired,
     adPosInfo: PropTypes.shape({}).isRequired,
-    styleInfo: PropTypes.shape({}).isRequired,
+    styleInfo: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     // onDataChange: PropTypes.func.isRequired,
     // onSaveData: PropTypes.func.isRequired,
     // onGoToAdList: PropTypes.func.isRequired,
@@ -82,7 +82,7 @@ class AdSlot extends Component {
           // onCategoryChange={this.onCategoryChange}
           // onAndroidPackageChange={this.onAndroidPackageChange}
         />
-        <StyleInfo {...styleInfo} />
+        <StyleInfo styleInfo={styleInfo} {...adPosInfo} />
         <FormFooterActionBar
           status={status}
           cancelHintText={cancelHintText}

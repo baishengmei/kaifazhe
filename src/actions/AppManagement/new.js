@@ -9,6 +9,8 @@ import {
   CREATE_APP_SUCCESS,
   CREATE_APP_FAIL,
   ADPOS_ADD_ELEM,
+  ADD_OR_DEL_STYLE,
+  ADPOS_ITEM_CHANGE,
 } from '../../constants';
 import { isValidAppAdPosEntityName } from '../../core/utils';
 import { OperationStatus } from '../../constants/MenuTypes';
@@ -69,5 +71,23 @@ export const adPosAddElem = (elemType, elemValue, index) => ({
     elemType,
     elemValue,
     index,
+  },
+});
+
+// 继续添加样式或者删除样式
+export const addOrDelStyle = styleInfo => ({
+  type: ADD_OR_DEL_STYLE,
+  payload: {
+    styleInfo,
+  },
+});
+
+// 编辑新建广告位页面,表单数据改变
+export const adPosDataChange = (sectionType, itemType, itemValue) => ({
+  type: ADPOS_ITEM_CHANGE,
+  payload: {
+    type: sectionType,
+    itemType,
+    [itemType]: itemValue,
   },
 });

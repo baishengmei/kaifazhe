@@ -31,7 +31,7 @@ const Columns = {
       //   return <Input value={record.elemName} onChange={onNameChange} />;
       // }
       if (record.isStandard) {
-        return <span>{Object.keys(videoElemsMapKey)[0]}</span>;
+        return <span>{record.elemName}</span>;
       }
       return <Input value={record.elemName} onChange={onNameChange} />;
     },
@@ -105,11 +105,19 @@ const Columns = {
       return <Select>{ratioItems}</Select>;
     },
   }),
-  operate: () => ({
+  operate: onDelElem => ({
     title: '删除',
     key: 'operate',
     className: s.operate,
-    render: record => <div>删除</div>,
+    render: record => (
+      <div
+        onClick={() => onDelElem(record)}
+        onKeyDown={() => onDelElem(record)}
+        role="presentation"
+      >
+        删除
+      </div>
+    ),
   }),
 };
 

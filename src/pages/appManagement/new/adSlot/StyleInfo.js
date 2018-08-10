@@ -4,7 +4,12 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { Icon, Radio } from 'antd';
 import s from '../index.css';
 import s2 from './index.css';
-import { AdPosObject, flowStyleItems } from '../../../../constants/MenuTypes';
+import {
+  AdPosObject,
+  flowStyleItems,
+  defaultElemsInfo,
+  defaultStyleInfo,
+} from '../../../../constants/MenuTypes';
 import {
   classnames,
   updateComponentStateByKeys,
@@ -26,10 +31,12 @@ class StyleInfo extends Component {
     styleInfo: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     adPosType: PropTypes.string.isRequired,
     onAddElem: PropTypes.func,
+    onAddOrDelStyle: PropTypes.func,
   };
 
   static defaultProps = {
     onAddElem: null,
+    onAddOrDelStyle: null,
   };
   constructor(props) {
     super(props);
@@ -49,7 +56,27 @@ class StyleInfo extends Component {
     this.props.onAddElem(elemType, elemValue, index);
   };
 
-  flowInfoStyleType = () => (
+  onDelStyle = index => {
+    const { styleInfo } = this.state;
+    const newStyleInfo = [...styleInfo];
+    newStyleInfo.splice(index, 1);
+    this.props.onAddOrDelStyle(newStyleInfo);
+  };
+
+  addStyle = () => {
+    const { styleInfo, adPosType } = this.state;
+    const newStyleInfo = [...styleInfo];
+    const addNewElems =
+      adPosType === AdPosObject[1].name
+        ? defaultElemsInfo['小图']
+        : defaultElemsInfo[adPosType];
+    const addNewStyle = defaultStyleInfo(addNewElems);
+
+    newStyleInfo.push(addNewStyle); // push的内容，需要添加默认值对象，并根据广告位类型或者样式类型进行添加默认值
+    this.props.onAddOrDelStyle([...newStyleInfo]);
+  };
+
+  flowInfoStyleType = flowInfoStyleType => (
     <div className={s['setting-item']}>
       <div
         className={classnames({
@@ -67,7 +94,7 @@ class StyleInfo extends Component {
       >
         <RadioGroup
           size="large"
-          value={this.state.adPosType}
+          value={flowInfoStyleType}
           onChange={this.onOsTypeChange} // 这里触发函数改变flowInfoStyleType这个store里的值
         >
           {adPosTypeItems}
@@ -78,19 +105,21 @@ class StyleInfo extends Component {
 
   render() {
     const { adPosType, styleInfo } = this.state;
-    const { onAddElem } = this.props;
+    console.info(adPosType, '老师来了老师');
+    const newStyleInfo = styleInfo.map((t, i) => {
+      t.key = i;
+      return t;
+    });
     return (
       <div className={s.setting}>
         <div className={s.setting__title}>样式信息</div>
-        {styleInfo.map((sty, index) => {
+        {newStyleInfo.map((sty, index) => {
           return (
             <div key={index.toString()}>
               <div className={s2.setting__body}>
-                {
-                  /* 广告位类型为信息流时，显示“添加样式” */
-                  (adPosType === AdPosObject,
-                  flowStyleItems[1].name && this.flowInfoStyleType())
-                }
+                {/* 广告位类型为信息流时，显示“添加样式” */
+                adPosType === AdPosObject[1].value &&
+                  this.flowInfoStyleType(sty.flowInfoStyleType)}
                 <AdPosStyle
                   styleTitle={
                     adPosType === AdPosObject[1].name
@@ -102,6 +131,7 @@ class StyleInfo extends Component {
                   styleName={sty.styleName}
                   objectType={sty.objectType}
                   appVersion={sty.appVersion}
+                  flowInfoStyleType={sty.flowInfoStyleType}
                   pictures={sty.pictures}
                   pictureElems={sty.pictureElems}
                   texts={sty.texts}
@@ -111,6 +141,8 @@ class StyleInfo extends Component {
                   onAddElem={(elemType, elemValue) => {
                     this.onAddElem(elemType, elemValue, index);
                   }}
+                  onDelStyle={() => this.onDelStyle(index)}
+                  isShowDel={styleInfo.length > 1}
                 />
               </div>
               <div className={s2.setting__body_image}>
@@ -124,7 +156,7 @@ class StyleInfo extends Component {
           );
         })}
         <div className={s2.setting__footer}>
-          <Icon type="plus-circle" />
+          <Icon type="plus-circle" onClick={this.addStyle} />
           继续添加样式
         </div>
       </div>

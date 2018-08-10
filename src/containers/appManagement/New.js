@@ -8,6 +8,8 @@ import {
   appDataChange,
   saveAppData,
   adPosAddElem,
+  addOrDelStyle,
+  adPosDataChange,
 } from '../../actions/AppManagement/new';
 
 const mapStateToProps = state => {
@@ -43,6 +45,12 @@ const mapDispatchToProps = dispatch => ({
   },
   onAdPosAddElem(elemType, elemValue, index) {
     dispatch(adPosAddElem(elemType, elemValue, index));
+  },
+  onAddOrDelStyle(styleInfo) {
+    dispatch(addOrDelStyle(styleInfo));
+  },
+  onAdPosDataChange(sectionType, itemType, itemValue) {
+    dispatch(adPosDataChange(sectionType, itemType, itemValue));
   },
 });
 

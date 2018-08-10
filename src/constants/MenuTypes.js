@@ -277,6 +277,278 @@ const pictureElemRatio = {
   '32:5': '640*100',
 };
 
+/**
+ * 样式信息，广告位类型与标准元素默认组合
+ */
+const defaultElemsInfo = {
+  小图: {
+    pictures: [
+      {
+        elemName: '主图片',
+        elemKey: 'mainimage',
+        ratio: '3:2',
+        attr: {
+          width: 720,
+          height: 480,
+        },
+        isStandard: true,
+      },
+    ],
+    texts: [
+      {
+        elemName: '标题',
+        elemKey: 'title',
+        attr: 20,
+        isStandard: true,
+      },
+    ],
+  },
+  大图: {
+    pictures: [
+      {
+        elemName: '主图片',
+        elemKey: 'mainimage',
+        ratio: '16:9',
+        attr: {
+          width: 1289, // 尺寸的宽
+          height: 720, // 尺寸的高
+        },
+        isStandard: true, // 标准元素 true；非标准元素 false
+      },
+    ],
+    texts: [
+      {
+        elemName: '标题',
+        elemKey: 'title',
+        attr: 20,
+        isStandard: true,
+      },
+    ],
+  },
+  组图: {
+    pictures: [
+      {
+        elemName: '主图片1',
+        elemKey: 'mainimage1',
+        ratio: '3:2',
+        attr: {
+          width: 720, // 尺寸的宽
+          height: 480, // 尺寸的高
+        },
+        isStandard: true, // 标准元素 true；非标准元素 false
+      },
+      {
+        elemName: '主图片2',
+        elemKey: 'mainimage2',
+        ratio: '3:2',
+        attr: {
+          width: 720, // 尺寸的宽
+          height: 480, // 尺寸的高
+        },
+        isStandard: true, // 标准元素 true；非标准元素 false
+      },
+      {
+        elemName: '主图片3',
+        elemKey: 'mainimage3',
+        ratio: '3:2',
+        attr: {
+          width: 720, // 尺寸的宽
+          height: 480, // 尺寸的高
+        },
+        isStandard: true, // 标准元素 true；非标准元素 false
+      },
+    ],
+    texts: [
+      {
+        elemName: '标题',
+        elemKey: 'title',
+        attr: 20,
+        isStandard: true,
+      },
+    ],
+  },
+  视频: {
+    pictures: [
+      {
+        elemName: '封面配图',
+        elemKey: 'coverimage',
+        ratio: '16:9',
+        attr: {
+          width: 1289, // 尺寸的宽
+          height: 720, // 尺寸的高
+        },
+        isStandard: true, // 标准元素 true；非标准元素 false
+      },
+    ],
+    texts: [
+      {
+        elemName: '标题',
+        elemKey: 'title',
+        attr: 20,
+        isStandard: true,
+      },
+      {
+        elemName: '行动号召文案（如：立即下载、免费体验等）',
+        elemKey: 'ctaText',
+        attr: 4,
+        isStandard: true,
+      },
+    ],
+    video: [
+      {
+        elemName: '视频链接',
+        elemKey: 'videourl',
+        attr: 1000,
+        isStandard: true,
+      },
+    ],
+  },
+  开屏: {
+    pictures: [
+      {
+        elemName: '主图片',
+        elemKey: 'mainimage',
+        ratio: '9:16',
+        attr: {
+          width: 720,
+          height: 1280,
+        },
+        isStandard: true,
+      },
+      {
+        elemName: '主图片1',
+        elemKey: 'mainimage1',
+        ratio: '1:2',
+        attr: {
+          width: 480,
+          height: 960,
+        },
+        isStandard: true,
+      },
+    ],
+    texts: [],
+  },
+  插屏: {
+    pictures: [
+      {
+        elemName: '主图片',
+        elemKey: 'mainimage',
+        ratio: '1:1',
+        attr: {
+          width: 640,
+          height: 640,
+        },
+        isStandard: true,
+      },
+    ],
+    texts: [],
+  },
+  横幅: {
+    pictures: [
+      {
+        elemName: '主图片',
+        elemKey: 'mainimage',
+        ratio: '32:5',
+        attr: {
+          width: 640,
+          height: 100,
+        },
+        isStandard: true,
+      },
+    ],
+    texts: [],
+  },
+  焦点图: {
+    pictures: [
+      {
+        elemName: '主图片',
+        elemKey: 'mainimage',
+        ratio: '16:9',
+        attr: {
+          width: 1280,
+          height: 720,
+        },
+        isStandard: true,
+      },
+    ],
+    texts: [],
+  },
+  激励视频: {
+    pictures: [
+      {
+        elemName: '主图片',
+        elemKey: 'mainimage',
+        ratio: '1:1',
+        attr: {
+          width: 640,
+          height: 640,
+        },
+        isStandard: true,
+      },
+    ],
+    texts: [
+      {
+        elemName: '标题',
+        elemKey: 'title',
+        attr: 30,
+        isStandard: true,
+      },
+      {
+        elemName: '行动号召文案（如：立即下载、免费体验等）',
+        elemKey: 'ctaText',
+        attr: 4,
+        isStandard: true,
+      },
+    ],
+    video: [
+      {
+        elemName: '视频链接',
+        elemKey: 'videourl',
+        attr: 1000,
+        isStandard: true,
+      },
+    ],
+  },
+  自定义: {
+    pictures: [],
+    texts: [],
+    videos: [],
+  },
+};
+
+/**
+ * 添加样式信息
+ */
+// const defaultStyleInfo = elemsInfo => ({
+//   flowInfoStyleType: AppAdposNewMapForFE.小图, // 添加默认的样式类型
+//   styleType: '', // 样式类型，根据广告位类型不同而不同，比如开屏样式、小图样式等
+//   auditStatus: AdPosAuditStatus[1].name, // 审核状态
+//   styleName: '', // 样式名称
+//   objectType: objectTypeItems[0].value, // 推广表标的类型
+//   appVersion: '0', // 可兼容的最低/高版本号或App当前版本号
+//   pictureElems: Object.keys(pictureElemsMapKey).concat('自定义'), // 默认添加元素图片菜单
+//   textElems: Object.keys(textElemsMapKey).concat('自定义'),
+//   videoElems: Object.keys(videoElemsMapKey),
+//   ...Object.keys(elemsInfo).map(t => ({ [t]: elemsInfo[t] })), // 默认元素信息
+// });
+const defaultStyleInfo = elemsInfo => {
+  const newElemsInfo = {
+    flowInfoStyleType: AppAdposNewMapForFE.小图, // 添加默认的样式类型
+    styleType: '', // 样式类型，根据广告位类型不同而不同，比如开屏样式、小图样式等
+    auditStatus: AdPosAuditStatus[1].name, // 审核状态
+    styleName: '', // 样式名称
+    objectType: objectTypeItems[0].value, // 推广表标的类型
+    appVersion: '0', // 可兼容的最低/高版本号或App当前版本号
+    pictureElems: Object.keys(pictureElemsMapKey).concat('自定义'), // 默认添加元素图片菜单
+    textElems: Object.keys(textElemsMapKey).concat('自定义'),
+    videoElems: Object.keys(videoElemsMapKey),
+  };
+  Object.keys(elemsInfo).forEach(t => {
+    newElemsInfo[t] = elemsInfo[t];
+  });
+  return newElemsInfo;
+};
+
 // ====================================== 应用管理 --END ==========================================//
 
 export {
@@ -304,4 +576,6 @@ export {
   videoElemsMapKey,
   styleElemName,
   pictureElemRatio,
+  defaultElemsInfo,
+  defaultStyleInfo,
 };

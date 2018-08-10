@@ -10,13 +10,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import { Table, Dropdown, Menu, Icon } from 'antd';
+import { Table, Dropdown, Menu, Icon, message } from 'antd';
 import s from './index.css';
 import {
   styleElemName,
   pictureElemsMapKey,
   textElemsMapKey,
   videoElemsMapKey,
+  AdPosObject,
 } from '../../../../constants/MenuTypes';
 import Columns from './Columns';
 
@@ -90,12 +91,13 @@ class DataGrid extends React.Component {
     onWordNumChange: PropTypes.func.isRequired,
     onAddElem: PropTypes.func,
     onDelElem: PropTypes.func.isRequired,
-    elems: PropTypes.arrayOf(PropTypes.object).isRequired,
+    elems: PropTypes.arrayOf(PropTypes.object),
     adPosType: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
     onAddElem: null,
+    elems: [],
   };
 
   constructor(props) {
@@ -123,6 +125,7 @@ class DataGrid extends React.Component {
       elems,
       elemType,
       elemItems,
+      adPosType,
       columns: getColumns(
         elemType,
         isAbleAddAndDel,
@@ -138,7 +141,7 @@ class DataGrid extends React.Component {
         onSizeChange,
         onWordNumChange,
         onAddElem,
-        onDelElem,
+        this.onDelElem,
         adPosType,
       ),
     };
@@ -150,49 +153,72 @@ class DataGrid extends React.Component {
     });
   }
 
+  onDelElem = record => {
+    console.info(record.key, record.key === 0, '删除了什么');
+    const newElems = [...this.state.elems];
+    newElems.splice(record.key, 1);
+    this.props.onDelElem(this.state.elemType, [...newElems]);
+  };
+
   onChooseElemItems = e => {
-    const { elemType } = this.state;
+    const { elemType, adPosType, elems } = this.state;
     const newItemName = e.target.innerText;
     const elemsMapKeys = [
       pictureElemsMapKey,
       textElemsMapKey,
       videoElemsMapKey,
     ];
-    // 图片元素、文字元素、视频元素的索引分别独赢0，1，2
+    // 图片元素、文字元素、视频元素的索引分别对应0，1，2
     const styleElemIndex = styleElemName.findIndex(t => t === elemType);
     const elemsMapKey = elemsMapKeys[styleElemIndex];
 
+    // 判断添加元素是否为标准元素，-1为自定义，其他为标准元素
     const newItemIndex = Object.keys(elemsMapKey).findIndex(
       t => t === newItemName,
     );
     let newItem = {};
-    newItem = {
-      elemName: newItemIndex > -1 ? newItemName : '',
-      elemKey: newItemIndex > -1 ? elemsMapKey[newItemName] : '',
-    };
-    if (styleElemIndex === 0) {
+    // 判断该标准元素是否已经被添加了
+    elems.find(t => t.elemName === newItemName);
+    if (
+      (newItemIndex > -1 &&
+        elems.findIndex(t => t.elemName === newItemName) === -1) ||
+      newItemIndex === -1
+    ) {
       newItem = {
-        ...newItem,
-        ratio: '',
-        attr: {
-          width: 0,
-          height: 0,
-        },
+        elemName: newItemIndex > -1 ? newItemName : '',
+        elemKey: newItemIndex > -1 ? elemsMapKey[newItemName] : '',
       };
+      if (styleElemIndex === 0) {
+        newItem = {
+          ...newItem,
+          ratio: '',
+          attr: {
+            width: 0,
+            height: 0,
+          },
+          isStandard: adPosType !== AdPosObject[7] && newItemName !== '自定义',
+        };
+      } else if (styleElemIndex === 1) {
+        newItem = {
+          attr: 0,
+          isStandard: adPosType !== AdPosObject[7] && newItemName !== '自定义',
+        };
+      } else {
+        newItem = {
+          attr: 1000,
+        };
+      }
+      this.props.onAddElem(elemType, this.state.elems.concat(newItem));
     } else {
-      newItem = {
-        attr: styleElemIndex === 1 ? 0 : 1000,
-      };
+      message.warning(`${elemType}"${newItemName}"不可重复添加！`);
     }
-    // this.setState({
-    //   elems: this.state.elems.concat(newItem),
-    // });
-    this.props.onAddElem(elemType, this.state.elems.concat(newItem));
   };
 
   render() {
     const { elemType, elems, elemItems, columns } = this.state;
-    const list = elems.map(t => Object.assign({}, t, { operate: '删除' }));
+    const list = elems.map((t, i) =>
+      Object.assign({}, t, { operate: '删除' }, { key: i }),
+    );
     if (elemType === styleElemName[0]) {
       return (
         <Table

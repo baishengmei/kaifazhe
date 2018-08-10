@@ -15,6 +15,7 @@ import queryString from 'query-string';
 import { createPath } from 'history/PathUtils';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import { message } from 'antd';
 import App from './components/App';
 import createFetch from './createFetch';
 import configureStore from './store/configureStore';
@@ -23,6 +24,12 @@ import { updateMeta } from './DOMUtils';
 import router from './router';
 
 moment.locale('zh-cn');
+
+// antd message 全局配置
+message.config({
+  top: 70,
+  duration: 2,
+});
 
 // parse startDate and endDate string in dateRange to moment instance
 // because moment instance will be converted to string

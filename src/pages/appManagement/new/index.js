@@ -45,10 +45,13 @@ class New extends Component {
     onAppDataChange: PropTypes.func.isRequired,
     onSaveAppData: PropTypes.func.isRequired,
     onAdPosAddElem: PropTypes.func,
+    onAddOrDelStyle: PropTypes.func,
+    onAdPosDataChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     onAdPosAddElem: null,
+    onAddOrDelStyle: null,
   };
 
   constructor(props) {
@@ -182,11 +185,13 @@ class New extends Component {
 
   getAdPosComponent = () => {
     const { appData, adPosData } = this.state;
-    const { onAdPosAddElem } = this.props;
+    const { onAdPosAddElem, onAddOrDelStyle, onAdPosDataChange } = this.props;
     return (
       <AdSlot
         {...adPosData}
         onAdPosAddElem={onAdPosAddElem}
+        onAddOrDelStyle={onAddOrDelStyle}
+        onDataChange={onAdPosDataChange}
         // onDataChange={this.onAppDataChange}
         // onSaveData={this.onSaveAppData}
         // onGoToAdList={this.onGoToAdList}

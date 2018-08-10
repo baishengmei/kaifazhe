@@ -21,13 +21,16 @@ class AdSlot extends Component {
     adPosInfo: PropTypes.shape({}).isRequired,
     styleInfo: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     // onDataChange: PropTypes.func.isRequired,
-    // onSaveData: PropTypes.func.isRequired,
+    onSaveData: PropTypes.func.isRequired,
     // onGoToAdList: PropTypes.func.isRequired,
     onAdPosAddElem: PropTypes.func,
+    onAddOrDelStyle: PropTypes.func,
+    onDataChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     onAdPosAddElem: null,
+    onAddOrDelStyle: null,
   };
 
   constructor(props) {
@@ -67,6 +70,21 @@ class AdSlot extends Component {
     // this.props.onGoToAdList(AppTabTypes.sponsorAdCampaign);
   };
 
+  // itemType: 当前编辑的项，如：广告位名称； value：当前编辑项的值
+  onAdPosInfoChange = (itemType, itemValue) => {
+    this.props.onDataChange(NewAdPosSettingItems[0].value, itemType, itemValue);
+  };
+
+  onAdPosNameChange = value => {
+    this.onAdPosInfoChange('adPosName', value);
+  };
+  onAdPosTypeChange = value => {
+    this.onAdPosInfoChange('adPosType', value);
+  };
+  onCallBackUrlChange = value => {
+    this.onAdPosInfoChange('callBackUrl', value);
+  };
+
   getFormValid = () =>
     Object.values(this.subItemValidity)
       .map(subArr => subArr.reduce((a, b) => a && b))
@@ -74,7 +92,7 @@ class AdSlot extends Component {
 
   render() {
     const { status, adPosInfo, styleInfo } = this.state;
-    const { onAdPosAddElem } = this.props;
+    const { onAdPosAddElem, onAddOrDelStyle } = this.props;
     const cancelHintText = `您当前正在新建应用，确定要取消新建吗？`;
 
     return (
@@ -83,7 +101,9 @@ class AdSlot extends Component {
           {...adPosInfo}
           // appNameValid={newAppValidity[0]}
           // appTypeValid={newAppValidity[1]}
-          // onAppNameChange={this.onAppNameChange}
+          onAdPosNameChange={this.onAdPosNameChange}
+          onAdPosTypeChange={this.onAdPosTypeChange}
+          onCallBackUrlChange={this.onCallBackUrlChange}
           // onOsTypeChange={this.onOsTypeChange}
           // onCategoryChange={this.onCategoryChange}
           // onAndroidPackageChange={this.onAndroidPackageChange}
@@ -92,6 +112,7 @@ class AdSlot extends Component {
           styleInfo={styleInfo}
           {...adPosInfo}
           onAddElem={onAdPosAddElem}
+          onAddOrDelStyle={onAddOrDelStyle}
         />
         <FormFooterActionBar
           status={status}

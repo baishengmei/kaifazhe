@@ -90,3 +90,13 @@ export const CREATE_APP_FAIL = 'CREATE_APP_FAIL';
  * 新建广告位页，添加样式元素
  */
 export const ADPOS_ADD_ELEM = 'ADPOS_ADD_ELEM';
+
+/**
+ * 新建应用 继续添加样式或删除样式
+ */
+export const ADD_OR_DEL_STYLE = 'ADD_OR_DEL_STYLE';
+
+/**
+ * 新建广告位，表单数据改变
+ */
+export const ADPOS_ITEM_CHANGE = 'ADPOS_ITEM_CHANGE';

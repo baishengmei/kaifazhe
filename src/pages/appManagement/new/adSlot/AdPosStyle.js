@@ -10,6 +10,8 @@ import {
   pictureElemsMapKey,
   textElemsMapKey,
   videoElemsMapKey,
+  flowStyleItems,
+  AdPosObject,
 } from '../../../../constants/MenuTypes';
 import {
   classnames,
@@ -40,18 +42,28 @@ class AdPosStyle extends Component {
     styleName: PropTypes.string.isRequired,
     objectType: PropTypes.string.isRequired,
     appVersion: PropTypes.string.isRequired,
-    pictureElems: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    pictures: PropTypes.arrayOf(PropTypes.object).isRequired,
-    textElems: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    texts: PropTypes.arrayOf(PropTypes.object).isRequired,
-    videoElems: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    videos: PropTypes.arrayOf(PropTypes.object).isRequired,
+    pictureElems: PropTypes.arrayOf(PropTypes.string.isRequired),
+    pictures: PropTypes.arrayOf(PropTypes.object),
+    textElems: PropTypes.arrayOf(PropTypes.string.isRequired),
+    texts: PropTypes.arrayOf(PropTypes.object),
+    videoElems: PropTypes.arrayOf(PropTypes.string.isRequired),
+    videos: PropTypes.arrayOf(PropTypes.object),
     adPosType: PropTypes.string.isRequired,
     onAddElem: PropTypes.func,
+    onDelStyle: PropTypes.func,
+    isShowDel: PropTypes.bool.isRequired,
+    flowInfoStyleType: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
+    pictures: [],
+    texts: [],
+    videos: [],
+    pictureElems: [],
+    textElems: [],
+    videoElems: [],
     onAddElem: null,
+    onDelStyle: null,
   };
 
   constructor(props) {
@@ -62,6 +74,7 @@ class AdPosStyle extends Component {
       auditStatus,
       objectType,
       appVersion,
+      flowInfoStyleType,
       pictureElems,
       pictures,
       textElems,
@@ -69,6 +82,7 @@ class AdPosStyle extends Component {
       videoElems,
       videos,
       adPosType,
+      isShowDel,
     } = this.props;
     this.state = {
       styleTitle,
@@ -76,6 +90,7 @@ class AdPosStyle extends Component {
       auditStatus,
       objectType,
       appVersion,
+      flowInfoStyleType,
       pictureElems,
       pictures,
       textElems,
@@ -83,6 +98,7 @@ class AdPosStyle extends Component {
       videoElems,
       videos,
       adPosType,
+      isShowDel,
     };
     this.componentWillReceiveProps = updateComponentStateByKeys([
       'styleTitle',
@@ -90,6 +106,7 @@ class AdPosStyle extends Component {
       'auditStatus',
       'objectType',
       'appVersion',
+      'flowInfoStyleType',
       'pictureElems',
       'pictures',
       'textElems',
@@ -97,6 +114,7 @@ class AdPosStyle extends Component {
       'videoElems',
       'videos',
       'adPosType',
+      'isShowDel',
     ]);
     this.shouldComponentUpdate = componentUpdateByState;
   }
@@ -115,6 +133,7 @@ class AdPosStyle extends Component {
       auditStatus,
       objectType,
       appVersion,
+      flowInfoStyleType,
       pictureElems,
       pictures,
       textElems,
@@ -122,20 +141,29 @@ class AdPosStyle extends Component {
       videoElems,
       videos,
       adPosType,
+      isShowDel,
     } = this.state;
-    const { onAddElem } = this.props;
+
+    const { onAddElem, onDelStyle } = this.props;
+
+    const styleTitleName =
+      styleTitle === AdPosObject[1].value
+        ? flowStyleItems.find(t => t.value === flowInfoStyleType).name
+        : AdPosObject.find(t => t.value === styleTitle).name;
+
     return (
       <div className={s2.setting__body_common}>
         <div className={s2.setting__body_header}>
           <div className={s2.setting__body_header_left}>
-            <span>{styleTitle}样式</span>
+            <span>{styleTitleName}样式</span>
             <span>审核状态： {auditStatus}</span>
           </div>
-          {auditStatus === AdPosAuditStatus[1].name && (
-            <div className={s2.setting__body_header_right}>
-              <Icon type="close" />
-            </div>
-          )}
+          {auditStatus === AdPosAuditStatus[1].name &&
+            isShowDel && (
+              <div className={s2.setting__body_header_right}>
+                <Icon type="close" onClick={onDelStyle} />
+              </div>
+            )}
         </div>
         <div className={s2.setting__body_content}>
           <div className={s2['setting__body_item']}>
@@ -227,7 +255,7 @@ class AdPosStyle extends Component {
               onSizeChange={this.onSizeChange}
               onWordNumChange={this.onWordNumChange}
               onAddElem={onAddElem}
-              onDelElem={this.onDelElem}
+              onDelElem={onAddElem}
               adPosType={adPosType}
             />
           </div>

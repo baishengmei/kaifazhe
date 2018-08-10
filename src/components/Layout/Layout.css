@@ -17,7 +17,7 @@ body {
   width: 100%;
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-light);
-  font-size: var(--font-size-base);
+  font-size: var(--font-smallest);
   background-color: var(--color-bg);
   color: var(--color-light-black);
   line-height: var(--line-height-chinese);
@@ -77,9 +77,23 @@ input[disabled] {
 /**
  * antd message 全局消息样式
  */
-:global(.ant-message-notice-content) {
-  padding: 8px 24px;
-  border-radius: var(--border-radius-base);
+:global(.ant-message) {
+  font-size: 12px;
+  position: fixed;
+  z-index: 1010;
+  width: 100%;
+  top: 16px;
+  left: 0;
+  pointer-events: none;
+
+  :global(.ant-message-notice-content) {
+    padding: 8px 24px;
+    border-radius: var(--border-radius-base);
+
+    span {
+      color: var(--color-light-black);
+    }
+  }
 }
 
 /**

@@ -115,7 +115,7 @@
               display: none;
               position: absolute;
               top: 0;
-              right: 0;
+              right: -6px;
               transform: translate(50%, -50%);
               background-color: var(--color-white);
             }
@@ -141,7 +141,7 @@
 
 .setting__body_image {
   float: left;
-  width: 300px;
+  width: 230px;
   margin: 78px;
 }
 
@@ -184,6 +184,7 @@
   width: 58px;
   color: var(--color-blue);
   font-family: PingFangSC-Regular;
+  cursor: pointer;
 }
 
 i {

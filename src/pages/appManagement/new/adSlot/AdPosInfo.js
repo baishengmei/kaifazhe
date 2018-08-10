@@ -7,7 +7,10 @@ import {
   updateComponentStateByKeys,
   componentUpdateByState,
 } from '../../../../core/utils';
-import { AdPosObject } from '../../../../constants/MenuTypes';
+import {
+  AdPosObject,
+  AppAdposListMapForFE,
+} from '../../../../constants/MenuTypes';
 // import Icons from '../../../../components/Icons';
 
 const { Group: RadioGroup } = Radio;
@@ -25,6 +28,9 @@ class AdPosInfo extends Component {
     adPosName: PropTypes.string.isRequired,
     adPosType: PropTypes.string.isRequired,
     callBackUrl: PropTypes.string.isRequired,
+    onAdPosNameChange: PropTypes.func.isRequired,
+    onAdPosTypeChange: PropTypes.func.isRequired,
+    onCallBackUrlChange: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -39,10 +45,24 @@ class AdPosInfo extends Component {
     this.shouldComponentUpdate = componentUpdateByState;
   }
 
+  onAdPosNameChange = e => {
+    const { value } = e.target;
+    this.props.onAdPosNameChange(value);
+  };
+
+  onAdPosTypeChange = e => {
+    const { value } = e.target;
+    this.props.onAdPosTypeChange(value);
+  };
+
+  onCallBackUrlChange = e => {
+    const { value } = e.target;
+    this.props.onCallBackUrlChange(value);
+  };
+
   render() {
     const {
       appName,
-      adPosName,
       adPosType,
       callBackUrl,
       // appNameValid,
@@ -75,8 +95,7 @@ class AdPosInfo extends Component {
                   [s['adentity-name-input']]: true,
                   // [s.error]: nameConflict || showAppNameError,
                 })}
-                value={adPosName}
-                onChange={this.onAppNameChange}
+                onChange={this.onAdPosNameChange}
                 onFocus={this.onAppNameFocus}
               />
               <div
@@ -102,7 +121,7 @@ class AdPosInfo extends Component {
               <RadioGroup
                 size="large"
                 value={adPosType}
-                onChange={this.onOsTypeChange}
+                onChange={this.onAdPosTypeChange}
               >
                 {adPosTypeItems}
               </RadioGroup>
@@ -116,8 +135,7 @@ class AdPosInfo extends Component {
                   [s.input]: true,
                   [s['android-item_value']]: true,
                 })}
-                value={callBackUrl}
-                onChange={this.onAndroidPackageChange}
+                onChange={this.onCallBackUrlChange}
               />
               <div
                 className={classnames({

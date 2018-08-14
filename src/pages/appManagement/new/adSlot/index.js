@@ -74,6 +74,14 @@ class AdSlot extends Component {
   onAdPosInfoChange = (itemType, itemValue) => {
     this.props.onDataChange(NewAdPosSettingItems[0].value, itemType, itemValue);
   };
+  onAdPosStyleInfoChange = (itemType, itemValue, itemIndex) => {
+    this.props.onDataChange(
+      NewAdPosSettingItems[1].value,
+      itemType,
+      itemValue,
+      itemIndex,
+    );
+  };
 
   onAdPosNameChange = value => {
     this.onAdPosInfoChange('adPosName', value);
@@ -83,6 +91,19 @@ class AdSlot extends Component {
   };
   onCallBackUrlChange = value => {
     this.onAdPosInfoChange('callBackUrl', value);
+  };
+
+  onFlowInfoTypeChange = (value, index) => {
+    this.onAdPosStyleInfoChange('flowInfoStyleType', value, index);
+  };
+  onStyleNameChange = (value, index) => {
+    this.onAdPosStyleInfoChange('styleName', value, index);
+  };
+  onObjectChange = (value, index) => {
+    this.onAdPosStyleInfoChange('objectType', value, index);
+  };
+  onAppVersionChange = (value, index) => {
+    this.onAdPosStyleInfoChange('appVersion', value, index);
   };
 
   getFormValid = () =>
@@ -113,6 +134,12 @@ class AdSlot extends Component {
           {...adPosInfo}
           onAddElem={onAdPosAddElem}
           onAddOrDelStyle={onAddOrDelStyle}
+          onFlowInfoTypeChange={this.onFlowInfoTypeChange}
+          onStyleNameChange={this.onStyleNameChange}
+          onObjectChange={this.onObjectChange}
+          onAppVersionChange={this.onAppVersionChange}
+          // onNameChange={this.onNameChange}
+          onElemInfoItemChange={this.onAdPosStyleInfoChange}
         />
         <FormFooterActionBar
           status={status}

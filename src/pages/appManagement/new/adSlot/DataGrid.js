@@ -43,12 +43,8 @@ const getColumns = (
   elemsMapKey, // 元素与key组合
   elemsMapRatio, // 元素与比例组合
   elemsMapSize, // 元素与尺寸组合
-  elemsMapWordNum, // 元素与字数组合
-  onNameChange, // 元素名改变时
-  onKeyChange, // 元素Key改变时
-  onRatioChange, // 比例改变时
-  onSizeChange, // 尺寸改变时
-  onWordNumChange, // 字数改变时
+  elemsMapWordNum, // 字数改变时
+  onElemInfoItemChange, // 元素名、元素key、比例、尺寸、字数
   onAddElem, // 添加元素时
   onDelElem, // 删除元素时
   adPosType, // 广告位类型
@@ -57,28 +53,28 @@ const getColumns = (
   switch (elemType) {
     case styleElemName[0]: {
       const table = [
-        Columns.elemName(isAbleEdit, elemType, onNameChange),
-        Columns.elemKey(isAbleEdit, elemType, onKeyChange),
-        Columns.ratio(isAbleEdit, onRatioChange),
-        Columns.size(isAbleEdit, onSizeChange),
+        Columns.elemName(isAbleEdit, elemType, onElemInfoItemChange),
+        Columns.elemKey(isAbleEdit, elemType, onElemInfoItemChange),
+        Columns.ratio(isAbleEdit, onElemInfoItemChange),
+        Columns.size(isAbleEdit, onElemInfoItemChange),
       ];
       isAbleAddAndDel && table.push(operateRow);
       return table;
     }
     case styleElemName[1]: {
       const table = [
-        Columns.elemName(isAbleAddAndDel, elemType, onNameChange),
-        Columns.elemKey(isAbleAddAndDel, elemType, onKeyChange),
-        Columns.wordNum(isAbleEdit, onWordNumChange),
+        Columns.elemName(isAbleAddAndDel, elemType, onElemInfoItemChange),
+        Columns.elemKey(isAbleAddAndDel, elemType, onElemInfoItemChange),
+        Columns.wordNum(isAbleEdit, onElemInfoItemChange),
       ];
       isAbleAddAndDel && table.push(operateRow);
       return table;
     }
     case styleElemName[2]:
       return [
-        Columns.elemName(isAbleAddAndDel, elemType, onNameChange),
-        Columns.elemKey(isAbleAddAndDel, elemType, onKeyChange),
-        Columns.wordNum(isAbleEdit, onWordNumChange),
+        Columns.elemName(isAbleAddAndDel, elemType, onElemInfoItemChange),
+        Columns.elemKey(isAbleAddAndDel, elemType, onElemInfoItemChange),
+        Columns.wordNum(isAbleEdit, onElemInfoItemChange),
       ];
   }
 };
@@ -93,15 +89,13 @@ class DataGrid extends React.Component {
     elemsMapRatio: PropTypes.shape({}).isRequired,
     elemsMapSize: PropTypes.shape({}).isRequired,
     elemsMapWordNum: PropTypes.shape({}).isRequired,
-    onNameChange: PropTypes.func.isRequired,
-    onKeyChange: PropTypes.func.isRequired,
-    onRatioChange: PropTypes.func.isRequired,
-    onSizeChange: PropTypes.func.isRequired,
+    // onSizeChange: PropTypes.func.isRequired,
     onWordNumChange: PropTypes.func.isRequired,
     onAddElem: PropTypes.func,
     onDelElem: PropTypes.func.isRequired,
     elems: PropTypes.arrayOf(PropTypes.object),
     adPosType: PropTypes.string.isRequired,
+    onElemInfoItemChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -120,10 +114,7 @@ class DataGrid extends React.Component {
       elemsMapRatio,
       elemsMapSize,
       elemsMapWordNum,
-      onNameChange,
-      onKeyChange,
-      onRatioChange,
-      onSizeChange,
+      // onSizeChange,
       onWordNumChange,
       onAddElem,
       onDelElem,
@@ -144,11 +135,7 @@ class DataGrid extends React.Component {
         elemsMapRatio,
         elemsMapSize,
         elemsMapWordNum,
-        onNameChange,
-        onKeyChange,
-        onRatioChange,
-        onSizeChange,
-        onWordNumChange,
+        this.onElemInfoItemChange,
         onAddElem,
         this.onDelElem,
         adPosType,
@@ -168,6 +155,31 @@ class DataGrid extends React.Component {
       elems: nextProps.elems,
     });
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { elems, elemType, elemItems, adPosType } = this.props;
+    const { columns } = this.state;
+    return (
+      elems !== nextProps.elems ||
+      elemType !== nextProps.elemType ||
+      elemItems !== nextProps.elemItems ||
+      adPosType !== nextProps.adPosType ||
+      columns !== nextState.columns
+    );
+  }
+
+  onElemInfoItemChange = (itemType, itemValue, index) => {
+    const { elems } = this.state;
+    const newElems = [...elems];
+    newElems[index][itemType] = itemValue;
+    this.props.onElemInfoItemChange(newElems);
+  };
+
+  // onNameChange = (value, index) => {
+  //   const { elems } = this.state;
+  //   const newElems = [...elems];
+  //   newElems[index].elemName = value;
+  // }
 
   onDelElem = record => {
     console.info(record.key, record.key === 0, '删除了什么');

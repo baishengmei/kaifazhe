@@ -53,6 +53,11 @@ class AdPosStyle extends Component {
     onDelStyle: PropTypes.func,
     isShowDel: PropTypes.bool.isRequired,
     flowInfoStyleType: PropTypes.string.isRequired,
+    onStyleNameChange: PropTypes.func.isRequired,
+    onObjectChange: PropTypes.func.isRequired,
+    onAppVersionChange: PropTypes.func.isRequired,
+    onNameChange: PropTypes.func.isRequired,
+    onElemInfoItemChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -119,7 +124,6 @@ class AdPosStyle extends Component {
     this.shouldComponentUpdate = componentUpdateByState;
   }
 
-  onNameChange = () => {};
   onKeyChange = () => {};
   onRatioChange = () => {};
   onSizeChange = () => {};
@@ -144,7 +148,15 @@ class AdPosStyle extends Component {
       isShowDel,
     } = this.state;
 
-    const { onAddElem, onDelStyle } = this.props;
+    const {
+      onAddElem,
+      onDelStyle,
+      onStyleNameChange,
+      onObjectChange,
+      onAppVersionChange,
+      // onNameChange,
+      onElemInfoItemChange,
+    } = this.props;
 
     const styleTitleName =
       styleTitle === AdPosObject[1].value
@@ -182,7 +194,7 @@ class AdPosStyle extends Component {
                   // [s.error]: nameConflict || showAppNameError,
                 })}
                 value={styleName}
-                onChange={this.onAppNameChange}
+                onChange={e => onStyleNameChange(e.target.value)}
                 onFocus={this.onAppNameFocus}
               />
               <div
@@ -206,7 +218,7 @@ class AdPosStyle extends Component {
               <RadioGroup
                 size="large"
                 value={objectType}
-                onChange={this.onOsTypeChange}
+                onChange={e => onObjectChange(e.target.value)}
               >
                 {objectTypes}
               </RadioGroup>
@@ -227,7 +239,7 @@ class AdPosStyle extends Component {
                   // [s.error]: nameConflict || showAppNameError,
                 })}
                 value={appVersion}
-                onChange={this.onAppNameChange}
+                onChange={e => onAppVersionChange(e.target.value)}
                 onFocus={this.onAppNameFocus}
               />
               <div
@@ -246,20 +258,17 @@ class AdPosStyle extends Component {
               isAbleEdit={isAbleEdit}
               elemType="图片元素"
               elemItems={pictureElems}
-              // elemsMapKey={}
               elems={pictures}
               elemsMapKey={pictureElemsMapKey} // 这四项的值需要改
               elemsMapRatio={pictureElemsMapKey}
               elemsMapSize={pictureElemsMapKey}
               elemsMapWordNum={pictureElemsMapKey}
-              onNameChange={this.onNameChange}
-              onKeyChange={this.onKeyChange}
-              onRatioChange={this.onRatioChange}
-              onSizeChange={this.onSizeChange}
-              onWordNumChange={this.onWordNumChange}
               onAddElem={onAddElem}
               onDelElem={onAddElem}
               adPosType={adPosType}
+              onElemInfoItemChange={elems =>
+                onElemInfoItemChange('pictures', elems)
+              }
             />
           </div>
           <div className={s2.setting__body_elems}>
@@ -267,18 +276,18 @@ class AdPosStyle extends Component {
               isAbleAddAndDel
               isAbleEdit
               elemType="文字元素"
-              // appVersion={appVersion}
               elemItems={textElems}
               elems={texts}
               elemsMapKey={textElemsMapKey}
-              onNameChange={this.onNameChange}
-              onKeyChange={this.onKeyChange}
-              onRatioChange={this.onRatioChange}
-              onSizeChange={this.onSizeChange}
-              onWordNumChange={this.onWordNumChange}
+              elemsMapRatio={textElemsMapKey}
+              elemsMapSize={pictureElemsMapKey}
+              elemsMapWordNum={pictureElemsMapKey}
               onAddElem={onAddElem}
               onDelElem={onAddElem}
               adPosType={adPosType}
+              onElemInfoItemChange={elems =>
+                onElemInfoItemChange('texts', elems)
+              }
             />
           </div>
           {/* <div className={s2.setting__body_elems}>

@@ -11,6 +11,8 @@ import {
   ADPOS_ADD_ELEM,
   ADD_OR_DEL_STYLE,
   ADPOS_ITEM_CHANGE,
+  FLOWINFO_TYPE_CHANGE,
+  STYLE_NAME_CHANGE,
 } from '../../constants';
 import { isValidAppAdPosEntityName } from '../../core/utils';
 import { OperationStatus } from '../../constants/MenuTypes';
@@ -83,11 +85,17 @@ export const addOrDelStyle = styleInfo => ({
 });
 
 // 编辑新建广告位页面,表单数据改变
-export const adPosDataChange = (sectionType, itemType, itemValue) => ({
+export const adPosDataChange = (
+  sectionType,
+  itemType,
+  itemValue,
+  itemIndex,
+) => ({
   type: ADPOS_ITEM_CHANGE,
   payload: {
     type: sectionType,
     itemType,
     [itemType]: itemValue,
+    itemIndex,
   },
 });

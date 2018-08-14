@@ -300,6 +300,7 @@ const defaultElemsInfo = {
         attr: {
           width: 720,
           height: 480,
+          sizeMonitor: '',
         },
         isStandard: true,
       },
@@ -322,6 +323,7 @@ const defaultElemsInfo = {
         attr: {
           width: 1289, // 尺寸的宽
           height: 720, // 尺寸的高
+          sizeMonitor: '',
         },
         isStandard: true, // 标准元素 true；非标准元素 false
       },
@@ -344,6 +346,7 @@ const defaultElemsInfo = {
         attr: {
           width: 720, // 尺寸的宽
           height: 480, // 尺寸的高
+          sizeMonitor: '',
         },
         isStandard: true, // 标准元素 true；非标准元素 false
       },
@@ -354,6 +357,7 @@ const defaultElemsInfo = {
         attr: {
           width: 720, // 尺寸的宽
           height: 480, // 尺寸的高
+          sizeMonitor: '',
         },
         isStandard: true, // 标准元素 true；非标准元素 false
       },
@@ -364,6 +368,7 @@ const defaultElemsInfo = {
         attr: {
           width: 720, // 尺寸的宽
           height: 480, // 尺寸的高
+          sizeMonitor: '',
         },
         isStandard: true, // 标准元素 true；非标准元素 false
       },
@@ -386,6 +391,7 @@ const defaultElemsInfo = {
         attr: {
           width: 1289, // 尺寸的宽
           height: 720, // 尺寸的高
+          sizeMonitor: '',
         },
         isStandard: true, // 标准元素 true；非标准元素 false
       },
@@ -422,6 +428,7 @@ const defaultElemsInfo = {
         attr: {
           width: 720,
           height: 1280,
+          sizeMonitor: '',
         },
         isStandard: true,
       },
@@ -432,6 +439,7 @@ const defaultElemsInfo = {
         attr: {
           width: 480,
           height: 960,
+          sizeMonitor: '',
         },
         isStandard: true,
       },
@@ -447,6 +455,7 @@ const defaultElemsInfo = {
         attr: {
           width: 640,
           height: 640,
+          sizeMonitor: '',
         },
         isStandard: true,
       },
@@ -462,6 +471,7 @@ const defaultElemsInfo = {
         attr: {
           width: 640,
           height: 100,
+          sizeMonitor: '',
         },
         isStandard: true,
       },
@@ -477,6 +487,7 @@ const defaultElemsInfo = {
         attr: {
           width: 1280,
           height: 720,
+          sizeMonitor: '',
         },
         isStandard: true,
       },
@@ -492,6 +503,7 @@ const defaultElemsInfo = {
         attr: {
           width: 640,
           height: 640,
+          sizeMonitor: '',
         },
         isStandard: true,
       },
@@ -584,7 +596,7 @@ const defaultStyleInfo = (elemsInfo, defaultElemsItems) => {
     flowInfoStyleType: AppAdposNewMapForFE.小图, // 添加默认的样式类型
     styleType: '', // 样式类型，根据广告位类型不同而不同，比如开屏样式、小图样式等
     auditStatus: AdPosAuditStatus[1].name, // 审核状态
-    styleName: '', // 样式名称
+    styleName: '小图', // 样式名称
     objectType: objectTypeItems[0].value, // 推广表标的类型
     appVersion: '0', // 可兼容的最低/高版本号或App当前版本号
   };
@@ -640,4 +652,5 @@ export {
   defaultElemsInfo,
   defaultStyleInfo,
   defaultElemsItems,
+  AppAdposNewMapForFE,
 };

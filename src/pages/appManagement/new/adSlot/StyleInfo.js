@@ -32,6 +32,12 @@ class StyleInfo extends Component {
     adPosType: PropTypes.string.isRequired,
     onAddElem: PropTypes.func,
     onAddOrDelStyle: PropTypes.func,
+    onFlowInfoTypeChange: PropTypes.func.isRequired,
+    onStyleNameChange: PropTypes.func.isRequired,
+    onObjectChange: PropTypes.func.isRequired,
+    onAppVersionChange: PropTypes.func.isRequired,
+    onNameChange: PropTypes.func.isRequired,
+    onElemInfoItemChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -76,7 +82,7 @@ class StyleInfo extends Component {
     this.props.onAddOrDelStyle([...newStyleInfo]);
   };
 
-  flowInfoStyleType = flowInfoStyleType => (
+  flowInfoStyleType = (flowInfoStyleType, index) => (
     <div className={s['setting-item']}>
       <div
         className={classnames({
@@ -95,7 +101,7 @@ class StyleInfo extends Component {
         <RadioGroup
           size="large"
           value={flowInfoStyleType}
-          onChange={this.onOsTypeChange} // 这里触发函数改变flowInfoStyleType这个store里的值
+          onChange={e => this.props.onFlowInfoTypeChange(e.target.value, index)} // 这里触发函数改变flowInfoStyleType这个store里的值
         >
           {adPosTypeItems}
         </RadioGroup>
@@ -105,7 +111,13 @@ class StyleInfo extends Component {
 
   render() {
     const { adPosType, styleInfo } = this.state;
-    console.info(adPosType, '老师来了老师');
+    const {
+      onStyleNameChange,
+      onObjectChange,
+      onAppVersionChange,
+      // onNameChange,
+      onElemInfoItemChange,
+    } = this.props;
     const newStyleInfo = styleInfo.map((t, i) => {
       t.key = i;
       return t;
@@ -119,7 +131,7 @@ class StyleInfo extends Component {
               <div className={s2.setting__body}>
                 {/* 广告位类型为信息流时，显示“添加样式” */
                 adPosType === AdPosObject[1].value &&
-                  this.flowInfoStyleType(sty.flowInfoStyleType)}
+                  this.flowInfoStyleType(sty.flowInfoStyleType, index)}
                 <AdPosStyle
                   styleTitle={
                     adPosType === AdPosObject[1].name
@@ -143,6 +155,13 @@ class StyleInfo extends Component {
                   }}
                   onDelStyle={() => this.onDelStyle(index)}
                   isShowDel={styleInfo.length > 1}
+                  onStyleNameChange={value => onStyleNameChange(value, index)}
+                  onObjectChange={value => onObjectChange(value, index)}
+                  onAppVersionChange={value => onAppVersionChange(value, index)}
+                  // onNameChange={(value, elemIndex) => onNameChange(value, elemIndex, index)}
+                  onElemInfoItemChange={(itemType, value) =>
+                    onElemInfoItemChange(itemType, value, index)
+                  }
                 />
               </div>
               <div className={s2.setting__body_image}>

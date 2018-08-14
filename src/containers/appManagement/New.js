@@ -10,6 +10,8 @@ import {
   adPosAddElem,
   addOrDelStyle,
   adPosDataChange,
+  flowInfoTypeChange,
+  styleNameChange,
 } from '../../actions/AppManagement/new';
 
 const mapStateToProps = state => {
@@ -49,8 +51,8 @@ const mapDispatchToProps = dispatch => ({
   onAddOrDelStyle(styleInfo) {
     dispatch(addOrDelStyle(styleInfo));
   },
-  onAdPosDataChange(sectionType, itemType, itemValue) {
-    dispatch(adPosDataChange(sectionType, itemType, itemValue));
+  onAdPosDataChange(sectionType, itemType, itemValue, itemIndex) {
+    dispatch(adPosDataChange(sectionType, itemType, itemValue, itemIndex));
   },
 });
 

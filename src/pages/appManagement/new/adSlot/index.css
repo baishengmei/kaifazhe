@@ -134,6 +134,32 @@
 
       .setting__body_elems {
         margin-top: 33px;
+
+        :global(.ant-table-title) i {
+          display: inline-block;
+          font-style: normal;
+          vertical-align: baseline;
+          text-align: center;
+          text-transform: none;
+          line-height: 1;
+          text-rendering: optimizeLegibility;
+          -webkit-font-smoothing: antialiased;
+          color: var(--color-blue);
+          margin-right: 7px;
+          cursor: pointer;
+
+          &::before {
+            content: "\E626";
+            display: block;
+            font-family: "anticon" !important;
+          }
+
+          & + span {
+            color: var(--color-blue);
+            font-family: PingFangSC-Regular;
+            cursor: pointer;
+          }
+        }
       }
     }
   }
@@ -155,6 +181,32 @@
 
   :global(.anticon) {
     margin-right: 8px;
+  }
+
+  i {
+    display: inline-block;
+    font-style: normal;
+    vertical-align: baseline;
+    text-align: center;
+    text-transform: none;
+    line-height: 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    color: var(--color-blue);
+    margin-right: 7px;
+    cursor: pointer;
+
+    &::before {
+      content: "\E626";
+      display: block;
+      font-family: "anticon" !important;
+    }
+
+    & + span {
+      color: var(--color-blue);
+      font-family: PingFangSC-Regular;
+      cursor: pointer;
+    }
   }
 }
 
@@ -186,29 +238,24 @@
   font-family: PingFangSC-Regular;
   cursor: pointer;
 }
-
-i {
+.sizeMonitor {
   display: inline-block;
-  font-style: normal;
-  vertical-align: baseline;
-  text-align: center;
-  text-transform: none;
-  line-height: 1;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  color: var(--color-blue);
-  margin-right: 7px;
-  cursor: pointer;
+  position: relative;
 
-  &::before {
-    content: "\E626";
-    display: block;
-    font-family: "anticon" !important;
+  span {
+    display: inline-block;
+    position: absolute;
+    width: 6px;
+    height: 4px;
+    cursor: pointer;
+    right: 6px;
   }
 
-  & + span {
-    color: var(--color-blue);
-    font-family: PingFangSC-Regular;
-    cursor: pointer;
+  .up {
+    top: 9px;
+  }
+
+  .down {
+    top: 15px;
   }
 }

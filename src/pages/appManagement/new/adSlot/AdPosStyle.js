@@ -150,7 +150,10 @@ class AdPosStyle extends Component {
       styleTitle === AdPosObject[1].value
         ? flowStyleItems.find(t => t.value === flowInfoStyleType).name
         : AdPosObject.find(t => t.value === styleTitle).name;
-
+    const isAbleAddAndDel =
+      auditStatus === AdPosAuditStatus[1].name &&
+      adPosType !== AdPosObject[5].value; // 是否可添加元素和删除：草稿 && 不是视频视频 = true
+    const isAbleEdit = auditStatus === AdPosAuditStatus[1].name; // 是否可编辑：草稿 = ture
     return (
       <div className={s2.setting__body_common}>
         <div className={s2.setting__body_header}>
@@ -239,8 +242,8 @@ class AdPosStyle extends Component {
           </div>
           <div className={s2.setting__body_elems}>
             <DataGrid
-              isAbleAddAndDel // 是否可添加元素和删除：草稿 && 不是视频视频 = true
-              isAbleEdit // 是否可编辑：草稿 = ture
+              isAbleAddAndDel={isAbleAddAndDel}
+              isAbleEdit={isAbleEdit}
               elemType="图片元素"
               elemItems={pictureElems}
               // elemsMapKey={}
@@ -259,18 +262,26 @@ class AdPosStyle extends Component {
               adPosType={adPosType}
             />
           </div>
-          {/* <div className={s2.setting__body_elems}>
+          <div className={s2.setting__body_elems}>
             <DataGrid
-              isAbleAdd
+              isAbleAddAndDel
               isAbleEdit
-              isAbleDel
               elemType="文字元素"
               // appVersion={appVersion}
-              elemsMapKey={textElems}
+              elemItems={textElems}
               elems={texts}
+              elemsMapKey={textElemsMapKey}
+              onNameChange={this.onNameChange}
+              onKeyChange={this.onKeyChange}
+              onRatioChange={this.onRatioChange}
+              onSizeChange={this.onSizeChange}
+              onWordNumChange={this.onWordNumChange}
+              onAddElem={onAddElem}
+              onDelElem={onAddElem}
+              adPosType={adPosType}
             />
           </div>
-          <div className={s2.setting__body_elems}>
+          {/* <div className={s2.setting__body_elems}>
             <DataGrid
               isAbleAdd
               isAbleEdit

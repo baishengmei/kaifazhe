@@ -6,20 +6,29 @@ import {
   textElemsMapKey,
   videoElemsMapKey,
   pictureElemRatio,
+  elemsWordNum,
   styleElemName,
   AdPosObject,
 } from '../../../../constants/MenuTypes';
 
 const { Option } = Select;
 
-const ratioItems = Object.keys(pictureElemRatio).map(t => (
-  <Option key={t.toString} value={t}>
+const ratioRatioItems = Object.keys(pictureElemRatio).map(t => (
+  <Option key={t.toString()} value={t}>
     {t}
   </Option>
 ));
 
+const wordNumRatioItems = elemKey => {
+  return elemsWordNum[elemKey].map(t => (
+    <Option key={t.toString()} value={t}>
+      {t}
+    </Option>
+  ));
+};
+
 const Columns = {
-  elemName: (isAbleAddAndDel, elemType, onNameChange) => ({
+  elemName: (isAbleEdit, elemType, onNameChange) => ({
     title: '元素名',
     key: 'elemName',
     className: s.elemName,
@@ -30,18 +39,18 @@ const Columns = {
       // if (adPosType === AdPosObject[7]) {
       //   return <Input value={record.elemName} onChange={onNameChange} />;
       // }
-      if (record.isStandard) {
+      if (record.isStandard || !isAbleEdit) {
         return <span>{record.elemName}</span>;
       }
       return <Input value={record.elemName} onChange={onNameChange} />;
     },
   }),
-  elemKey: (type, onChange) => ({
+  elemKey: (isAbleEdit, elemType, onChange) => ({
     title: '元素Key',
     key: 'elemKey',
     className: s.elemKey,
     render: record => {
-      if (record.type !== '自定义') {
+      if (elemType === styleElemName[2] || record.isStandard || !isAbleEdit) {
         return (
           <span>
             {
@@ -58,27 +67,32 @@ const Columns = {
       return <Input value={record.elemName} onChange={onChange} />;
     },
   }),
-  ratio: (type, onChange) => ({
+  ratio: (isAbleEdit, onChange) => ({
     title: '比例',
     key: 'ratio',
     className: s.ratio,
     render: record => {
-      if (record.type !== '自定义') {
+      if (isAbleEdit) {
         // 这个地方需要判断的是审核状态
         return (
-          <Select style={{ width: 120 }} onChange={onChange}>
-            {ratioItems}
+          <Select
+            style={{ width: 80 }}
+            value={record.ratio}
+            onChange={onChange}
+          >
+            {ratioRatioItems}
           </Select>
         );
       }
+      return <span>{record.ratio}</span>;
     },
   }),
-  size: (type, onChange) => ({
+  size: (isAbleEdit, onChange) => ({
     title: '尺寸',
     key: 'size',
     className: s.size,
     render: record => {
-      if (record.type !== '自定义') {
+      if (isAbleEdit) {
         return (
           <div onChange={onChange} style={{ margin: '0 auto' }}>
             宽<Input
@@ -92,17 +106,27 @@ const Columns = {
           </div>
         );
       }
+      return (
+        <div style={{ margin: '0 auto' }}>
+          宽 {record.attr.width}
+          &nbsp;&nbsp; 高 {record.attr.height}
+        </div>
+      );
     },
   }),
-  wordNum: () => ({
+  wordNum: (isAbleEdit, onChange) => ({
     title: '字数',
     key: 'wordNum',
     className: s.wordNum,
     render: record => {
-      if (record.type !== '自定义') {
+      if (!isAbleEdit) {
         return <span>{record.attr}</span>;
       }
-      return <Select>{ratioItems}</Select>;
+      return (
+        <Select style={{ width: 80 }} value={record.attr}>
+          {wordNumRatioItems(record.elemKey)}
+        </Select>
+      );
     },
   }),
   operate: onDelElem => ({

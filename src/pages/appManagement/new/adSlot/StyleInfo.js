@@ -67,7 +67,7 @@ class StyleInfo extends Component {
     const { styleInfo, adPosType } = this.state;
     const newStyleInfo = [...styleInfo];
     const addNewElems =
-      adPosType === AdPosObject[1].name
+      adPosType === AdPosObject[1].value // 若为信息流
         ? defaultElemsInfo['小图']
         : defaultElemsInfo[adPosType];
     const addNewStyle = defaultStyleInfo(addNewElems);

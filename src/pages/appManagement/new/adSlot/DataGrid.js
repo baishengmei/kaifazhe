@@ -53,24 +53,33 @@ const getColumns = (
   onDelElem, // 删除元素时
   adPosType, // 广告位类型
 ) => {
+  const operateRow = Columns.operate(onDelElem);
   switch (elemType) {
-    case styleElemName[0]:
+    case styleElemName[0]: {
+      const table = [
+        Columns.elemName(isAbleEdit, elemType, onNameChange),
+        Columns.elemKey(isAbleEdit, elemType, onKeyChange),
+        Columns.ratio(isAbleEdit, onRatioChange),
+        Columns.size(isAbleEdit, onSizeChange),
+      ];
+      isAbleAddAndDel && table.push(operateRow);
+      return table;
+    }
+    case styleElemName[1]: {
+      const table = [
+        Columns.elemName(isAbleAddAndDel, elemType, onNameChange),
+        Columns.elemKey(isAbleAddAndDel, elemType, onKeyChange),
+        Columns.wordNum(isAbleEdit, onWordNumChange),
+      ];
+      isAbleAddAndDel && table.push(operateRow);
+      return table;
+    }
+    case styleElemName[2]:
       return [
         Columns.elemName(isAbleAddAndDel, elemType, onNameChange),
         Columns.elemKey(isAbleAddAndDel, elemType, onKeyChange),
-        Columns.ratio(isAbleAddAndDel, onRatioChange),
-        Columns.size(isAbleAddAndDel, onSizeChange),
-        Columns.operate(onDelElem),
+        Columns.wordNum(isAbleEdit, onWordNumChange),
       ];
-    case styleElemName[1]:
-      return [
-        Columns.elemName,
-        Columns.elemKey,
-        Columns.wordNum,
-        Columns.operate,
-      ];
-    case styleElemName[2]:
-      return [Columns.elemName, Columns.elemKey, Columns.wordNum];
   }
 };
 
@@ -148,6 +157,13 @@ class DataGrid extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { elems, elemItems } = nextProps;
+    const newElems = this.checkElemsIsCreate(elems, elemItems);
+    if (elems.elemItems !== newElems) {
+      this.setState({
+        elemItems: newElems,
+      });
+    }
     this.setState({
       elems: nextProps.elems,
     });
@@ -200,11 +216,13 @@ class DataGrid extends React.Component {
         };
       } else if (styleElemIndex === 1) {
         newItem = {
+          ...newItem,
           attr: 0,
           isStandard: adPosType !== AdPosObject[7] && newItemName !== '自定义',
         };
       } else {
         newItem = {
+          ...newItem,
           attr: 1000,
         };
       }
@@ -214,23 +232,29 @@ class DataGrid extends React.Component {
     }
   };
 
+  checkElemsIsCreate = (elems, elemItems) => {
+    const elemsNames = elems.map(t => t.elemName);
+    let newElems = [];
+    elemItems.forEach(t => {
+      elemsNames.findIndex(n => n === t) === -1 && newElems.push(t);
+    });
+    if (!newElems.find(t => t === '自定义')) {
+      newElems.push('自定义');
+    }
+    return newElems;
+  };
+
   render() {
     const { elemType, elems, elemItems, columns } = this.state;
     const list = elems.map((t, i) =>
       Object.assign({}, t, { operate: '删除' }, { key: i }),
     );
-    if (elemType === styleElemName[0]) {
+    if (elemType === styleElemName[0] || elemType === styleElemName[1]) {
       return (
         <Table
           columns={columns}
           dataSource={list}
           bordered
-          // title={() => (
-          //   <div>
-          //     <Icon type="plus-circle" />
-          //     <span>添加{elemType}</span>
-          //   </div>
-          // )}
           title={() => (
             <Dropdown
               overlay={getElemItemsMenu(elemItems, this.onChooseElemItems)}
@@ -244,11 +268,12 @@ class DataGrid extends React.Component {
           )}
         />
       );
-    } else if (elemType === styleElemName[1]) {
-      return <div>文字元素表格</div>;
-    } else if (elemType === styleElemName[2]) {
-      return <div>图片元素表格</div>;
     }
+    // else if (elemType === styleElemName[1]) {
+    //   return <div>文字元素表格</div>;
+    // } else if (elemType === styleElemName[2]) {
+    //   return <div>图片元素表格</div>;
+    // }
     // return (
     //   <Table
     //     columns={columns}

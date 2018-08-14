@@ -278,6 +278,16 @@ const pictureElemRatio = {
 };
 
 /**
+ * 文字元素和视频元素的key与字数的对应
+ */
+const elemsWordNum = {
+  title: [10, 20, 30],
+  text: [15, 20, 35],
+  ctatext: [4],
+  appname: [10],
+};
+
+/**
  * 样式信息，广告位类型与标准元素默认组合
  */
 const defaultElemsInfo = {
@@ -517,36 +527,85 @@ const defaultElemsInfo = {
 };
 
 /**
+ * 文字、图片、视频元素默认的可添加元素项
+ */
+const defaultElemsItems = {
+  小图: {
+    pictureElems: ['主图片'],
+    textElems: ['标题'],
+  },
+  大图: {
+    pictureElems: ['朱图片'],
+    textElems: ['标题'],
+  },
+  组图: {
+    pictureElems: ['主图片1', '主图片2', '主图片3'],
+    textElems: ['标题'],
+  },
+  视频: {
+    pictureElems: ['封面配图'],
+    textElems: ['标题', '行动号召文案（如：立即下载、免费体验等）'],
+    videoElems: ['视频链接'],
+  },
+  开屏: {
+    pictureElems: ['主图片', '主图片1'],
+  },
+  插屏: {
+    pictureElems: ['主图片'],
+  },
+  横幅: {
+    pictureElems: ['主图片'],
+  },
+  焦点图: {
+    pictureElems: ['主图片'],
+  },
+  激励视频: {
+    pictureElems: ['主图片'],
+    textElems: ['标题', '行动号召文案（如：立即下载、免费体验等）'],
+    videoElems: ['视频链接'],
+  },
+};
+
+/**
  * 添加样式信息
  */
-// const defaultStyleInfo = elemsInfo => ({
-//   flowInfoStyleType: AppAdposNewMapForFE.小图, // 添加默认的样式类型
-//   styleType: '', // 样式类型，根据广告位类型不同而不同，比如开屏样式、小图样式等
-//   auditStatus: AdPosAuditStatus[1].name, // 审核状态
-//   styleName: '', // 样式名称
-//   objectType: objectTypeItems[0].value, // 推广表标的类型
-//   appVersion: '0', // 可兼容的最低/高版本号或App当前版本号
-//   pictureElems: Object.keys(pictureElemsMapKey).concat('自定义'), // 默认添加元素图片菜单
-//   textElems: Object.keys(textElemsMapKey).concat('自定义'),
-//   videoElems: Object.keys(videoElemsMapKey),
-//   ...Object.keys(elemsInfo).map(t => ({ [t]: elemsInfo[t] })), // 默认元素信息
-// });
-const defaultStyleInfo = elemsInfo => {
-  const newElemsInfo = {
+const restElemsItems = (defaultElemsItems, elemsMapKey, elemType) => {
+  const newElemsItems = [...Object.keys(elemsMapKey).concat('自定义')];
+  defaultElemsItems[elemType] &&
+    defaultElemsItems[elemType].forEach(t => {
+      newElemsItems.findIndex(s => s === t) > -1 &&
+        newElemsItems.splice(newElemsItems.findIndex(s => s === t), 1);
+    });
+  return newElemsItems;
+};
+const defaultStyleInfo = (elemsInfo, defaultElemsItems) => {
+  const newStyleInfo = {
     flowInfoStyleType: AppAdposNewMapForFE.小图, // 添加默认的样式类型
     styleType: '', // 样式类型，根据广告位类型不同而不同，比如开屏样式、小图样式等
     auditStatus: AdPosAuditStatus[1].name, // 审核状态
     styleName: '', // 样式名称
     objectType: objectTypeItems[0].value, // 推广表标的类型
     appVersion: '0', // 可兼容的最低/高版本号或App当前版本号
-    pictureElems: Object.keys(pictureElemsMapKey).concat('自定义'), // 默认添加元素图片菜单
-    textElems: Object.keys(textElemsMapKey).concat('自定义'),
-    videoElems: Object.keys(videoElemsMapKey),
   };
+  newStyleInfo.pictureElems = restElemsItems(
+    defaultElemsItems,
+    pictureElemsMapKey,
+    'pictureElems',
+  );
+  newStyleInfo.textElems = restElemsItems(
+    defaultElemsItems,
+    textElemsMapKey,
+    'textElems',
+  );
+  newStyleInfo.videoElems = restElemsItems(
+    defaultElemsItems,
+    videoElemsMapKey,
+    'videoElems',
+  );
   Object.keys(elemsInfo).forEach(t => {
-    newElemsInfo[t] = elemsInfo[t];
+    newStyleInfo[t] = elemsInfo[t];
   });
-  return newElemsInfo;
+  return newStyleInfo;
 };
 
 // ====================================== 应用管理 --END ==========================================//
@@ -576,6 +635,8 @@ export {
   videoElemsMapKey,
   styleElemName,
   pictureElemRatio,
+  elemsWordNum,
   defaultElemsInfo,
   defaultStyleInfo,
+  defaultElemsItems,
 };

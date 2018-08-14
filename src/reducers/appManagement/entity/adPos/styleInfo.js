@@ -8,6 +8,7 @@ import {
   styleElemName,
   defaultElemsInfo,
   defaultStyleInfo,
+  defaultElemsItems,
 } from '../../../../constants/MenuTypes';
 import {
   CREATE_APP,
@@ -16,8 +17,7 @@ import {
 } from '../../../../constants';
 // import { ADPOS_ITEM_CHANGE, RESET_ADPOS_ITEM } from '../../../../constants';
 const defaultStyle = defaultElemsInfo.小图;
-
-const initialState = [defaultStyleInfo(defaultStyle)];
+const initialState = [defaultStyleInfo(defaultStyle, defaultElemsItems.小图)];
 
 const styleInfo = (state = initialState, { type, payload, error }) => {
   if (type === ADPOS_ADD_ELEM) {

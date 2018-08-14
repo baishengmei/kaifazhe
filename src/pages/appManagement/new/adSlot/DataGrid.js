@@ -193,8 +193,6 @@ class DataGrid extends React.Component {
       t => t === newItemName,
     );
     let newItem = {};
-    // 判断该标准元素是否已经被添加了
-    elems.find(t => t.elemName === newItemName);
     if (
       (newItemIndex > -1 &&
         elems.findIndex(t => t.elemName === newItemName) === -1) ||
@@ -209,15 +207,15 @@ class DataGrid extends React.Component {
           ...newItem,
           ratio: '',
           attr: {
-            width: 0,
-            height: 0,
+            width: '',
+            height: '',
           },
           isStandard: adPosType !== AdPosObject[7] && newItemName !== '自定义',
         };
       } else if (styleElemIndex === 1) {
         newItem = {
           ...newItem,
-          attr: 0,
+          attr: '',
           isStandard: adPosType !== AdPosObject[7] && newItemName !== '自定义',
         };
       } else {

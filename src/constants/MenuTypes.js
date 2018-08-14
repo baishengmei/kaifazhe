@@ -571,7 +571,8 @@ const defaultElemsItems = {
  */
 const restElemsItems = (defaultElemsItems, elemsMapKey, elemType) => {
   const newElemsItems = [...Object.keys(elemsMapKey).concat('自定义')];
-  defaultElemsItems[elemType] &&
+  defaultElemsItems &&
+    defaultElemsItems[elemType] &&
     defaultElemsItems[elemType].forEach(t => {
       newElemsItems.findIndex(s => s === t) > -1 &&
         newElemsItems.splice(newElemsItems.findIndex(s => s === t), 1);

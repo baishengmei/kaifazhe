@@ -243,12 +243,14 @@ const pictureElemsMapKey = {
   主图片4: 'mainimage4',
   图标: 'iconimage',
   封面配图: 'coverimage',
+  自定义: '',
 };
 const textElemsMapKey = {
   标题: 'title',
   描述: 'text',
   '行动号召文案（如：立即下载、免费体验等）': 'ctatext',
-  '企业/品牌/应用名（如网易有道、有道词典等）': 'appName',
+  '企业/品牌/应用名（如网易有道、有道词典等）': 'appname',
+  自定义: '',
 };
 const videoElemsMapKey = {
   视频链接: 'videourl',
@@ -263,18 +265,18 @@ const styleElemName = ['图片元素', '文字元素', '视频元素'];
  * 图片元素比例对应尺寸，除iconimage外
  */
 const pictureElemRatio = {
-  '1:2': '480*960',
-  '9:16': '720*1280',
-  '2:3': '640*960',
-  '1:1': '640*640',
-  '4:3': '640*480',
-  '3:2': '720*480',
-  '5:3': '800*480',
-  '16:9': '1280*720',
-  '2:1': '960*480',
-  '11:4': '1320*480',
-  '3:1': '1440*480',
-  '32:5': '640*100',
+  '1:2': [480, 960],
+  '9:16': [720, 1280],
+  '2:3': [640, 960],
+  '1:1': [640, 640],
+  '4:3': [640, 480],
+  '3:2': [720, 480],
+  '5:3': [800, 480],
+  '16:9': [1280, 720],
+  '2:1': [960, 480],
+  '11:4': [1320, 480],
+  '3:1': [1440, 480],
+  '32:5': [640, 100],
 };
 
 /**
@@ -405,12 +407,12 @@ const defaultElemsInfo = {
       },
       {
         elemName: '行动号召文案（如：立即下载、免费体验等）',
-        elemKey: 'ctaText',
+        elemKey: 'ctatext',
         attr: 4,
         isStandard: true,
       },
     ],
-    video: [
+    videos: [
       {
         elemName: '视频链接',
         elemKey: 'videourl',
@@ -517,12 +519,12 @@ const defaultElemsInfo = {
       },
       {
         elemName: '行动号召文案（如：立即下载、免费体验等）',
-        elemKey: 'ctaText',
+        elemKey: 'ctatext',
         attr: 4,
         isStandard: true,
       },
     ],
-    video: [
+    videos: [
       {
         elemName: '视频链接',
         elemKey: 'videourl',
@@ -547,7 +549,7 @@ const defaultElemsItems = {
     textElems: ['标题'],
   },
   大图: {
-    pictureElems: ['朱图片'],
+    pictureElems: ['主图片'],
     textElems: ['标题'],
   },
   组图: {
@@ -582,7 +584,7 @@ const defaultElemsItems = {
  * 添加样式信息
  */
 const restElemsItems = (defaultElemsItems, elemsMapKey, elemType) => {
-  const newElemsItems = [...Object.keys(elemsMapKey).concat('自定义')];
+  const newElemsItems = [...Object.keys(elemsMapKey)];
   defaultElemsItems &&
     defaultElemsItems[elemType] &&
     defaultElemsItems[elemType].forEach(t => {
@@ -653,4 +655,5 @@ export {
   defaultStyleInfo,
   defaultElemsItems,
   AppAdposNewMapForFE,
+  restElemsItems,
 };

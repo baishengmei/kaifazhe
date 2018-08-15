@@ -160,6 +160,10 @@
             cursor: pointer;
           }
         }
+
+        :global(.ant-pagination) {
+          display: none;
+        }
       }
     }
   }
@@ -257,5 +261,19 @@
 
   .down {
     top: 15px;
+  }
+}
+
+.wordNum {
+
+  .wordWrap {
+    display: inline-block;
+    position: relative;
+
+    .wordTip {
+      position: absolute;
+      top: 5px;
+      right: -32px;
+    }
   }
 }

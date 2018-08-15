@@ -163,7 +163,7 @@ class AdPosStyle extends Component {
         ? flowStyleItems.find(t => t.value === flowInfoStyleType).name
         : AdPosObject.find(t => t.value === styleTitle).name;
     const isAbleAddAndDel =
-      auditStatus === AdPosAuditStatus[1].name &&
+      auditStatus === AdPosAuditStatus[1].name ||
       adPosType !== AdPosObject[5].value; // 是否可添加元素和删除：草稿 && 不是视频视频 = true
     const isAbleEdit = auditStatus === AdPosAuditStatus[1].name; // 是否可编辑：草稿 = ture
     return (
@@ -260,12 +260,10 @@ class AdPosStyle extends Component {
               elemItems={pictureElems}
               elems={pictures}
               elemsMapKey={pictureElemsMapKey} // 这四项的值需要改
-              elemsMapRatio={pictureElemsMapKey}
-              elemsMapSize={pictureElemsMapKey}
-              elemsMapWordNum={pictureElemsMapKey}
               onAddElem={onAddElem}
               onDelElem={onAddElem}
               adPosType={adPosType}
+              flowInfoStyleType={flowInfoStyleType}
               onElemInfoItemChange={elems =>
                 onElemInfoItemChange('pictures', elems)
               }
@@ -279,28 +277,30 @@ class AdPosStyle extends Component {
               elemItems={textElems}
               elems={texts}
               elemsMapKey={textElemsMapKey}
-              elemsMapRatio={textElemsMapKey}
-              elemsMapSize={pictureElemsMapKey}
-              elemsMapWordNum={pictureElemsMapKey}
               onAddElem={onAddElem}
               onDelElem={onAddElem}
               adPosType={adPosType}
+              flowInfoStyleType={flowInfoStyleType}
               onElemInfoItemChange={elems =>
                 onElemInfoItemChange('texts', elems)
               }
             />
           </div>
-          {/* <div className={s2.setting__body_elems}>
-            <DataGrid
-              isAbleAdd
-              isAbleEdit
-              isAbleDel
-              elemType="视频链接元素"
-              // appVersion={appVersion}
-              elemsMapKey={videoElems}
-              elems={videos}
-            />
-          </div> */}
+          {(adPosType === AdPosObject[5].value ||
+            (adPosType === AdPosObject[1].value &&
+              flowInfoStyleType === flowStyleItems[3].value)) && (
+            <div className={s2.setting__body_elems}>
+              <DataGrid
+                isAbleAddAndDel={false}
+                isAbleEdit={false}
+                elemType="视频元素"
+                // elemItems={videoElems}
+                elems={videos}
+                elemsMapKey={videoElemsMapKey}
+                adPosType={adPosType}
+              />
+            </div>
+          )}
         </div>
       </div>
     );

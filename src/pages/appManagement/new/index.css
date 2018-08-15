@@ -326,6 +326,23 @@
       background-color: #fff;
       -webkit-transition: all 0.3s;
       transition: all 0.3s;
+/* 这个地方设置按钮那个蓝色的位置*/
+      :after {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        left: 2px;
+        top: 2px;
+        border-radius: 8px;
+        display: table;
+        border-top: 0;
+        border-left: 0;
+        content: ' ';
+        background-color: #1890ff;
+        opacity: 0;
+        transform: scale(0);
+        transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+      }
     }
   }
 

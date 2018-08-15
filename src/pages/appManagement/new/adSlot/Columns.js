@@ -209,16 +209,27 @@ const Columns = {
     className: s.wordNum,
     render: record => {
       if (!isAbleEdit) {
-        return <span>{record.attr}</span>;
+        return <span>{record.attr}以内</span>;
+      }
+      if (!record.isStandard) {
+        return (
+          <div className={s.wordWrap}>
+            <Input />
+            <span className={s.wordTip}>以内</span>
+          </div>
+        );
       }
       return (
-        <Select
-          style={{ width: 80 }}
-          defaultValue={record.attr}
-          onChange={value => onWordNumChange('attr', value, record.key)}
-        >
-          {wordNumRatioItems(record.elemKey)}
-        </Select>
+        <div className={s.wordWrap}>
+          <Select
+            style={{ width: 80 }}
+            defaultValue={record.attr}
+            onChange={value => onWordNumChange('attr', value, record.key)}
+          >
+            {wordNumRatioItems(record.elemKey)}
+          </Select>
+          <span className={s.wordTip}>以内</span>
+        </div>
       );
     },
   }),

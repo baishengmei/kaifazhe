@@ -17,6 +17,8 @@ import {
   CREATE_AD_POS_SUCCESS,
   CREATE_AD_POS_FAIL,
   SELF_TEST_DATA_CHANGE,
+  SAVE_SELF_TEST,
+  TO_AUDIT_DATA_CHANGE,
 } from '../../constants';
 import { isValidAppAdPosEntityName } from '../../core/utils';
 import { OperationStatus } from '../../constants/MenuTypes';
@@ -132,6 +134,26 @@ export const adPosDataChange = (
 // 自测页面改变
 export const selfTestDataChange = (sectionType, itemType, itemValue) => ({
   type: SELF_TEST_DATA_CHANGE,
+  payload: {
+    type: sectionType,
+    itemType,
+    [itemType]: itemValue,
+  },
+});
+
+// 保存自测页面
+export const saveSelfTestData = saveType => {
+  // 保存并继续
+  if (saveType === false) {
+    return {
+      type: SAVE_SELF_TEST,
+    };
+  }
+};
+
+// 自测页面变化
+export const toAuditDataChange = (sectionType, itemType, itemValue) => ({
+  type: TO_AUDIT_DATA_CHANGE,
   payload: {
     type: sectionType,
     itemType,

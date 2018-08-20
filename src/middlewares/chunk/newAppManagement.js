@@ -4,6 +4,7 @@ import {
   CREATE_APP_FAIL,
   CREATE_AD_POS_SUCCESS,
   CREATE_AD_POS_FAIL,
+  SAVE_SELF_TEST,
 } from '../../constants';
 import {
   appDataChange,
@@ -11,6 +12,8 @@ import {
   selfTestDataChange,
   editAdPos,
   editSelfTest,
+  editToAudit,
+  toAuditDataChange,
 } from '../../actions/AppManagement/new';
 
 const timeout = 32;
@@ -47,6 +50,15 @@ export default ({ getState, dispatch }) => next => action => {
         next(selfTestDataChange('appTag', 'appTag', true));
         next(selfTestDataChange('adPosTag', 'adPosTag', true));
         next(editSelfTest());
+      }, timeout);
+      break;
+    }
+    case SAVE_SELF_TEST: {
+      setTimeout(() => {
+        next(toAuditDataChange('appTag', 'appTag', true));
+        next(toAuditDataChange('adPosTag', 'adPosTag', true));
+        next(toAuditDataChange('selfTestTag', 'selfTestTag', true));
+        next(editToAudit());
       }, timeout);
       break;
     }

@@ -112,3 +112,13 @@ export const CREATE_AD_POS_FAIL = 'CREATE_AD_POS_FAIL';
  * 自测页面改变
  */
 export const SELF_TEST_DATA_CHANGE = 'SELF_TEST_DATA_CHANGE';
+
+/**
+ * 保存自测页面
+ */
+export const SAVE_SELF_TEST = 'SAVE_SELF_TEST';
+
+/**
+ * 自测页面改变时
+ */
+export const TO_AUDIT_DATA_CHANGE = 'TO_AUDIT_DATA_CHANGE';

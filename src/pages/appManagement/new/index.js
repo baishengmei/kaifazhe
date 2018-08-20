@@ -7,6 +7,8 @@ import { AppTabTypes, OperationStatus } from '../../../constants/MenuTypes';
 // import { componentUpdateByState } from '../../../core/utils';
 import App from './app';
 import AdSlot from './adSlot';
+import SelfTest from './selfTest';
+import ToAUdit from './toAudit';
 
 // 获取新建页面，左侧导航包含的级数，通过editing、initial判断，以及数组的length
 const getStepInfo = (
@@ -48,6 +50,7 @@ class New extends Component {
     onAddOrDelStyle: PropTypes.func,
     onAdPosDataChange: PropTypes.func.isRequired,
     onSaveAdPosData: PropTypes.func.isRequired,
+    onSaveSelfTestData: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -207,14 +210,14 @@ class New extends Component {
 
   getSelfTestComponent = () => {
     const { selfTestData } = this.state;
+    const { onSaveSelfTestData } = this.props;
     console.info(selfTestData, '打印自测页面中的值');
-    return <div>自测页面</div>;
+    return <SelfTest {...selfTestData} onSaveData={onSaveSelfTestData} />;
   };
 
   getToAuditComponent = () => {
     const { toAuditData } = this.state;
-    console.info(toAuditData, '打印提交审核页面中的值');
-    return <div>提交审核页面</div>;
+    return <ToAUdit {...toAuditData} />;
   };
 
   // 左侧导航当前所在项
@@ -251,7 +254,7 @@ class New extends Component {
   };
 
   getProgress = () => {
-    const { appData, adPosData } = this.state;
+    const { appData, adPosData, selfTestData } = this.state;
     switch (this.props.tabType) {
       case AppTabTypes.appTab: {
         if (!appData.appTag) {
@@ -260,13 +263,19 @@ class New extends Component {
         if (!adPosData.adPosTag) {
           return 1;
         }
-        return 2;
+        if (!selfTestData.selfTestTag) {
+          return 2;
+        }
+        return 3;
       }
       case AppTabTypes.appAdPosTab: {
         if (!adPosData.adPosTag) {
           return 0;
         }
-        return 1;
+        if (!selfTestData.selfTestTag) {
+          return 1;
+        }
+        return 2;
       }
       default:
         return 0;

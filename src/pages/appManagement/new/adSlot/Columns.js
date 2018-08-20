@@ -144,6 +144,7 @@ const Columns = {
               <Input
                 style={{ width: 62, marginLeft: 4 }}
                 value={record.attr.height}
+                onChange={() => {}}
               />
               <img
                 src={sizeMonitorIcon}

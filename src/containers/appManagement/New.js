@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import New from '../../pages/appManagement/new';
 import {
-  editingApp,
+  editApp,
   editAdPos,
   editSelfTest,
   editToAudit,
   appDataChange,
   saveAppData,
+  saveAdPosData,
   adPosAddElem,
   addOrDelStyle,
   adPosDataChange,
@@ -28,7 +29,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   onEditApp() {
-    dispatch(editingApp());
+    dispatch(editApp());
   },
   onEditAdPos() {
     dispatch(editAdPos());
@@ -44,6 +45,9 @@ const mapDispatchToProps = dispatch => ({
   },
   onSaveAppData(saveType) {
     dispatch(saveAppData(saveType));
+  },
+  onSaveAdPosData(saveType) {
+    dispatch(saveAdPosData(saveType));
   },
   onAdPosAddElem(elemType, elemValue, index) {
     dispatch(adPosAddElem(elemType, elemValue, index));

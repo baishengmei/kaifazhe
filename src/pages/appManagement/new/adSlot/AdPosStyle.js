@@ -56,7 +56,6 @@ class AdPosStyle extends Component {
     onStyleNameChange: PropTypes.func.isRequired,
     onObjectChange: PropTypes.func.isRequired,
     onAppVersionChange: PropTypes.func.isRequired,
-    onNameChange: PropTypes.func.isRequired,
     onElemInfoItemChange: PropTypes.func.isRequired,
   };
 
@@ -124,12 +123,6 @@ class AdPosStyle extends Component {
     this.shouldComponentUpdate = componentUpdateByState;
   }
 
-  onKeyChange = () => {};
-  onRatioChange = () => {};
-  onSizeChange = () => {};
-  onWordNumChange = () => {};
-  onDelElem = () => {};
-
   render() {
     const {
       styleTitle,
@@ -154,7 +147,6 @@ class AdPosStyle extends Component {
       onStyleNameChange,
       onObjectChange,
       onAppVersionChange,
-      // onNameChange,
       onElemInfoItemChange,
     } = this.props;
 
@@ -271,7 +263,7 @@ class AdPosStyle extends Component {
           </div>
           <div className={s2.setting__body_elems}>
             <DataGrid
-              isAbleAddAndDel
+              isAbleAddAndDel={isAbleAddAndDel}
               isAbleEdit
               elemType="文字元素"
               elemItems={textElems}
@@ -294,7 +286,7 @@ class AdPosStyle extends Component {
                 isAbleAddAndDel={false}
                 isAbleEdit={false}
                 elemType="视频元素"
-                // elemItems={videoElems}
+                elemItems={videoElems}
                 elems={videos}
                 elemsMapKey={videoElemsMapKey}
                 adPosType={adPosType}

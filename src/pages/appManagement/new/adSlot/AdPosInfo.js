@@ -127,26 +127,28 @@ class AdPosInfo extends Component {
               </RadioGroup>
             </div>
           </div>
-          <div className={s['setting-item']}>
-            <div className={s['setting-item__name']}>回调地址</div>
-            <div className={s['setting-item__value']}>
-              <Input
-                className={classnames({
-                  [s.input]: true,
-                  [s['android-item_value']]: true,
-                })}
-                onChange={this.onCallBackUrlChange}
-              />
-              <div
-                className={classnames({
-                  [s['input-hint']]: true,
-                  // [s.error]: showAppNameError,
-                })}
-              >
-                该项视需求选填，是callback_url字段链接，相应的callback_url_secret_key会线下沟通发送
+          {adPosType === AdPosObject[5].value && (
+            <div className={s['setting-item']}>
+              <div className={s['setting-item__name']}>回调地址</div>
+              <div className={s['setting-item__value']}>
+                <Input
+                  className={classnames({
+                    [s.input]: true,
+                    [s['android-item_value']]: true,
+                  })}
+                  onChange={this.onCallBackUrlChange}
+                />
+                <div
+                  className={classnames({
+                    [s['input-hint']]: true,
+                    // [s.error]: showAppNameError,
+                  })}
+                >
+                  该项视需求选填，是callback_url字段链接，相应的callback_url_secret_key会线下沟通发送
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     );

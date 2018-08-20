@@ -13,13 +13,17 @@ import {
   ADPOS_ITEM_CHANGE,
   FLOWINFO_TYPE_CHANGE,
   STYLE_NAME_CHANGE,
+  CREATE_AD_POS,
+  CREATE_AD_POS_SUCCESS,
+  CREATE_AD_POS_FAIL,
+  SELF_TEST_DATA_CHANGE,
 } from '../../constants';
 import { isValidAppAdPosEntityName } from '../../core/utils';
 import { OperationStatus } from '../../constants/MenuTypes';
 
 // 正在编辑应用、广告位、自测页面、提交审核页面
 const editingAppManagementEntity = type => ({ type });
-export const editingApp = () => editingAppManagementEntity(EDITING_APP);
+export const editApp = () => editingAppManagementEntity(EDITING_APP);
 export const editAdPos = () => editingAppManagementEntity(EDITING_ADPOS);
 export const editSelfTest = () => editingAppManagementEntity(EDITING_SELF_TEST);
 export const editToAudit = () => editingAppManagementEntity(EDITING_TO_AUDIT);
@@ -66,6 +70,31 @@ export const saveAppData = saveType => (dispatch, getState) => {
   });
 };
 
+export const saveAdPosData = saveType => (dispatch, getState) => {
+  console.info(saveType, '打印当前点击的是 保存 还是 保存并继续2');
+  const {
+    status,
+    adPosInfo: { adPosName, adPosType, callBackUrl },
+    styleInfo,
+  } = getState().appManagement.entity.adPos;
+  const validStatus =
+    status === OperationStatus.load_success ||
+    status === OperationStatus.editing ||
+    status === OperationStatus.save_fail;
+  const validAdPosName = isValidAppAdPosEntityName(adPosName);
+  if (!validStatus || !validAdPosName) return;
+  const data = {
+    adPosName,
+    adPosType,
+    callBackUrl,
+    styleInfo,
+  };
+  return dispatch({
+    types: [CREATE_AD_POS, CREATE_AD_POS_SUCCESS, CREATE_AD_POS_FAIL],
+    promise: http => http.post('/api/adManagement/adCampaign', { data }),
+  });
+};
+
 // 新增加一个元素，如图片元素、文字元素、视频元素
 export const adPosAddElem = (elemType, elemValue, index) => ({
   type: ADPOS_ADD_ELEM,
@@ -97,5 +126,15 @@ export const adPosDataChange = (
     itemType,
     [itemType]: itemValue,
     itemIndex,
+  },
+});
+
+// 自测页面改变
+export const selfTestDataChange = (sectionType, itemType, itemValue) => ({
+  type: SELF_TEST_DATA_CHANGE,
+  payload: {
+    type: sectionType,
+    itemType,
+    [itemType]: itemValue,
   },
 });

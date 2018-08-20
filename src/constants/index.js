@@ -100,3 +100,15 @@ export const ADD_OR_DEL_STYLE = 'ADD_OR_DEL_STYLE';
  * 新建广告位，表单数据改变
  */
 export const ADPOS_ITEM_CHANGE = 'ADPOS_ITEM_CHANGE';
+
+/**
+ * 保存新建广告位页
+ */
+export const CREATE_AD_POS = 'CREATE_AD_POS';
+export const CREATE_AD_POS_SUCCESS = 'CREATE_AD_POS_SUCCESS';
+export const CREATE_AD_POS_FAIL = 'CREATE_AD_POS_FAIL';
+
+/**
+ * 自测页面改变
+ */
+export const SELF_TEST_DATA_CHANGE = 'SELF_TEST_DATA_CHANGE';

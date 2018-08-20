@@ -60,6 +60,7 @@ const styleInfo = (state = initialState, { type, payload, error }) => {
         const curItemType = AdPosObject.find(t => t.value === payload[itemType])
           .name;
         newStyleInfo.styleName = curItemType;
+        newStyleInfo.auditStatus = AdPosAuditStatus[1].name;
         newStyleInfo.objectType = objectTypeItems[0].value;
         newStyleInfo.appVersion = 0;
 
@@ -107,6 +108,7 @@ const styleInfo = (state = initialState, { type, payload, error }) => {
           newStyleInfo.styleName = flowStyleItems.find(
             t => t.value === payload[itemType],
           ).name;
+          newStyleInfo.auditStatus = AdPosAuditStatus[1].name;
           newStyleInfo.objectType = objectTypeItems[0].value;
           newStyleInfo.appVersion = 0;
           // 样式类型名称，如组图

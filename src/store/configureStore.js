@@ -7,6 +7,7 @@ import rootReducer from '../reducers';
 import createLogger from './logger';
 import api from '../middlewares/api';
 import httpClient from '../core/HttpClient';
+import newAppManagement from '../middlewares/chunk/newAppManagement';
 
 export default function configureStore(initialState) {
   // const helpers = createHelpers(helpersConfig);
@@ -17,6 +18,7 @@ export default function configureStore(initialState) {
 
   // 在这里添加各路中间件
   middleware.push(api(httpClient));
+  middleware.push(newAppManagement);
 
   if (__DEV__) {
     middleware.push(createLogger());

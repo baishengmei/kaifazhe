@@ -41,9 +41,6 @@ const getColumns = (
   isAbleEdit,
   elemItems, // 添加元素的类型，包括自定义
   elemsMapKey, // 元素与key组合
-  // elemsMapRatio, // 元素与比例组合
-  // elemsMapSize, // 元素与尺寸组合
-  elemsMapWordNum, // 字数改变时
   onElemInfoItemChange, // 元素名、元素key、比例、尺寸、字数
   onAddElem, // 添加元素时
   onDelElem, // 删除元素时
@@ -86,11 +83,6 @@ class DataGrid extends React.Component {
     elemType: PropTypes.string.isRequired,
     elemItems: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     elemsMapKey: PropTypes.shape({}).isRequired,
-    // elemsMapRatio: PropTypes.shape({}).isRequired,
-    // elemsMapSize: PropTypes.shape({}).isRequired,
-    elemsMapWordNum: PropTypes.shape({}).isRequired,
-    // onSizeChange: PropTypes.func.isRequired,
-    onWordNumChange: PropTypes.func.isRequired,
     onAddElem: PropTypes.func,
     onDelElem: PropTypes.func,
     elems: PropTypes.arrayOf(PropTypes.object),
@@ -115,13 +107,7 @@ class DataGrid extends React.Component {
       elemType,
       elemItems,
       elemsMapKey,
-      // elemsMapRatio,
-      // elemsMapSize,
-      elemsMapWordNum,
-      // onSizeChange,
-      onWordNumChange,
       onAddElem,
-      onDelElem,
       elems,
       adPosType,
       flowInfoStyleType,
@@ -140,9 +126,6 @@ class DataGrid extends React.Component {
         isAbleEdit,
         elemItems,
         elemsMapKey,
-        // elemsMapRatio,
-        // elemsMapSize,
-        elemsMapWordNum,
         this.onElemInfoItemChange,
         onAddElem,
         this.onDelElem,
@@ -303,28 +286,32 @@ class DataGrid extends React.Component {
     const list = elems.map((t, i) =>
       Object.assign({}, t, { operate: '删除' }, { key: i }),
     );
-    if (!isAbleAddAndDel) {
-      return <Table columns={columns} dataSource={list} bordered />;
-    } else if (elemType === styleElemName[0] || elemType === styleElemName[1]) {
-      return (
-        <Table
-          columns={columns}
-          dataSource={list}
-          bordered
-          title={() => (
-            <Dropdown
-              overlay={getElemItemsMenu(elemItems, this.onChooseElemItems)}
-              trigger={['click']}
-            >
+    return (
+      <Table
+        columns={columns}
+        dataSource={list}
+        bordered
+        title={() => (
+          <Dropdown
+            overlay={getElemItemsMenu(elemItems, this.onChooseElemItems)}
+            trigger={['click']}
+          >
+            {/* <span className="ant-dropdown-link">
+              <Icon type="plus-circle" />
+              <span>添加{elemType}</span>
+            </span> */}
+            {!isAbleAddAndDel ? (
+              <span className={s.tableTitle}>{elemType}</span>
+            ) : (
               <span className="ant-dropdown-link">
                 <Icon type="plus-circle" />
                 <span>添加{elemType}</span>
               </span>
-            </Dropdown>
-          )}
-        />
-      );
-    }
+            )}
+          </Dropdown>
+        )}
+      />
+    );
     // return (
     //   <Table
     //     columns={columns}

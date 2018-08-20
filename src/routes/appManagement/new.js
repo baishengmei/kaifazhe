@@ -10,7 +10,13 @@
 import React from 'react';
 import Layout from '../../components/Layout';
 import New from '../../containers/appManagement/New';
-import { resetAppItem, editingApp } from '../../actions/AppManagement/new';
+import {
+  resetAppItem,
+  editApp,
+  editAdPos,
+  editSelfTest,
+  editToAudit,
+} from '../../actions/AppManagement/new';
 
 const title = '新建应用管理';
 const editingPageType = {
@@ -19,8 +25,7 @@ const editingPageType = {
   selfTest: 'selfTest',
   toAudit: 'toAudit',
 };
-// const { app, adSlot, selfTest, toAudit } = editingPageType;
-const { app } = editingPageType;
+const { app, adSlot, selfTest, toAudit } = editingPageType;
 const editingPageTitle = {
   app: '新建应用',
   adSlot: '新建广告位',
@@ -29,10 +34,10 @@ const editingPageTitle = {
 };
 
 const editingActions = {
-  [app]: editingApp,
-  // [adSlot]: editingAdPos,
-  // [selfTest]: editingSelfAudit,
-  // [toAudit]: editingToAudit,
+  [app]: editApp,
+  [adSlot]: editAdPos,
+  [selfTest]: editSelfTest,
+  [toAudit]: editToAudit,
 };
 
 async function action({ store, params }) {

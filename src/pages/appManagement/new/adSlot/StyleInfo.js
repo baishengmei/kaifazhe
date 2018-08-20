@@ -36,7 +36,6 @@ class StyleInfo extends Component {
     onStyleNameChange: PropTypes.func.isRequired,
     onObjectChange: PropTypes.func.isRequired,
     onAppVersionChange: PropTypes.func.isRequired,
-    onNameChange: PropTypes.func.isRequired,
     onElemInfoItemChange: PropTypes.func.isRequired,
   };
 
@@ -75,7 +74,7 @@ class StyleInfo extends Component {
     const addNewElems =
       adPosType === AdPosObject[1].value // 若为信息流
         ? defaultElemsInfo['小图']
-        : defaultElemsInfo[adPosType];
+        : defaultElemsInfo[AdPosObject.find(t => t.value === adPosType).name];
     const addNewStyle = defaultStyleInfo(addNewElems);
 
     newStyleInfo.push(addNewStyle); // push的内容，需要添加默认值对象，并根据广告位类型或者样式类型进行添加默认值
@@ -115,7 +114,6 @@ class StyleInfo extends Component {
       onStyleNameChange,
       onObjectChange,
       onAppVersionChange,
-      // onNameChange,
       onElemInfoItemChange,
     } = this.props;
     const newStyleInfo = styleInfo.map((t, i) => {
@@ -158,7 +156,6 @@ class StyleInfo extends Component {
                   onStyleNameChange={value => onStyleNameChange(value, index)}
                   onObjectChange={value => onObjectChange(value, index)}
                   onAppVersionChange={value => onAppVersionChange(value, index)}
-                  // onNameChange={(value, elemIndex) => onNameChange(value, elemIndex, index)}
                   onElemInfoItemChange={(itemType, value) =>
                     onElemInfoItemChange(itemType, value, index)
                   }

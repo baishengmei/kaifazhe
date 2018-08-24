@@ -100,8 +100,9 @@ class AdSlot extends Component {
   onFlowInfoTypeChange = (value, index) => {
     this.onAdPosStyleInfoChange('flowInfoStyleType', value, index);
   };
-  onStyleNameChange = (value, index) => {
+  onStyleNameChange = (value, valid, index) => {
     this.onAdPosStyleInfoChange('styleName', value, index);
+    this.onAdPosStyleInfoChange('styleNameValid', valid, index);
   };
   onObjectChange = (value, index) => {
     this.onAdPosStyleInfoChange('objectType', value, index);

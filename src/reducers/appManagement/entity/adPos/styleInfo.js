@@ -99,6 +99,7 @@ const styleInfo = (state = initialState, { type, payload, error }) => {
         case 'video':
         case 'ratio':
         case 'attr':
+        case 'styleNameValid':
           newState[itemIndex][itemType] = payload[itemType];
           return newState;
         case 'flowInfoStyleType': {

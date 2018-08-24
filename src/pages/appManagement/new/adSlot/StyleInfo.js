@@ -25,14 +25,24 @@ const adPosTypeItems = flowStyleItems.map(t => (
   </Radio>
 ));
 
-// 样式名称不能为空；图片元素、文字元素、视频元素不可同时置空；
+// 校验的四点：
+// 1. 样式名称不能为空
+// 2. 样式名称校验为true，styleNameValid=true
+// 3. 图片元素、文字元素、视频元素不可同时置空；
+// 4. 图片元素和文本元素存在时，其校验，即nameValid和keyValid均为true
 const checkStyleInfoValidity = styinfo =>
   styinfo.every(
     t =>
       t.styleName.trim() !== '' &&
+      t.styleNameValid &&
       (typeof t.videos === 'undefined'
         ? t.pictures.length + t.texts.length > 0
-        : t.pictures.length + t.texts.length + t.videos.length > 0),
+        : t.pictures.length + t.texts.length + t.videos.length > 0) &&
+      (t.pictures.length === 0 ||
+        (t.pictures.length > 0 &&
+          t.pictures.every(p => p.nameValid && p.keyValid))) &&
+      (t.texts.length === 0 ||
+        (t.texts.length > 0 && t.texts.every(p => p.nameValid && p.keyValid))),
   );
 
 /* eslint-disable react/no-unused-prop-types */
@@ -163,7 +173,9 @@ class StyleInfo extends Component {
                   }}
                   onDelStyle={() => this.onDelStyle(index)}
                   isShowDel={styleInfo.length > 1}
-                  onStyleNameChange={value => onStyleNameChange(value, index)}
+                  onStyleNameChange={(value, valid) =>
+                    onStyleNameChange(value, valid, index)
+                  }
                   onObjectChange={value => onObjectChange(value, index)}
                   onAppVersionChange={value => onAppVersionChange(value, index)}
                   onElemInfoItemChange={(itemType, value) =>

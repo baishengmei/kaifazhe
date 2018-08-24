@@ -13,11 +13,12 @@ import {
 import heightMonitor from '../../../../../public/images/ic_add_subtract_grey.png';
 import heightMonitorUp from '../../../../../public/images/ic_add_subtract_blue_up.png';
 import heightMonitorDown from '../../../../../public/images/ic_add_subtract_blue_down.png';
+import { classnames } from '../../../../core/utils';
 
 const { Option } = Select;
 
 const ratioRatioItems = Object.keys(pictureElemRatio).map(t => (
-  <Option key={t.toString()} value={t}>
+  <Option key={t.toString()} value={t.toString()}>
     {t}
   </Option>
 ));
@@ -31,7 +32,7 @@ const wordNumRatioItems = elemKey => {
 };
 
 const Columns = {
-  elemName: (isAbleEdit, elemType, onNameChange) => ({
+  elemName: (elems, isAbleEdit, elemType, onNameChange) => ({
     title: '元素名',
     key: 'elemName',
     className: s.elemName,
@@ -39,21 +40,34 @@ const Columns = {
       if (elemType === styleElemName[2]) {
         return <span>{Object.keys(videoElemsMapKey)[0]}</span>;
       }
-      // if (adPosType === AdPosObject[7]) {
-      //   return <Input value={record.elemName} onChange={onNameChange} />;
-      // }
       if (record.isStandard || !isAbleEdit) {
         return <span>{record.elemName}</span>;
       }
       return (
         <Input
           value={record.elemName}
-          onChange={e => onNameChange('elemName', e.target.value, record.key)}
+          className={classnames({ [s.error]: !record.nameValid })}
+          onChange={e => {
+            const { value } = e.target;
+            const isValid = !(
+              Object.keys(pictureElemsMapKey)
+                .slice(0, 7)
+                .indexOf(value) > -1 ||
+              elems.findIndex(t => t.elemName === value) > -1
+            );
+            onNameChange(
+              'elemName',
+              value,
+              record.key,
+              isValid,
+              record.keyValid,
+            );
+          }}
         />
       );
     },
   }),
-  elemKey: (isAbleEdit, elemType, onKeyChange) => ({
+  elemKey: (elems, isAbleEdit, elemType, onKeyChange) => ({
     title: '元素Key',
     key: 'elemKey',
     className: s.elemKey,
@@ -75,7 +89,23 @@ const Columns = {
       return (
         <Input
           value={record.elemKey}
-          onChange={e => onKeyChange('elemKey', e.target.value, record.key)}
+          className={classnames({ [s.error]: !record.keyValid })}
+          onChange={e => {
+            const { value } = e.target;
+            const isValid = !(
+              Object.values(pictureElemsMapKey)
+                .slice(0, 7)
+                .indexOf(value) > -1 ||
+              elems.findIndex(t => t.elemKey === value) > -1
+            );
+            onKeyChange(
+              'elemKey',
+              value,
+              record.key,
+              record.nameValid,
+              isValid,
+            );
+          }}
         />
       );
     },
@@ -90,7 +120,7 @@ const Columns = {
         return (
           <Select
             style={{ width: 80 }}
-            defaultValue={record.ratio}
+            value={record.ratio}
             onChange={value => onRatioChange('ratio', value, record.key)}
           >
             {ratioRatioItems}

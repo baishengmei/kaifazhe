@@ -218,7 +218,6 @@
 .elemName {
   width: 133px;
   font-family: PingFangSC-Regular;
-
 }
 
 .elemKey {
@@ -242,6 +241,12 @@
   font-family: PingFangSC-Regular;
   cursor: pointer;
 }
+
+.error {
+  border-color: var(--color-red) !important;
+  box-shadow: none !important;
+}
+
 .sizeMonitor {
   display: inline-block;
   position: relative;

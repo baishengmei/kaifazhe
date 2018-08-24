@@ -305,6 +305,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
     texts: [
@@ -313,6 +315,8 @@ const defaultElemsInfo = {
         elemKey: 'title',
         attr: 20,
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
   },
@@ -328,6 +332,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true, // 标准元素 true；非标准元素 false
+        nameValid: true,
+        keyValid: true,
       },
     ],
     texts: [
@@ -336,6 +342,8 @@ const defaultElemsInfo = {
         elemKey: 'title',
         attr: 20,
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
   },
@@ -351,6 +359,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true, // 标准元素 true；非标准元素 false
+        nameValid: true,
+        keyValid: true,
       },
       {
         elemName: '主图片2',
@@ -362,6 +372,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true, // 标准元素 true；非标准元素 false
+        nameValid: true,
+        keyValid: true,
       },
       {
         elemName: '主图片3',
@@ -373,6 +385,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true, // 标准元素 true；非标准元素 false
+        nameValid: true,
+        keyValid: true,
       },
     ],
     texts: [
@@ -381,6 +395,8 @@ const defaultElemsInfo = {
         elemKey: 'title',
         attr: 20,
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
   },
@@ -396,6 +412,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true, // 标准元素 true；非标准元素 false
+        nameValid: true,
+        keyValid: true,
       },
     ],
     texts: [
@@ -404,12 +422,16 @@ const defaultElemsInfo = {
         elemKey: 'title',
         attr: 20,
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
       {
         elemName: '行动号召文案（如：立即下载、免费体验等）',
         elemKey: 'ctatext',
         attr: 4,
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
     videos: [
@@ -418,6 +440,8 @@ const defaultElemsInfo = {
         elemKey: 'videourl',
         attr: 1000,
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
   },
@@ -433,6 +457,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
       {
         elemName: '主图片1',
@@ -444,6 +470,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
     texts: [],
@@ -460,6 +488,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
     texts: [],
@@ -476,6 +506,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
     texts: [],
@@ -492,6 +524,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
     texts: [],
@@ -508,6 +542,8 @@ const defaultElemsInfo = {
           sizeMonitor: '',
         },
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
     texts: [
@@ -516,12 +552,16 @@ const defaultElemsInfo = {
         elemKey: 'title',
         attr: 30,
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
       {
         elemName: '行动号召文案（如：立即下载、免费体验等）',
         elemKey: 'ctatext',
         attr: 4,
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
     videos: [
@@ -530,6 +570,8 @@ const defaultElemsInfo = {
         elemKey: 'videourl',
         attr: 1000,
         isStandard: true,
+        nameValid: true,
+        keyValid: true,
       },
     ],
   },
@@ -537,6 +579,8 @@ const defaultElemsInfo = {
     pictures: [],
     texts: [],
     videos: [],
+    nameValid: true,
+    keyValid: true,
   },
 };
 
@@ -599,6 +643,7 @@ const defaultStyleInfo = (elemsInfo, defaultElemsItems) => {
     styleType: '', // 样式类型，根据广告位类型不同而不同，比如开屏样式、小图样式等
     auditStatus: AdPosAuditStatus[1].name, // 审核状态
     styleName: '小图', // 样式名称
+    styleNameValid: true,
     objectType: objectTypeItems[0].value, // 推广表标的类型
     appVersion: '0', // 可兼容的最低/高版本号或App当前版本号
   };

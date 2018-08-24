@@ -36,6 +36,7 @@ const getElemItemsMenu = (elemItems, onChooseElemItems) => (
 );
 
 const getColumns = (
+  elems,
   elemType, // 图片元素、文字元素、视频元素之一
   isAbleAddAndDel,
   isAbleEdit,
@@ -50,8 +51,8 @@ const getColumns = (
   switch (elemType) {
     case styleElemName[0]: {
       const table = [
-        Columns.elemName(isAbleEdit, elemType, onElemInfoItemChange),
-        Columns.elemKey(isAbleEdit, elemType, onElemInfoItemChange),
+        Columns.elemName(elems, isAbleEdit, elemType, onElemInfoItemChange),
+        Columns.elemKey(elems, isAbleEdit, elemType, onElemInfoItemChange),
         Columns.ratio(isAbleEdit, onElemInfoItemChange),
         Columns.size(isAbleEdit, onElemInfoItemChange),
       ];
@@ -60,8 +61,13 @@ const getColumns = (
     }
     case styleElemName[1]: {
       const table = [
-        Columns.elemName(isAbleAddAndDel, elemType, onElemInfoItemChange),
-        Columns.elemKey(isAbleAddAndDel, elemType, onElemInfoItemChange),
+        Columns.elemName(
+          elems,
+          isAbleAddAndDel,
+          elemType,
+          onElemInfoItemChange,
+        ),
+        Columns.elemKey(elems, isAbleAddAndDel, elemType, onElemInfoItemChange),
         Columns.wordNum(isAbleEdit, onElemInfoItemChange),
       ];
       isAbleAddAndDel && table.push(operateRow);
@@ -69,8 +75,8 @@ const getColumns = (
     }
     case styleElemName[2]:
       return [
-        Columns.elemName(false, elemType, onElemInfoItemChange),
-        Columns.elemKey(false, elemType, onElemInfoItemChange),
+        Columns.elemName(elems, false, elemType, onElemInfoItemChange),
+        Columns.elemKey(elems, false, elemType, onElemInfoItemChange),
         Columns.wordNum(false, onElemInfoItemChange),
       ];
   }
@@ -121,6 +127,7 @@ class DataGrid extends React.Component {
       flowInfoStyleType,
       isAbleAddAndDel,
       columns: getColumns(
+        elems,
         elemType,
         isAbleAddAndDel,
         isAbleEdit,
@@ -179,7 +186,7 @@ class DataGrid extends React.Component {
     );
   }
 
-  onElemInfoItemChange = (itemType, itemValue, index) => {
+  onElemInfoItemChange = (itemType, itemValue, index, nameValid, keyValid) => {
     const { elems } = this.state;
     const newElems = [...elems];
     newElems[index][itemType] = itemValue;
@@ -189,6 +196,8 @@ class DataGrid extends React.Component {
         height: pictureElemRatio[itemValue][1],
       };
     }
+    newElems[index]['nameValid'] = nameValid;
+    newElems[index]['keyValid'] = keyValid;
     this.props.onElemInfoItemChange(newElems);
   };
 
@@ -212,10 +221,8 @@ class DataGrid extends React.Component {
     // 图片元素、文字元素、视频元素的索引分别对应0，1，2
     const styleElemIndex = styleElemName.findIndex(t => t === elemType);
 
-    // 判断添加元素是否为标准元素，-1为自定义，其他为标准元素
-    const newItemIndex = Object.keys(elemsMapKey).findIndex(
-      t => t === newItemName,
-    );
+    // 判断添加元素是否为标准元素，true为自定义，false为标准元素
+    const newItemIsCustom = newItemName === '自定义';
 
     //样式类型为信息流时，分为小图、大图等，否则等于广告位类型
     const styleTypeValue =
@@ -226,13 +233,15 @@ class DataGrid extends React.Component {
 
     let newItem = {};
     if (
-      (newItemIndex > -1 &&
+      (!newItemIsCustom &&
         elems.findIndex(t => t.elemName === newItemName) === -1) ||
-      newItemIndex === -1
+      newItemIsCustom
     ) {
       newItem = {
-        elemName: newItemIndex > -1 ? newItemName : '',
+        elemName: !newItemIsCustom ? newItemName : '',
         elemKey: elemsMapKey[newItemName],
+        nameValid: true,
+        keyValid: true,
       };
       if (styleElemIndex === 0) {
         const pictureElem = defaultElemsInfo[styleType].pictures.find(
@@ -291,35 +300,25 @@ class DataGrid extends React.Component {
         columns={columns}
         dataSource={list}
         bordered
-        title={() => (
-          <Dropdown
-            overlay={getElemItemsMenu(elemItems, this.onChooseElemItems)}
-            trigger={['click']}
-          >
-            {/* <span className="ant-dropdown-link">
-              <Icon type="plus-circle" />
-              <span>添加{elemType}</span>
-            </span> */}
-            {!isAbleAddAndDel ? (
-              <span className={s.tableTitle}>{elemType}</span>
-            ) : (
+        title={() =>
+          !isAbleAddAndDel ? (
+            <span className={s.tableTitle} disabled>
+              {elemType}
+            </span>
+          ) : (
+            <Dropdown
+              overlay={getElemItemsMenu(elemItems, this.onChooseElemItems)}
+              trigger={['click']}
+            >
               <span className="ant-dropdown-link">
                 <Icon type="plus-circle" />
                 <span>添加{elemType}</span>
               </span>
-            )}
-          </Dropdown>
-        )}
+            </Dropdown>
+          )
+        }
       />
     );
-    // return (
-    //   <Table
-    //     columns={columns}
-    //     dataSource={data}
-    //     bordered
-    //     title={() => 'Header'}
-    //   />
-    // );
   }
 }
 

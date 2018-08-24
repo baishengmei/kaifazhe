@@ -17,6 +17,7 @@ import {
   classnames,
   updateComponentStateByKeys,
   componentUpdateByState,
+  isValidAppAdPosEntityName,
 } from '../../../../core/utils';
 import DataGrid from './DataGrid';
 
@@ -33,6 +34,8 @@ const appVersionTip = (
     <Icon type="question-circle-o" />
   </Tooltip>
 );
+
+const checkStyleNameValidity = value => isValidAppAdPosEntityName(value);
 
 /* eslint-disable react/no-unused-prop-types */
 class AdPosStyle extends Component {
@@ -57,6 +60,7 @@ class AdPosStyle extends Component {
     onObjectChange: PropTypes.func.isRequired,
     onAppVersionChange: PropTypes.func.isRequired,
     onElemInfoItemChange: PropTypes.func.isRequired,
+    styleNameValid: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -87,6 +91,7 @@ class AdPosStyle extends Component {
       videos,
       adPosType,
       isShowDel,
+      styleNameValid,
     } = this.props;
     this.state = {
       styleTitle,
@@ -103,6 +108,7 @@ class AdPosStyle extends Component {
       videos,
       adPosType,
       isShowDel,
+      styleNameValid,
     };
     this.componentWillReceiveProps = updateComponentStateByKeys([
       'styleTitle',
@@ -119,9 +125,27 @@ class AdPosStyle extends Component {
       'videos',
       'adPosType',
       'isShowDel',
+      'styleNameValid',
     ]);
     this.shouldComponentUpdate = componentUpdateByState;
+    this.hasFocusStyleName = false;
   }
+
+  onStyleNameFocus = () => {
+    this.hasFocusStyleName = true;
+  };
+
+  onStyleNameChange = e => {
+    const { value } = e.target;
+    this.setState(
+      {
+        styleNameValid: checkStyleNameValidity(value),
+      },
+      () => {
+        this.props.onStyleNameChange(value, this.state.styleNameValid);
+      },
+    );
+  };
 
   render() {
     const {
@@ -139,12 +163,12 @@ class AdPosStyle extends Component {
       videos,
       adPosType,
       isShowDel,
+      styleNameValid,
     } = this.state;
 
     const {
       onAddElem,
       onDelStyle,
-      onStyleNameChange,
       onObjectChange,
       onAppVersionChange,
       onElemInfoItemChange,
@@ -158,6 +182,7 @@ class AdPosStyle extends Component {
       auditStatus === AdPosAuditStatus[1].name ||
       adPosType !== AdPosObject[5].value; // 是否可添加元素和删除：草稿 && 不是视频视频 = true
     const isAbleEdit = auditStatus === AdPosAuditStatus[1].name; // 是否可编辑：草稿 = ture
+    const showStyleNameError = !styleNameValid && this.hasFocusStyleName;
     return (
       <div className={s2.setting__body_common}>
         <div className={s2.setting__body_header}>
@@ -183,11 +208,11 @@ class AdPosStyle extends Component {
                 className={classnames({
                   [s.input]: true,
                   [s2['adentity-name-input']]: true,
-                  // [s.error]: nameConflict || showAppNameError,
+                  [s.error]: showStyleNameError,
                 })}
                 value={styleName}
-                onChange={e => onStyleNameChange(e.target.value)}
-                onFocus={this.onAppNameFocus}
+                onChange={this.onStyleNameChange}
+                onFocus={this.onStyleNameFocus}
               />
               <div
                 className={classnames({

@@ -10,6 +10,7 @@ const initialState = {
   adPosName: '', // 广告位名称
   adPosType: AdPosObject[1].value, // 广告位类型，默认：信息流
   callBackUrl: '', // 回调地址
+  nameConflict: false,
 };
 
 const adPosInfo = (state = initialState, { type, payload, error }) => {

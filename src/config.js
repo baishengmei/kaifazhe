@@ -86,6 +86,8 @@ module.exports = {
   nodeHost: environment.nodeHost,
   javaHost: environment.javaHost,
 
+  uploadDir: uploadDir,
+
   testUser: testUsers.kevin,
 
   // https://expressjs.com/en/guide/behind-proxies.html

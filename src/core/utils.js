@@ -194,3 +194,20 @@ export function isValidAppAdPosEntityName(name) {
     appAdPosEntityNameLengthRange[1],
   );
 }
+
+// 求最大公约数
+export function gcd(a, b) {
+  let r;
+  while (b > 0) {
+    r = a % b;
+    a = b; // eslint-disable-line no-param-reassign
+    b = r; // eslint-disable-line no-param-reassign
+  }
+  return a;
+}
+
+// 是否是正整数
+export function isPositiveInteger(n) {
+  const num = typeof n === 'number' ? n : Number(n);
+  return Number.isInteger(num) && num > 0;
+}

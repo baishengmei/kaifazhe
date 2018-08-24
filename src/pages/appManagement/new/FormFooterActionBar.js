@@ -97,10 +97,16 @@ class FormFooterActionBar extends React.Component {
           {this.getSaveIcon(status, saveButtonValid)}
           {saveButtonText[0]}
         </Button>
-        <Button size="large" disabled={!saveButtonValid} onClick={this.onSave}>
-          {this.getSaveIcon(status, saveButtonValid)}
-          {saveButtonText[1]}
-        </Button>
+        {saveButtonText[1] && (
+          <Button
+            size="large"
+            disabled={!saveButtonValid}
+            onClick={this.onSave}
+          >
+            {this.getSaveIcon(status, saveButtonValid)}
+            {saveButtonText[1]}
+          </Button>
+        )}
         <Button size="large" onClick={this.onClickCancel}>
           取消
         </Button>

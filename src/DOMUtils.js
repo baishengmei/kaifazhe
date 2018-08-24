@@ -36,3 +36,18 @@ export function updateCustomMeta(property, content) {
 export function updateLink(rel, href) {
   updateTag('link', 'rel', rel, 'href', href);
 }
+
+// 获取图片宽高
+export function getImageWH(imgSrc) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      resolve({
+        width: img.width,
+        height: img.height,
+      });
+    };
+    img.onerror = reject;
+    img.src = imgSrc;
+  });
+}

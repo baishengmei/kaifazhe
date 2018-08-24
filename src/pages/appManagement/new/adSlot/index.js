@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from '../index.css';
 import s2 from './index.css';
-import AdPosInfo from './AdPosInfo';
-import StyleInfo from './StyleInfo';
+import AdPosInfo, { checkAdPosNameValidity } from './AdPosInfo';
+import StyleInfo, { checkStyleInfoValidity } from './StyleInfo';
 import FormFooterActionBar from '../FormFooterActionBar';
 import {
   NewAdPosSettingItems,
@@ -38,19 +38,23 @@ class AdSlot extends Component {
     const { status, adPosInfo, styleInfo } = props;
     // 取消新建后跳转的路径
     this.subItemValidity = Object.create(null);
+    this.setValidity(props);
     this.state = {
       status,
       adPosInfo,
       styleInfo,
+      formValid: this.getFormValid(),
     };
     this.shouldComponentUpdate = componentUpdateByState;
   }
 
   componentWillReceiveProps(nextProps) {
+    this.setValidity(nextProps);
     this.setState({
       status: nextProps.status,
       adPosInfo: nextProps.adPosInfo,
       styleInfo: nextProps.styleInfo,
+      formValid: this.getFormValid(),
     });
   }
 
@@ -106,21 +110,40 @@ class AdSlot extends Component {
     this.onAdPosStyleInfoChange('appVersion', value, index);
   };
 
+  setValidity = data => {
+    this.setAdPosInfoValidity(data.adPosInfo);
+    this.setStyleInfoValidity(data.styleInfo);
+  };
+
+  setAdPosInfoValidity = posi => {
+    this.subItemValidity.adPosInfo = [
+      checkAdPosNameValidity(posi.adPosName), // adPosName validity
+    ];
+  };
+
+  setStyleInfoValidity = si => {
+    this.subItemValidity.styleInfo = [checkStyleInfoValidity(si)];
+  };
+
   getFormValid = () =>
     Object.values(this.subItemValidity)
       .map(subArr => subArr.reduce((a, b) => a && b))
       .reduce((a, b) => a && b);
 
   render() {
-    const { status, adPosInfo, styleInfo } = this.state;
+    const { status, adPosInfo, styleInfo, formValid } = this.state;
     const { onAdPosAddElem, onAddOrDelStyle } = this.props;
     const cancelHintText = `您当前正在新建应用，确定要取消新建吗？`;
+    const {
+      adPosInfo: adPosInfoValidity,
+      styleInfo: styleInfoValidity,
+    } = this.subItemValidity;
 
     return (
       <div className={s.main}>
         <AdPosInfo
           {...adPosInfo}
-          // appNameValid={newAppValidity[0]}
+          adPosNameValid={adPosInfoValidity[0]}
           // appTypeValid={newAppValidity[1]}
           onAdPosNameChange={this.onAdPosNameChange}
           onAdPosTypeChange={this.onAdPosTypeChange}
@@ -131,6 +154,7 @@ class AdSlot extends Component {
         />
         <StyleInfo
           styleInfo={styleInfo}
+          styleInfoValid={styleInfoValidity[0]}
           {...adPosInfo}
           onAddElem={onAdPosAddElem}
           onAddOrDelStyle={onAddOrDelStyle}
@@ -145,7 +169,7 @@ class AdSlot extends Component {
           status={status}
           cancelHintText={cancelHintText}
           saveButtonText={saveButtonText}
-          saveButtonValid={status !== OperationStatus.load_fail}
+          saveButtonValid={status !== OperationStatus.load_fail && formValid}
           onSave={this.onSave}
           onCancel={this.onCancel}
         />

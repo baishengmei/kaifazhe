@@ -25,6 +25,16 @@ const adPosTypeItems = flowStyleItems.map(t => (
   </Radio>
 ));
 
+// 样式名称不能为空；图片元素、文字元素、视频元素不可同时置空；
+const checkStyleInfoValidity = styinfo =>
+  styinfo.every(
+    t =>
+      t.styleName.trim() !== '' &&
+      (typeof t.videos === 'undefined'
+        ? t.pictures.length + t.texts.length > 0
+        : t.pictures.length + t.texts.length + t.videos.length > 0),
+  );
+
 /* eslint-disable react/no-unused-prop-types */
 class StyleInfo extends Component {
   static propTypes = {
@@ -180,4 +190,4 @@ class StyleInfo extends Component {
   }
 }
 
-export default withStyles(s2)(StyleInfo);
+export { StyleInfo as default, checkStyleInfoValidity };

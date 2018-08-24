@@ -6,6 +6,7 @@ import {
   classnames,
   updateComponentStateByKeys,
   componentUpdateByState,
+  isValidAppAdPosEntityName,
 } from '../../../../core/utils';
 import {
   AdPosObject,
@@ -21,6 +22,8 @@ const adPosTypeItems = AdPosObject.slice(1).map(t => (
   </Radio>
 ));
 
+const checkAdPosNameValidity = value => isValidAppAdPosEntityName(value);
+
 /* eslint-disable react/no-unused-prop-types */
 class AdPosInfo extends Component {
   static propTypes = {
@@ -31,23 +34,51 @@ class AdPosInfo extends Component {
     onAdPosNameChange: PropTypes.func.isRequired,
     onAdPosTypeChange: PropTypes.func.isRequired,
     onCallBackUrlChange: PropTypes.func.isRequired,
+    adPosNameValid: PropTypes.bool.isRequired,
+    nameConflict: PropTypes.bool.isRequired,
   };
   constructor(props) {
     super(props);
-    const stateKeys = ['appName', 'adPosName', 'adPosType', 'callBackUrl'];
+    const stateKeys = [
+      'appName',
+      'adPosName',
+      'adPosType',
+      'callBackUrl',
+      'adPosNameValid',
+      'nameConflict',
+    ];
     this.state = {};
     stateKeys.forEach(key => {
       this.state[key] = props[key];
     });
-    this.hasFocusAppName = false;
+    this.hasFocusAdPosName = false;
     this.hasFocusAppType = false;
     this.componentWillReceiveProps = updateComponentStateByKeys(stateKeys);
     this.shouldComponentUpdate = componentUpdateByState;
   }
 
+  componentDidUpdate(_, prevState) {
+    const { nameConflict } = this.state;
+    // 用于广告实体名字重复时候的滚动操作
+    if (nameConflict && !prevState.nameConflict) {
+      this.entityName.input.scrollIntoViewIfNeeded();
+    }
+  }
+
+  onAdPosNameFocus = () => {
+    this.hasFocusAdPosName = true;
+  };
+
   onAdPosNameChange = e => {
     const { value } = e.target;
-    this.props.onAdPosNameChange(value);
+    this.setState(
+      {
+        adPosNameValid: checkAdPosNameValidity(value),
+      },
+      () => {
+        this.props.onAdPosNameChange(value);
+      },
+    );
   };
 
   onAdPosTypeChange = e => {
@@ -64,11 +95,12 @@ class AdPosInfo extends Component {
     const {
       appName,
       adPosType,
-      callBackUrl,
+      adPosNameValid,
+      nameConflict,
       // appNameValid,
       // appTypeValid,
     } = this.state;
-    // const showAppNameError = !appNameValid && this.hasFocusAppName;
+    const showAdPosNameError = !adPosNameValid && this.hasFocusAdPosName;
     // const showTopCategoryError =
     //   topCategory.name === '一级分类' && this.hasFocusAppType;
     // const showSecCategoryError =
@@ -93,15 +125,15 @@ class AdPosInfo extends Component {
                 className={classnames({
                   [s.input]: true,
                   [s['adentity-name-input']]: true,
-                  // [s.error]: nameConflict || showAppNameError,
+                  [s.error]: nameConflict || showAdPosNameError,
                 })}
                 onChange={this.onAdPosNameChange}
-                onFocus={this.onAppNameFocus}
+                onFocus={this.onAdPosNameFocus}
               />
               <div
                 className={classnames({
                   [s['input-hint']]: true,
-                  // [s.error]: showAppNameError,
+                  [s.error]: showAdPosNameError,
                 })}
               >
                 必填，最多 15 个字
@@ -141,7 +173,6 @@ class AdPosInfo extends Component {
                 <div
                   className={classnames({
                     [s['input-hint']]: true,
-                    // [s.error]: showAppNameError,
                   })}
                 >
                   该项视需求选填，是callback_url字段链接，相应的callback_url_secret_key会线下沟通发送
@@ -155,4 +186,4 @@ class AdPosInfo extends Component {
   }
 }
 
-export { AdPosInfo as default };
+export { AdPosInfo as default, checkAdPosNameValidity };

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { Icon, Radio } from 'antd';
 import s from '../index.css';
 import s2 from './index.css';
@@ -16,6 +15,27 @@ import {
   componentUpdateByState,
 } from '../../../../core/utils';
 import AdPosStyle from './AdPosStyle';
+import pic_banner from '../../../../../public/images/pic_banner.png';
+import pic_enVideo from '../../../../../public/images/pic_enVideo.png';
+import pic_focusImg from '../../../../../public/images/pic_focusImg.png';
+import pic_insertScreen from '../../../../../public/images/pic_insertScreen.png';
+import pic_openScreen from '../../../../../public/images/pic_openScreen.png';
+import pic_infoFlow_bigImage from '../../../../../public/images/pic_infoFlow_bigImage.png';
+import pic_infoFlow_smallImage from '../../../../../public/images/pic_infoFlow_smallImage.png';
+import pic_infoFlow_exImage from '../../../../../public/images/pic_infoFlow_exImage.png';
+import pic_infoFlow_video from '../../../../../public/images/pic_infoFlow_video.png';
+
+const exampleImgs = {
+  pic_banner,
+  pic_enVideo,
+  pic_focusImg,
+  pic_insertScreen,
+  pic_openScreen,
+  pic_infoFlow_bigImage,
+  pic_infoFlow_smallImage,
+  pic_infoFlow_exImage,
+  pic_infoFlow_video,
+};
 
 const { Group: RadioGroup } = Radio;
 
@@ -144,6 +164,12 @@ class StyleInfo extends Component {
       <div className={s.setting}>
         <div className={s.setting__title}>样式信息</div>
         {newStyleInfo.map((sty, index) => {
+          const exampleImgKey = Object.keys(exampleImgs).find(t => {
+            if (adPosType === AdPosObject[1].value) {
+              return t === `pic_${adPosType}_${sty.flowInfoStyleType}`;
+            }
+            return t === `pic_${adPosType}`;
+          });
           return (
             <div key={index.toString()}>
               <div className={s2.setting__body}>
@@ -184,7 +210,7 @@ class StyleInfo extends Component {
                 />
               </div>
               <div className={s2.setting__body_image}>
-                <img src="../../../../../public/icon.png" alt="测试图片" />
+                <img src={exampleImgs[exampleImgKey]} alt="测试图片" />
               </div>
               {/* 样式下方的下划线 */}
               {index + 1 !== styleInfo.length && (

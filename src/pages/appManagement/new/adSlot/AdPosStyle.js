@@ -55,7 +55,7 @@ class AdPosStyle extends Component {
     onAddElem: PropTypes.func,
     onDelStyle: PropTypes.func,
     isShowDel: PropTypes.bool.isRequired,
-    flowInfoStyleType: PropTypes.string.isRequired,
+    flowInfoStyleType: PropTypes.string,
     onStyleNameChange: PropTypes.func.isRequired,
     onObjectChange: PropTypes.func.isRequired,
     onAppVersionChange: PropTypes.func.isRequired,
@@ -72,6 +72,7 @@ class AdPosStyle extends Component {
     videoElems: [],
     onAddElem: null,
     onDelStyle: null,
+    flowInfoStyleType: '',
   };
 
   constructor(props) {

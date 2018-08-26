@@ -11,14 +11,15 @@ import {
   ADPOS_ADD_ELEM,
   ADD_OR_DEL_STYLE,
   ADPOS_ITEM_CHANGE,
-  FLOWINFO_TYPE_CHANGE,
-  STYLE_NAME_CHANGE,
   CREATE_AD_POS,
   CREATE_AD_POS_SUCCESS,
   CREATE_AD_POS_FAIL,
   SELF_TEST_DATA_CHANGE,
   SAVE_SELF_TEST,
   TO_AUDIT_DATA_CHANGE,
+  CREATE_TO_AUDIT,
+  CREATE_TO_AUDIT_SUCCESS,
+  CREATE_TO_AUDIT_FAIL,
 } from '../../constants';
 import { isValidAppAdPosEntityName } from '../../core/utils';
 import { OperationStatus } from '../../constants/MenuTypes';
@@ -160,3 +161,24 @@ export const toAuditDataChange = (sectionType, itemType, itemValue) => ({
     [itemType]: itemValue,
   },
 });
+
+export const saveToAuditData = () => (dispatch, getState) => {
+  const {
+    status,
+    uploadScreenShot: { styleInfo },
+    uploadInstallPackage: { installPackage },
+  } = getState().appManagement.entity.toAudit;
+  const validStatus =
+    status === OperationStatus.load_success ||
+    status === OperationStatus.editing ||
+    status === OperationStatus.save_fail;
+  if (!validStatus) return;
+  const data = {
+    styleInfo,
+    installPackage,
+  };
+  return dispatch({
+    types: [CREATE_TO_AUDIT, CREATE_TO_AUDIT_SUCCESS, CREATE_TO_AUDIT_FAIL],
+    promise: http => http.post('/api/adManagement/adCampaign', { data }),
+  });
+};

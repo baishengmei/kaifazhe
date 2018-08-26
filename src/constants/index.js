@@ -122,3 +122,10 @@ export const SAVE_SELF_TEST = 'SAVE_SELF_TEST';
  * 自测页面改变时
  */
 export const TO_AUDIT_DATA_CHANGE = 'TO_AUDIT_DATA_CHANGE';
+
+/**
+ * 提交审核
+ */
+export const CREATE_TO_AUDIT = 'CREATE_TO_AUDIT';
+export const CREATE_TO_AUDIT_SUCCESS = 'CREATE_TO_AUDIT_SUCCESS';
+export const CREATE_TO_AUDIT_FAIL = 'CREATE_TO_AUDIT_FAIL';

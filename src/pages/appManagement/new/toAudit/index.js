@@ -24,6 +24,7 @@ class ToAudit extends Component {
     uploadInstallPackage: PropTypes.shape({
       installPackage: PropTypes.object.isRequired,
     }).isRequired,
+    onSaveData: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -43,7 +44,7 @@ class ToAudit extends Component {
     ]);
     this.shouldComponentUpdate = componentUpdateByState;
   }
-  onSave = () => {};
+
   onCancel = () => {};
   render() {
     // const { status, newApp, formValid } = this.state;
@@ -53,6 +54,7 @@ class ToAudit extends Component {
     const formValid = true;
     const { adPosName, styleInfo, installPackage } = this.state;
     const saveButtonText = ['提交审核'];
+    const { onSaveData } = this.props;
 
     return (
       <div className={s.main}>
@@ -63,7 +65,7 @@ class ToAudit extends Component {
           cancelHintText={cancelHintText}
           saveButtonText={saveButtonText}
           saveButtonValid={status !== OperationStatus.load_fail && formValid}
-          onSave={this.onSave}
+          onSave={onSaveData}
           onCancel={this.onCancel}
         />
       </div>

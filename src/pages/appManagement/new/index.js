@@ -51,6 +51,7 @@ class New extends Component {
     onAdPosDataChange: PropTypes.func.isRequired,
     onSaveAdPosData: PropTypes.func.isRequired,
     onSaveSelfTestData: PropTypes.func.isRequired,
+    onSaveToAuditData: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -217,7 +218,9 @@ class New extends Component {
 
   getToAuditComponent = () => {
     const { toAuditData } = this.state;
-    return <ToAUdit {...toAuditData} />;
+    return (
+      <ToAUdit {...toAuditData} onSaveData={this.props.onSaveToAuditData} />
+    );
   };
 
   // 左侧导航当前所在项

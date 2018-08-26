@@ -122,13 +122,13 @@ export const getAppAdPosPath = tabType => {
  * tabType: 被点击项所在导航tab；
  * id：被点击项的id
  */
-export const getAppEntityPath = (tabType, id) => {
+export const getAppEntityPath = (tabType, name) => {
   switch (tabType) {
     case 'appTab':
-      return `/appManagement/${id}/adSlot`;
+      return `/appManagement/${name}/adSlot`;
     case 'adPosTab':
     case 'appAdPosTab':
-      return `/appManagement/${id}/adSlot/edit`;
+      return `/appManagement/${name}/adSlot/edit`;
     default:
       return;
   }
@@ -211,3 +211,13 @@ export function isPositiveInteger(n) {
   const num = typeof n === 'number' ? n : Number(n);
   return Number.isInteger(num) && num > 0;
 }
+
+// 获取应用管理多维度新建项 -- 应用和广告位列表的path
+export const getAppEntityListPath = (tabType, appName) => {
+  switch (tabType) {
+    case 'adPos':
+      return `/appManagement/${appName}/adSlot`;
+    case 'app':
+      return '/appManagement/app';
+  }
+};

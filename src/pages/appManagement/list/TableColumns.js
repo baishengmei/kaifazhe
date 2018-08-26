@@ -16,8 +16,8 @@ const formatInteger = numberFormat(0);
 
 const nonEditableAppEntityNameRender = tabType => record => {
   const level = getAppLevelFromAppTabType(tabType);
-  const { name, id } = record[level];
-  const toPath = getAppEntityPath(tabType, id); // 需要修改，未处理逻辑
+  const { name } = record[level];
+  const toPath = getAppEntityPath(tabType, name); // 需要修改，未处理逻辑
   return <Link to={toPath}>{name}</Link>;
 };
 

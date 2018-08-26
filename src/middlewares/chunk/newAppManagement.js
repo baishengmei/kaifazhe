@@ -5,6 +5,8 @@ import {
   CREATE_AD_POS_SUCCESS,
   CREATE_AD_POS_FAIL,
   SAVE_SELF_TEST,
+  CREATE_TO_AUDIT_SUCCESS,
+  CREATE_TO_AUDIT_FAIL,
 } from '../../constants';
 import {
   appDataChange,
@@ -15,6 +17,8 @@ import {
   editToAudit,
   toAuditDataChange,
 } from '../../actions/AppManagement/new';
+import { getAppEntityListPath } from '../../core/utils';
+import history from '../../history';
 
 const timeout = 32;
 export default ({ getState, dispatch }) => next => action => {
@@ -59,6 +63,15 @@ export default ({ getState, dispatch }) => next => action => {
         next(toAuditDataChange('adPosTag', 'adPosTag', true));
         next(toAuditDataChange('selfTestTag', 'selfTestTag', true));
         next(editToAudit());
+      }, timeout);
+      break;
+    }
+    case CREATE_TO_AUDIT_FAIL: //需要删除
+    case CREATE_TO_AUDIT_SUCCESS: {
+      const { appName } = getState().appManagement.entity.adPos.adPosInfo;
+      setTimeout(() => {
+        // 成功后的跳转
+        history.push(getAppEntityListPath('adPos', appName));
       }, timeout);
       break;
     }

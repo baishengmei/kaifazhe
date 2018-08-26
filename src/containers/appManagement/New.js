@@ -11,9 +11,8 @@ import {
   adPosAddElem,
   addOrDelStyle,
   adPosDataChange,
-  flowInfoTypeChange,
-  styleNameChange,
   saveSelfTestData,
+  saveToAuditData,
 } from '../../actions/AppManagement/new';
 
 const mapStateToProps = state => {
@@ -61,6 +60,9 @@ const mapDispatchToProps = dispatch => ({
   },
   onSaveSelfTestData(saveType) {
     dispatch(saveSelfTestData(saveType));
+  },
+  onSaveToAuditData() {
+    dispatch(saveToAuditData());
   },
 });
 

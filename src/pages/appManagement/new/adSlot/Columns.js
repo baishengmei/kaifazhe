@@ -121,7 +121,15 @@ const Columns = {
           <Select
             style={{ width: 80 }}
             value={record.ratio}
-            onChange={value => onRatioChange('ratio', value, record.key)}
+            onChange={value =>
+              onRatioChange(
+                'ratio',
+                value,
+                record.key,
+                record.nameValid,
+                record.keyValid,
+              )
+            }
           >
             {ratioRatioItems}
           </Select>
@@ -167,6 +175,8 @@ const Columns = {
                     sizeMonitor: '',
                   },
                   record.key,
+                  record.nameValid,
+                  record.keyValid,
                 )
               }
             />
@@ -198,6 +208,8 @@ const Columns = {
                         sizeMonitor: 'up',
                       },
                       record.key,
+                      record.nameValid,
+                      record.keyValid,
                     );
                   }
                 }}
@@ -216,6 +228,8 @@ const Columns = {
                         sizeMonitor: 'down',
                       },
                       record.key,
+                      record.nameValid,
+                      record.keyValid,
                     );
                   }
                 }}
@@ -245,7 +259,17 @@ const Columns = {
       if (!record.isStandard) {
         return (
           <div className={s.wordWrap}>
-            <Input />
+            <Input
+              onChange={e =>
+                onWordNumChange(
+                  'attr',
+                  e.target.value,
+                  record.key,
+                  record.nameValid,
+                  record.keyValid,
+                )
+              }
+            />
             <span className={s.wordTip}>以内</span>
           </div>
         );
@@ -255,7 +279,15 @@ const Columns = {
           <Select
             style={{ width: 80 }}
             defaultValue={record.attr}
-            onChange={value => onWordNumChange('attr', value, record.key)}
+            onChange={value =>
+              onWordNumChange(
+                'attr',
+                value,
+                record.key,
+                record.nameValid,
+                record.keyValid,
+              )
+            }
           >
             {wordNumRatioItems(record.elemKey)}
           </Select>

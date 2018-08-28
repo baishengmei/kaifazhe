@@ -18,7 +18,6 @@ import {
   toAuditDataChange,
 } from '../../actions/AppManagement/new';
 import { getAppEntityListPath } from '../../core/utils';
-import history from '../../history';
 
 const timeout = 32;
 export default ({ getState, dispatch }) => next => action => {

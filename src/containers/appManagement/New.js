@@ -13,6 +13,7 @@ import {
   adPosDataChange,
   saveSelfTestData,
   saveToAuditData,
+  goToAppList,
 } from '../../actions/AppManagement/new';
 
 const mapStateToProps = state => {
@@ -63,6 +64,9 @@ const mapDispatchToProps = dispatch => ({
   },
   onSaveToAuditData() {
     dispatch(saveToAuditData());
+  },
+  onGoToAppList(tabType) {
+    dispatch(goToAppList(tabType));
   },
 });
 

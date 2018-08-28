@@ -39,10 +39,7 @@ class SelfTest extends Component {
       deviceList: PropTypes.arrayOf(PropTypes.object.isRequired),
     }).isRequired,
     onSaveData: PropTypes.func.isRequired,
-    status: PropTypes.oneOf(Object.keys(OperationStatus)).isRequired,
-    appTag: PropTypes.bool.isRequired,
-    adPosTag: PropTypes.bool.isRequired,
-    selfTestTag: PropTypes.bool.isRequired,
+    onGoToAppList: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -72,10 +69,13 @@ class SelfTest extends Component {
     console.info(btnText, '打印按钮点击类型333');
     // true 保存；false: 保存并继续
     const saveType = btnText === saveButtonText[0];
-    saveType ? this.onOnlySaveData() : this.props.onSaveData(saveType);
+    this.props.onSaveData(saveType);
   };
 
-  onCancel = () => {};
+  onCancel = () => {
+    // 点击取消后，点击确定按钮，跳转到对应的页面
+    this.props.onGoToAppList('adPos');
+  };
 
   showAllDevice = () => {
     this.setState({

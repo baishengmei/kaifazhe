@@ -7,7 +7,7 @@ import rootReducer from '../reducers';
 import createLogger from './logger';
 import api from '../middlewares/api';
 import httpClient from '../core/HttpClient';
-import newAppManagement from '../middlewares/chunk/newAppManagement';
+import newAppManagement from '../middlewares/thunk/newAppManagement';
 
 export default function configureStore(initialState) {
   // const helpers = createHelpers(helpersConfig);

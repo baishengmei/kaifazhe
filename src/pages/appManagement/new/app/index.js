@@ -18,7 +18,7 @@ class App extends Component {
     newApp: PropTypes.shape({}).isRequired,
     onDataChange: PropTypes.func.isRequired,
     onSaveData: PropTypes.func.isRequired,
-    // onGoToAdList: PropTypes.func.isRequired,
+    onGoToAppList: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -62,19 +62,14 @@ class App extends Component {
   };
 
   onSave = btnText => {
-    console.info(btnText, '打印按钮点击类型');
     // true 保存；false: 保存并继续
     const saveType = btnText === saveButtonText[0];
-    saveType ? this.onOnlySaveData() : this.props.onSaveData(saveType);
-  };
-
-  onOnlySaveData = () => {
-    console.info('这里之后写成props，因为这里要替换成点击保存时触发的函数');
+    this.props.onSaveData(saveType);
   };
 
   onCancel = () => {
     // 点击取消后，点击确定按钮，跳转到对应的页面
-    // this.props.onGoToAdList(AppTabTypes.sponsorAdCampaign);
+    this.props.onGoToAppList('app');
   };
 
   setValidity = data => {

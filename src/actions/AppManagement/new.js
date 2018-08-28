@@ -20,6 +20,7 @@ import {
   CREATE_TO_AUDIT,
   CREATE_TO_AUDIT_SUCCESS,
   CREATE_TO_AUDIT_FAIL,
+  GO_TO_APP_LIST,
 } from '../../constants';
 import { isValidAppAdPosEntityName } from '../../core/utils';
 import { OperationStatus } from '../../constants/MenuTypes';
@@ -46,7 +47,6 @@ export const resetAppItem = () => ({
 });
 
 export const saveAppData = saveType => (dispatch, getState) => {
-  console.info(saveType, '打印当前点击的是 保存 还是 保存并继续');
   const {
     status,
     newApp: { appName, osType, appType, androidPackage },
@@ -69,6 +69,7 @@ export const saveAppData = saveType => (dispatch, getState) => {
 
   return dispatch({
     types: [CREATE_APP, CREATE_APP_SUCCESS, CREATE_APP_FAIL],
+    saveType,
     promise: http => http.post('/api/adManagement/adCampaign', { data }),
   });
 };
@@ -94,6 +95,7 @@ export const saveAdPosData = saveType => (dispatch, getState) => {
   };
   return dispatch({
     types: [CREATE_AD_POS, CREATE_AD_POS_SUCCESS, CREATE_AD_POS_FAIL],
+    saveType,
     promise: http => http.post('/api/adManagement/adCampaign', { data }),
   });
 };
@@ -145,11 +147,10 @@ export const selfTestDataChange = (sectionType, itemType, itemValue) => ({
 // 保存自测页面
 export const saveSelfTestData = saveType => {
   // 保存并继续
-  if (saveType === false) {
-    return {
-      type: SAVE_SELF_TEST,
-    };
-  }
+  return {
+    type: SAVE_SELF_TEST,
+    saveType,
+  };
 };
 
 // 自测页面变化
@@ -180,5 +181,16 @@ export const saveToAuditData = () => (dispatch, getState) => {
   return dispatch({
     types: [CREATE_TO_AUDIT, CREATE_TO_AUDIT_SUCCESS, CREATE_TO_AUDIT_FAIL],
     promise: http => http.post('/api/adManagement/adCampaign', { data }),
+  });
+};
+
+export const goToAppList = tabType => (dispatch, getState) => {
+  const { appName } = getState().appManagement.entity.adPos.adPosInfo;
+  return dispatch({
+    type: GO_TO_APP_LIST,
+    payload: {
+      tabType,
+      appName,
+    },
   });
 };

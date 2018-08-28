@@ -52,6 +52,7 @@ class New extends Component {
     onSaveAdPosData: PropTypes.func.isRequired,
     onSaveSelfTestData: PropTypes.func.isRequired,
     onSaveToAuditData: PropTypes.func.isRequired,
+    onGoToAppList: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -176,25 +177,26 @@ class New extends Component {
 
   getAppComponent = () => {
     const { appData } = this.state;
-    const { onAppDataChange, onSaveAppData } = this.props;
+    const { onAppDataChange, onSaveAppData, onGoToAppList } = this.props;
     // console.info(appData, '打印appData');
     return (
       <App
         {...appData}
         onDataChange={onAppDataChange}
         onSaveData={onSaveAppData}
-        onGoToAdList={this.onGoToAdList}
+        onGoToAppList={onGoToAppList}
       />
     );
   };
 
   getAdPosComponent = () => {
-    const { appData, adPosData } = this.state;
+    const { adPosData } = this.state;
     const {
       onAdPosAddElem,
       onAddOrDelStyle,
       onAdPosDataChange,
       onSaveAdPosData,
+      onGoToAppList,
     } = this.props;
     return (
       <AdSlot
@@ -204,22 +206,33 @@ class New extends Component {
         onDataChange={onAdPosDataChange}
         // onDataChange={this.onAppDataChange}
         onSaveData={onSaveAdPosData}
-        // onGoToAdList={this.onGoToAdList}
+        onGoToAppList={onGoToAppList}
       />
     );
   };
 
   getSelfTestComponent = () => {
     const { selfTestData } = this.state;
-    const { onSaveSelfTestData } = this.props;
+    const { onSaveSelfTestData, onGoToAppList } = this.props;
     console.info(selfTestData, '打印自测页面中的值');
-    return <SelfTest {...selfTestData} onSaveData={onSaveSelfTestData} />;
+    return (
+      <SelfTest
+        {...selfTestData}
+        onSaveData={onSaveSelfTestData}
+        onGoToAppList={onGoToAppList}
+      />
+    );
   };
 
   getToAuditComponent = () => {
     const { toAuditData } = this.state;
+    const { onSaveToAuditData, onGoToAppList } = this.props;
     return (
-      <ToAUdit {...toAuditData} onSaveData={this.props.onSaveToAuditData} />
+      <ToAUdit
+        {...toAuditData}
+        onSaveData={onSaveToAuditData}
+        onGoToAppList={onGoToAppList}
+      />
     );
   };
 

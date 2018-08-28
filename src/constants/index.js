@@ -129,3 +129,8 @@ export const TO_AUDIT_DATA_CHANGE = 'TO_AUDIT_DATA_CHANGE';
 export const CREATE_TO_AUDIT = 'CREATE_TO_AUDIT';
 export const CREATE_TO_AUDIT_SUCCESS = 'CREATE_TO_AUDIT_SUCCESS';
 export const CREATE_TO_AUDIT_FAIL = 'CREATE_TO_AUDIT_FAIL';
+
+/**
+ * 新建应用、广告位、集成与自测、提交审核 取消操作
+ */
+export const GO_TO_APP_LIST = 'GO_TO_APP_LIST';

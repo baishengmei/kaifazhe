@@ -6,7 +6,6 @@ import UploadScreenShot from './UploadScreenShot';
 import UploadInstallPackage from './UploadInstallPackage';
 import FormFooterActionBar from '../FormFooterActionBar';
 import {
-  NewAppSettingItems,
   OperationStatus,
   // saveButtonText,
 } from '../../../../constants/MenuTypes';
@@ -25,6 +24,7 @@ class ToAudit extends Component {
       installPackage: PropTypes.object.isRequired,
     }).isRequired,
     onSaveData: PropTypes.func.isRequired,
+    onGoToAppList: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -45,7 +45,11 @@ class ToAudit extends Component {
     this.shouldComponentUpdate = componentUpdateByState;
   }
 
-  onCancel = () => {};
+  onCancel = () => {
+    // 点击取消后，点击确定按钮，跳转到对应的页面
+    this.props.onGoToAppList('adPos');
+  };
+
   render() {
     // const { status, newApp, formValid } = this.state;
     const cancelHintText = `您当前正在新建应用，确定要取消新建吗？`;

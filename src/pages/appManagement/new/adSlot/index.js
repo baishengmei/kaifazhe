@@ -26,6 +26,7 @@ class AdSlot extends Component {
     onAdPosAddElem: PropTypes.func,
     onAddOrDelStyle: PropTypes.func,
     onDataChange: PropTypes.func.isRequired,
+    onGoToAppList: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -62,16 +63,12 @@ class AdSlot extends Component {
     console.info(btnText, '打印按钮点击类型');
     // true 保存；false: 保存并继续
     const saveType = btnText === saveButtonText[0];
-    saveType ? this.onOnlySaveData() : this.props.onSaveData(saveType);
-  };
-
-  onOnlySaveData = () => {
-    console.info('这里之后写成props，因为这里要替换成点击保存时触发的函数');
+    this.props.onSaveData(saveType);
   };
 
   onCancel = () => {
     // 点击取消后，点击确定按钮，跳转到对应的页面
-    // this.props.onGoToAdList(AppTabTypes.sponsorAdCampaign);
+    this.props.onGoToAppList('adPos');
   };
 
   // itemType: 当前编辑的项，如：广告位名称； value：当前编辑项的值

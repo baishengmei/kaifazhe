@@ -1,27 +1,28 @@
 ## ZHIXUAN 2017 — Youdao DSP Publish System 2017
 
-有道智选开发者系统是网易有道推出的为媒体提供基于用户场景的内容广告样式。目前该系统使用java web技术开发的，系统比较老旧，易用性和用户体验低，且开发维护成本较高。为了解决以上的问题，决定使用前后端分离将现有系统进行重构，重新设计UI和用户交互，改善系统易用性，提高用户体验。该项目使用 [React Starter Kit](https://github.com/kriasoft/react-starter-kit/tree/feature/redux) 生成，里面包含了诸多当前较新的技术。
+有道智选开发者系统是网易有道推出的为媒体提供基于用户场景的内容广告样式。目前该系统使用 java web 技术开发的，系统比较老旧，易用性和用户体验低，且开发维护成本较高。为了解决以上的问题，决定使用前后端分离将现有系统进行重构，重新设计 UI 和用户交互，改善系统易用性，提高用户体验。该项目使用 [React Starter Kit](https://github.com/kriasoft/react-starter-kit/tree/feature/redux) 生成，里面包含了诸多当前较新的技术。
 
 ### 当前版本功能
 
 v1.0.0 - 2018-06-26
 
-- 首页基本功能
+* 首页基本功能
 
 ### 部署说明
 
 服务部署在 三台 服务器上，分别是
-- ws****
-上线域名为 https://******.youdao.com。
+
+* ws\***\*
+  上线域名为 https://******.youdao.com。
 
 #### 部署前的准备
 
 部署前确保系统中已安装以下环境：
 
-- node: >=6.31.1
-- npm: 跟随 node 的版本变化
-- yarn
-- git
+* node: >=6.31.1
+* npm: 跟随 node 的版本变化
+* yarn
+* git
 
 将`node`和`npm`路径添加到全局环境变量中，linux 环境建议用 [nvm](https://github.com/creationix/nvm) 管理多版本 node，windows 环境建议用 [nvm-windows](https://github.com/coreybutler/nvm-windows/releases) 管理多版本 node。
 
@@ -58,27 +59,22 @@ $ yarn install
 
 ```js
 var environment = {
-  [test]: {
-    nodeHost: 'zx.youdao.com:3000',
-    nodePort: 5000,
-    javaHost: 'qt106x.corp.youdao.com:19500' // 'nb269x.corp.youdao.com:10017'
-  },
   [dev]: {
     nodeHost: 'zx.youdao.com:3000',
     nodePort: 5000,
-    javaHost: 'qt106x.corp.youdao.com:19500' // 'nb269x.corp.youdao.com:10017'
+    javaHost: 'qt106x.corp.youdao.com:19500', // 'nb269x.corp.youdao.com:10017'
   },
   [pro]: {
     nodeHost: '******.youdao.com',
     nodePort: 5000,
-    javaHost: '********'
-  }
+    javaHost: '********',
+  },
 }[env];
 ```
 
-- nodeAsHost： 上线后网站对外服务的域名。
-- nodePort： node 服务的启动端口。
-- javaHost： node 对应的 java noah 服务的 Host。
+* nodeAsHost： 上线后网站对外服务的域名。
+* nodePort： node 服务的启动端口。
+* javaHost： node 对应的 java noah 服务的 Host。
 
 配置改好后，在工程根目录下执行下面命令构建/打包项目。
 
@@ -88,7 +84,8 @@ $ yarn build:stats
 
 #### 上线命令
 
-在根目录`developerSystem2018`目录下执行下面的命令（项目根目录是指package.json所在目录）：
+在根目录`developerSystem2018`目录下执行下面的命令（项目根目录是指 package.json 所在目录）：
+
 ```shell
 mkdir logs
 ```
@@ -114,14 +111,14 @@ npm start
 
 然后配置下域名`******.youdao.com`。
 
-如果上线多台服务，nginx需要按照ip分流，即某ip要固定分流到某台server上。
+如果上线多台服务，nginx 需要按照 ip 分流，即某 ip 要固定分流到某台 server 上。
 
-浏览器中访问 [*******](********)。
+浏览器中访问 [**\*\*\***](********)。
 
 ### CHANGELOG
 
 [Change log](./CHANGELOG.md)
-注： 建议在开发者系统中加入CHANGELOG.md，并按照a.b.c的版本规则进行维护。
+注： 建议在开发者系统中加入 CHANGELOG.md，并按照 a.b.c 的版本规则进行维护。
 
 ### 开发文档
 

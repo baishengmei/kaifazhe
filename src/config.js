@@ -52,14 +52,14 @@ if (process.env.BROWSER) {
  */
 const environment = {
   [dev]: {
-    nodeHost: 'zx.youdao.com:3000',
+    nodeHost: 'zx.yoouuddaaoo.com:3000',
     nodePort: 5000,
-    javaHost: 'nc110x.corp.youdao.com:10017',
+    javaHost: 'nc110x.corp.yoouuddaaoo.com:10017',
   },
   [pro]: {
-    nodeHost: 'xinzhixuan.youdao.com',
+    nodeHost: 'xinzhixuan.yoouuddaaoo.com',
     nodePort: 5000,
-    javaHost: 'noah.youdao.com',
+    javaHost: 'noah.yoouuddaaoo.com',
   },
 }[env];
 
